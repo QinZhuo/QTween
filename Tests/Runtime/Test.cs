@@ -11,7 +11,7 @@ public class Test : MonoBehaviour
     public Vector3 endPos = Vector3.right *3;
     private void Start()
     {
-        transform.TweenMove(endPos,1);
+       
     }
     public float t=0;
 
@@ -24,6 +24,7 @@ public class Test : MonoBehaviour
     {
         var a = 20f;
         Debug.LogError((Mathf.PI/2f).ToString());
+        transform.TweenMove(endPos, 1).curve = Curve.back.Out();
     }
  
 }
