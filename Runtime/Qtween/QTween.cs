@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 namespace QTool.Tween
 {
     public abstract class QTween
@@ -17,7 +18,7 @@ namespace QTool.Tween
                 duration = duration
             };
             
-            return tween.Init();
+            return tween.Init().Play();
         }
         public Func<float, float> curve = Curve.Linear;
 
@@ -25,6 +26,7 @@ namespace QTool.Tween
         public float duration = 1f;
         public bool AutoKill=true;
         public bool PlayBack = false;
+        public bool isPlaying = false;
         public QTween Init()
         {
             QTweenManager.Add(this);
@@ -32,41 +34,7 @@ namespace QTool.Tween
         }
         public abstract QTween Play();
         public abstract void Update();
-    }
-    public class QTween<T>:QTween
-    {
-        public T start;
-        public T end;
-       
-        public Func<T, T, float, T> Lerp;
-        public Func<T> Get;
-        public Action<T> Set;
-        public override QTween Play()
-        {
-            start = Get();
-            return this;
-        }
-        public override void Update()
-        {
-           
-            if(time>0&& time<=duration)
-            {
-                Set(Lerp(start, end, curve.Invoke(time / duration)));
-            }
-            else if(time>=duration)
-            {
-                if (AutoKill)
-                {
-                    QTweenManager.Kill(this);
-                }
-              //  time = -1;
-            }
-            time += Time.deltaTime;
-        }
-    }
-    public static class TransformExtends
-    {
-
+        public abstract void Complete();
         public static float Lerp(float a, float b, float t)
         {
             var dir = b - a;
@@ -76,11 +44,88 @@ namespace QTool.Tween
         {
             return new Vector3(Lerp(star.x, end.x, t), Lerp(star.y, end.y, t), Lerp(star.z, end.z, t));
         }
-        public static QTween TweenMove(this Transform transform, Vector3 postion,float duration)
+        public static Color Lerp(Color star, Color end, float t)
+        {
+            return new Color(Lerp(star.r, end.r, t), Lerp(star.g, end.g, t), Lerp(star.b, end.b, t), Lerp(star.a, end.a, t));
+        }
+    }
+    public class QTween<T>:QTween
+    {
+        public T start;
+        public T end;
+       
+        public new Func<T, T, float, T> Lerp;
+        public Func<T> Get;
+        public Action<T> Set;
+        
+        public override QTween Play()
+        {
+            start = Get();
+            isPlaying = true;
+            return this;
+        }
+        public override void Update()
+        {
+            if (!isPlaying) return;
+            if(time>0&& time<=duration)
+            {
+                Set(Lerp(start, end, curve.Invoke(time / duration)));
+            }
+            else if(time>=duration)
+            {
+                Complete();
+            }
+            time += Time.deltaTime;
+        }
+        public override void Complete()
+        {
+            time = duration;
+            Set(Lerp(start, end, curve.Invoke(time / duration)));
+            isPlaying = false;
+            if (AutoKill)
+            {
+                QTweenManager.Kill(this);
+            }
+        }
+
+    }
+    public static class TransformExtends
+    {
+
+        public static QTween Move(this Transform transform, Vector3 postion,float duration)
         {
             return  QTween.Tween(() => transform.position,
             (pos) => {transform.position = pos; },
-            Lerp, postion, duration);
+            QTween.Lerp, postion, duration);
+        }
+        public static QTween LocalMove(this Transform transform, Vector3 postion, float duration)
+        {
+            return QTween.Tween(() => transform.localPosition,
+            (pos) => { transform.localPosition = pos; },
+            QTween.Lerp, postion, duration);
+        }
+        public static QTween ScaleTo(this Transform transform, Vector3 endScale, float duration)
+        {
+            return QTween.Tween(() => transform.localScale,
+            (scale) => { transform.localScale = scale; },
+            QTween.Lerp, endScale, duration);
+        }
+    }
+    public static class MaskableGraphicExtends
+    {
+
+        public static QTween ColorTo(this MaskableGraphic graphic, Color endColor, float duration)
+        {
+            return QTween.Tween(() => graphic.color,
+            (color) => { graphic.color = color;},
+            QTween.Lerp, endColor, duration);
+        }
+
+        public static QTween AlphaTo(this MaskableGraphic graphic, float endAlpha, float duration)
+        {
+            return QTween.Tween(() => graphic.color.a,
+            (alpha) => { graphic.color =new Color(graphic.color.r,graphic.color.g,graphic.color.b,alpha); },
+            QTween.Lerp, endAlpha, duration);
         }
     }
 }
