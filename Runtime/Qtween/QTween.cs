@@ -149,7 +149,11 @@ namespace QTool.Tween
             var dir = b - a;
             return a + dir * t;
         }
-       
+
+        public static Vector2 Lerp(Vector2 star, Vector2 end, float t)
+        {
+            return new Vector2(Lerp(star.x, end.x, t), Lerp(star.y, end.y, t));
+        }
         public static Vector3 Lerp(Vector3 star, Vector3 end, float t)
         {
             return new Vector3(Lerp(star.x, end.x, t), Lerp(star.y, end.y, t), Lerp(star.z, end.z, t));
@@ -255,13 +259,13 @@ namespace QTool.Tween
     public static class TransformExtends
     {
 
-        public static QTween Move(this Transform transform, Vector3 postion,float duration)
+        public static QTween PosTo(this Transform transform, Vector3 postion,float duration)
         {
             return  QTween.Tween(() => transform.position,
             (pos) => {transform.position = pos; },
             QTween.Lerp, postion, duration);
         }
-        public static QTween LocalMove(this Transform transform, Vector3 postion, float duration)
+        public static QTween LocalPosTo(this Transform transform, Vector3 postion, float duration)
         {
             return QTween.Tween(() => transform.localPosition,
             (pos) => { transform.localPosition = pos; },
@@ -272,6 +276,15 @@ namespace QTool.Tween
             return QTween.Tween(() => transform.localScale,
             (scale) => { transform.localScale = scale; },
             QTween.Lerp, endScale, duration);
+        }
+    }
+    public static class RectTransformExtends
+    {
+        public static QTween AnchorPosTo(this RectTransform transform, Vector2 postion, float duration)
+        {
+            return QTween.Tween(() => transform.anchoredPosition,
+            (pos) => { transform.anchoredPosition = pos; },
+            QTween.Lerp, postion, duration);
         }
     }
     public static class MaskableGraphicExtends
