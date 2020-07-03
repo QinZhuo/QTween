@@ -9,7 +9,9 @@ namespace QTool.Tween
     public class QTweenManager : MonoBehaviour
     {
         static QTweenManager _instance;
-        List<QTween> tweenList = new List<QTween>();
+
+
+        LinkedList<QTween> tweenList = new LinkedList<QTween>();
         public Queue<QTween> removeQueue = new Queue<QTween>();
         public static QTweenManager Instance
         {
@@ -27,7 +29,7 @@ namespace QTool.Tween
         {
             if (!Instance.tweenList.Contains(tween))
             {
-                Instance.tweenList.Add(tween);
+                Instance.tweenList.AddLast(tween);
             }
            
         }
