@@ -4,13 +4,48 @@ using UnityEngine;
 using System;
 namespace QTool.Tween
 {
-    public static class CurveExtend
+
+    public enum TweenCurve
     {
+        Linear,
+        InSin,
+        OutSin,
+        InOutSin,
+        InBack,
+        OutBack,
+        InOutBack,
+    }
+ 
+    public static class Curve
+    {
+        public static Func<float,float> GetFunction(TweenCurve curve)
+        {
+            switch (curve)
+            {
+                case TweenCurve.Linear:
+                    return TweenAnimationCurve.Linear;
+                case TweenCurve.InSin:
+                    return TweenAnimationCurve.Sin;
+                case TweenCurve.OutSin:
+                    return Out(TweenAnimationCurve.Sin);
+                case TweenCurve.InOutSin:
+                    return InOut( TweenAnimationCurve.Sin);
+                case TweenCurve.InBack:
+                    return TweenAnimationCurve.back;
+                case TweenCurve.OutBack:
+                    return Out(TweenAnimationCurve.back);
+                case TweenCurve.InOutBack:
+                    return InOut(TweenAnimationCurve.back);
+                default:
+                    return null;
+            }
+            
+        }
         public static Func<float, float> Out(this Func<float, float> InFunc)
         {
             return (t) =>
             {
-                return 1 - InFunc(1-t);
+                return 1 - InFunc(1 - t);
             };
         }
         public static Func<float, float> InOut(this Func<float, float> InFunc)
@@ -20,81 +55,14 @@ namespace QTool.Tween
 
                 if (t < 0.5f)
                 {
-                    return InFunc(t * 2)/2;
+                    return InFunc(t * 2) / 2;
                 }
                 else
                 {
-                    return InFunc.Out()(t* 2-1)/2+0.5f ;
+                    return InFunc.Out()(t * 2 - 1) / 2 + 0.5f;
                 }
             };
         }
-    }
-    public static class Curve
-    {
-        public static Func<float,float> Linear
-        {
-            get
-            {
-                return TweenAnimationCurve.Linear;
-            }
-        }
-        public static Func<float, float> Sin
-        {
-            get
-            {
-                return TweenAnimationCurve.Sin;
-            }
-        }
-        public static Func<float, float> Square
-        {
-            get
-            {
-                return TweenAnimationCurve.Square;
-            }
-        }
-        public static Func<float, float> Cubic
-        {
-            get
-            {
-                return TweenAnimationCurve.Cubic;
-            }
-        }
-        public static Func<float, float> Quartic
-        {
-            get
-            {
-                return TweenAnimationCurve.Quartic;
-            }
-        }
-        public static Func<float, float> Quintic
-        {
-            get
-            {
-                return TweenAnimationCurve.Quintic;
-            }
-        }
-        public static Func<float, float> Expo
-        {
-            get
-            {
-                return TweenAnimationCurve.Expo;
-            }
-        }
-        public static Func<float, float> Circ
-        {
-            get
-            {
-                return TweenAnimationCurve.Circ;
-            }
-        }
-        public static Func<float, float> back
-        {
-            get
-            {
-                return TweenAnimationCurve.back;
-            }
-        }
-       
     }
     static class TweenAnimationCurve
     {

@@ -42,7 +42,6 @@ namespace QTool.Tween
             while (removeQueue.Count > 0)
             {
                 tweenList.Remove(removeQueue.Dequeue());
-                Debug.Log("【Qtween】当前运行中动画：" + tweenList.Count);
             }
             
             foreach (var tween in tweenList)

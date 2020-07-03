@@ -24,7 +24,7 @@ namespace QTool.Tween
         {
             return QueueTween.GetQueue().Init() as QueueTween;
         }
-        public Func<float, float> curve = Curve.Linear;
+        public Func<float, float> curve = TweenAnimationCurve.Linear;
         public float startTime { protected set; get; }
         public float endTime { protected set; get; }
         public float time = 0f;
@@ -129,9 +129,14 @@ namespace QTool.Tween
             QTweenManager.Kill(this);
             return this;
         }
-        public QTween SetCurve(Func<float,float> curveFunction)
+        public QTween SetCurve(Func<float, float> curveFunction)
         {
             this.curve = curveFunction;
+            return this;
+        }
+        public QTween SetCurve(TweenCurve tweenCurve)
+        {
+            this.curve = Curve.GetFunction(tweenCurve);
             return this;
         }
         public QTween IgnoreTimeScale(bool value=true)
