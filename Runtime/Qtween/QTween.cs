@@ -27,6 +27,8 @@ namespace QTool.Tween
         public bool AutoKill=true;
         public bool PlayBack = false;
         public bool isPlaying = false;
+        public bool ignoreTimeScale = false;
+        public List<QTween> tweenList;
         public QTween Init()
         {
             QTweenManager.Add(this);
@@ -35,11 +37,38 @@ namespace QTool.Tween
         public abstract QTween Play();
         public abstract void Update();
         public abstract void Complete();
+        public  Action OnComplete;
+
+        public virtual void Pause()
+        {
+            isPlaying = false;
+        }
+        public QTween SetCurve(Func<float,float> curveFunction)
+        {
+            this.curve = curveFunction;
+            return this;
+        }
+        public QTween IgnoreTimeScale(bool value=true)
+        {
+            ignoreTimeScale = value;
+            return this;
+        }
+        public QTween Add(QTween tween)
+        {
+            if (tweenList == null)
+            {
+                tweenList = new List<QTween>();
+            }
+            tween.Pause();
+            tweenList.Add(tween);
+            return this;
+        }
         public static float Lerp(float a, float b, float t)
         {
             var dir = b - a;
             return a + dir * t;
         }
+       
         public static Vector3 Lerp(Vector3 star, Vector3 end, float t)
         {
             return new Vector3(Lerp(star.x, end.x, t), Lerp(star.y, end.y, t), Lerp(star.z, end.z, t));
@@ -64,6 +93,7 @@ namespace QTool.Tween
             isPlaying = true;
             return this;
         }
+
         public override void Update()
         {
             if (!isPlaying) return;
@@ -75,17 +105,25 @@ namespace QTool.Tween
             {
                 Complete();
             }
-            time += Time.deltaTime;
+            time += ignoreTimeScale?Time.unscaledDeltaTime: Time.deltaTime;
         }
         public override void Complete()
         {
             time = duration;
             Set(Lerp(start, end, curve.Invoke(time / duration)));
             isPlaying = false;
+            if (tweenList != null)
+            {
+                foreach (var tween in tweenList)
+                {
+                    tween.Play();
+                }
+            }
             if (AutoKill)
             {
                 QTweenManager.Kill(this);
             }
+            OnComplete?.Invoke();
         }
 
     }

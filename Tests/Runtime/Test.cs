@@ -13,7 +13,7 @@ public class Test : MonoBehaviour
     public Vector3 endPos = Vector3.right *3;
     private void Start()
     {
-       
+        Time.timeScale = 0;
     }
     public float t=0;
 
@@ -24,11 +24,12 @@ public class Test : MonoBehaviour
     }
     public void Run()
     {
+
         var a = 20f;
         Debug.LogError((Mathf.PI/2f).ToString());
         graphics.AlphaTo(0, 1);
-        transform.LocalMove(endPos, 1).curve = Curve.back.Out();
-        transform.ScaleTo(Vector3.one*2, 1).curve = Curve.back.Out();
+        transform.LocalMove(endPos, 1).SetCurve(Curve.back.Out()).IgnoreTimeScale().Add(
+        transform.ScaleTo(Vector3.one*2, 1).SetCurve(Curve.back.Out()).IgnoreTimeScale());
     }
  
 }
