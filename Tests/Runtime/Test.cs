@@ -11,9 +11,14 @@ public class Test : MonoBehaviour
     public MaskableGraphic graphics;
     public string code { set; get; }
     public Vector3 endPos = Vector3.right *3;
+    QTween tween;
     private void Start()
     {
-        Time.timeScale = 0;
+      
+        //.Next(
+        //    transform.ScaleTo(Vector3.one * 2, 1).SetCurve(Curve.back.Out()).IgnoreTimeScale()
+        //    );
+       Time.timeScale = 0;
     }
     public float t=0;
 
@@ -24,12 +29,17 @@ public class Test : MonoBehaviour
     }
     public void Run()
     {
-
+        if (tween == null)
+        {
+            tween = QTween.CreateQueue().PushEnd(transform.LocalMove(endPos, 1).SetCurve(Curve.back.Out()))
+                .PushEnd(transform.ScaleTo(Vector3.one * 2, 1).SetCurve(Curve.back.Out())).Insert(0.5f, graphics.ColorTo(Color.clear, 1f)).AutoStop(false).IgnoreTimeScale().Play();
+        }
+        else
+        {
+            tween.Play(!tween.playBack);
+        }
         var a = 20f;
         Debug.LogError((Mathf.PI/2f).ToString());
-        graphics.AlphaTo(0, 1);
-        transform.LocalMove(endPos, 1).SetCurve(Curve.back.Out()).IgnoreTimeScale().Add(
-        transform.ScaleTo(Vector3.one*2, 1).SetCurve(Curve.back.Out()).IgnoreTimeScale());
     }
  
 }

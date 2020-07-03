@@ -9,7 +9,7 @@ namespace QTool.Tween
     public class QTweenManager : MonoBehaviour
     {
         static QTweenManager _instance;
-        public List<QTween> tweenList = new List<QTween>();
+        List<QTween> tweenList = new List<QTween>();
         public Queue<QTween> removeQueue = new Queue<QTween>();
         public static QTweenManager Instance
         {

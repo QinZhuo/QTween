@@ -20,28 +20,114 @@ namespace QTool.Tween
             
             return tween.Init().Play();
         }
+        public static QueueTween CreateQueue()
+        {
+            return QueueTween.GetQueue().Init() as QueueTween;
+        }
         public Func<float, float> curve = Curve.Linear;
-
+        public float startTime { protected set; get; }
+        public float endTime { protected set; get; }
         public float time = 0f;
-        public float duration = 1f;
-        public bool AutoKill=true;
-        public bool PlayBack = false;
+        float lastTime = 0f;
+        public virtual float duration
+        {
+            get
+            {
+                return endTime - startTime;
+            }
+            set
+            {
+                endTime = startTime + value;
+            }
+        }
+        public void SetStartTime(float time)
+        {
+             var value= time - startTime;
+            startTime += value;
+            endTime += value;
+        }
+        bool _autoStop = true;
+        public bool autoStop;
+        public bool playBack = false;
         public bool isPlaying = false;
         public bool ignoreTimeScale = false;
-        public List<QTween> tweenList;
-        public QTween Init()
+        public abstract QTween Init();
+        public virtual QTween Play(bool back=false)
         {
             QTweenManager.Add(this);
+            isPlaying = true;
+            playBack = back;
             return this;
         }
-        public abstract QTween Play();
-        public abstract void Update();
-        public abstract void Complete();
+        public virtual void Update()
+        {
+            if (!isPlaying) return;
+            UpdateTime();
+            Update(time);
+        }
+        public virtual void Update(float time)
+        {
+            if (!isPlaying) return;
+            this.time = time;
+            CheckOver();
+            UpdateValue();
+        }
+        public virtual void CheckOver()
+        {
+      
+            if (lastTime != time)
+            {
+          
+                if (!playBack)
+                {
+                    if (lastTime <= endTime && time >= endTime)
+                    {
+                        Complete();
+                        time = endTime;
+                    }
+                }
+                else
+                {
+                  
+                    if (lastTime >= startTime && time <= startTime)
+                    {
+                        Complete();
+                        time = startTime;
+                    }
+                }
+            }
+            lastTime = time;
+        }
+        void UpdateTime()
+        {
+            if (!isPlaying) return;
+            time += (ignoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) * (playBack ? -1 : 1);
+        }
+        public abstract void UpdateValue();
+        public  void Complete()
+        {
+            time = playBack ? startTime: endTime;
+            isPlaying = false;
+        
+            if (autoStop)
+            {
+                QTweenManager.Kill(this);
+            }
+            OnComplete?.Invoke();
+        }
         public  Action OnComplete;
 
-        public virtual void Pause()
+      
+        public virtual QTween Pause()
         {
             isPlaying = false;
+            return this;
+        }
+        public virtual QTween Stop()
+        {
+            isPlaying = false;
+            QTweenManager.Kill(this);
+            return this;
         }
         public QTween SetCurve(Func<float,float> curveFunction)
         {
@@ -53,14 +139,9 @@ namespace QTool.Tween
             ignoreTimeScale = value;
             return this;
         }
-        public QTween Add(QTween tween)
+        public virtual QTween AutoStop(bool kill=true)
         {
-            if (tweenList == null)
-            {
-                tweenList = new List<QTween>();
-            }
-            tween.Pause();
-            tweenList.Add(tween);
+            autoStop = kill;
             return this;
         }
         public static float Lerp(float a, float b, float t)
@@ -75,7 +156,75 @@ namespace QTool.Tween
         }
         public static Color Lerp(Color star, Color end, float t)
         {
+        //    Debug.LogError("ColorLerp[" + t + "]");
             return new Color(Lerp(star.r, end.r, t), Lerp(star.g, end.g, t), Lerp(star.b, end.b, t), Lerp(star.a, end.a, t));
+        }
+    }
+
+    public class QueueTween : QTween
+    {
+        public static QueueTween GetQueue()
+        {
+        
+            return new QueueTween();
+        }
+        private QueueTween()
+        {
+
+        }
+        
+        public List<QTween> tweenList = new List<QTween>();
+        public override QTween Play(bool back = false)
+        {
+            foreach (var tween in tweenList)
+            {
+                tween.playBack = back;
+            }
+            return base.Play(back);
+        }
+        public override QTween Init()
+        {
+            return this;
+        }
+        public override QTween AutoStop(bool kill = true)
+        {
+            foreach (var tween in tweenList)
+            {
+                tween.AutoStop(kill);
+            }
+            return base.AutoStop(kill);
+        }
+        public QueueTween PushEnd(QTween tween)
+        {
+            tweenList.Add(tween.Stop());
+            tween.SetStartTime(duration);
+            endTime += tween.duration;
+            return this;
+        }
+        public QueueTween Insert(float insertTime,QTween tween)
+        {
+            tweenList.Add(tween.Stop());
+            tween.SetStartTime(insertTime);
+            if (tween.endTime > endTime)
+            {
+                endTime = tween.endTime;
+            }
+            return this;
+        }
+        public override void UpdateValue()
+        {
+            foreach (var tween in tweenList)
+            {
+                if (!tween.isPlaying)
+                {
+                    if (time > tween.startTime && time < tween.endTime)
+                    {
+                        tween.isPlaying = true;
+                    }
+                }
+                
+                tween.Update(time);
+            }
         }
     }
     public class QTween<T>:QTween
@@ -86,46 +235,22 @@ namespace QTool.Tween
         public new Func<T, T, float, T> Lerp;
         public Func<T> Get;
         public Action<T> Set;
-        
-        public override QTween Play()
+        public override QTween Init()
         {
+         
+            time = 0;
             start = Get();
-            isPlaying = true;
             return this;
         }
+   
 
-        public override void Update()
+        public override void UpdateValue()
         {
-            if (!isPlaying) return;
-            if(time>0&& time<=duration)
+            if (time >=startTime && time <= endTime)
             {
-                Set(Lerp(start, end, curve.Invoke(time / duration)));
+                Set(Lerp(start, end, curve.Invoke((time - startTime) / duration)));
             }
-            else if(time>=duration)
-            {
-                Complete();
-            }
-            time += ignoreTimeScale?Time.unscaledDeltaTime: Time.deltaTime;
         }
-        public override void Complete()
-        {
-            time = duration;
-            Set(Lerp(start, end, curve.Invoke(time / duration)));
-            isPlaying = false;
-            if (tweenList != null)
-            {
-                foreach (var tween in tweenList)
-                {
-                    tween.Play();
-                }
-            }
-            if (AutoKill)
-            {
-                QTweenManager.Kill(this);
-            }
-            OnComplete?.Invoke();
-        }
-
     }
     public static class TransformExtends
     {
