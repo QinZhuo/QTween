@@ -875,10 +875,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1936923290}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b210fde70f8c71f49abddac15769c757, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f87a4db5c12dd0419c39e93cb1528df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cube: {fileID: 1936923290}
   graphics: {fileID: 836658325}
-  endPos: {x: 4, y: 0, z: 0}
-  t: 0
+  endPos: {x: 3, y: 0, z: 0}

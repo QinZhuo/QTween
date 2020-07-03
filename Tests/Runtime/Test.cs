@@ -18,9 +18,8 @@ public class Test : MonoBehaviour
         //.Next(
         //    transform.ScaleTo(Vector3.one * 2, 1).SetCurve(Curve.back.Out()).IgnoreTimeScale()
         //    );
-       Time.timeScale = 0;
+       Time.timeScale = 1;
     }
-    public float t=0;
 
     
     private void Update()
