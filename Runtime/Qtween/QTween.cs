@@ -259,12 +259,21 @@ namespace QTool.Tween
     public static class TransformExtends
     {
 
+        public static Vector3 GetPos(this Transform transform)
+        {
+            return transform.position;
+        }
+        public static void SetPos(this Transform transform,Vector3 postion)
+        {
+            transform.position=postion;
+        }
         public static QTween PosTo(this Transform transform, Vector3 postion,float duration)
         {
-            return  QTween.Tween(() => transform.position,
-            (pos) => {transform.position = pos; },
+            return  QTween.Tween(transform.GetPos,
+            transform.SetPos,
             QTween.Lerp, postion, duration);
         }
+
         public static QTween LocalPosTo(this Transform transform, Vector3 postion, float duration)
         {
             return QTween.Tween(() => transform.localPosition,
