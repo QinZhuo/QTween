@@ -5,7 +5,7 @@ using System;
 namespace QTool.Tween
 {
 
-    public enum TweenCurve
+    public enum Curve
     {
         Linear,
         InSin,
@@ -16,25 +16,25 @@ namespace QTool.Tween
         InOutBack,
     }
  
-    public static class Curve
+    public static class CurveTool
     {
-        public static Func<float,float> GetFunction(TweenCurve curve)
+        public static Func<float,float> GetFunction(Curve curve)
         {
             switch (curve)
             {
-                case TweenCurve.Linear:
+                case Curve.Linear:
                     return TweenAnimationCurve.Linear;
-                case TweenCurve.InSin:
+                case Curve.InSin:
                     return TweenAnimationCurve.Sin;
-                case TweenCurve.OutSin:
+                case Curve.OutSin:
                     return Out(TweenAnimationCurve.Sin);
-                case TweenCurve.InOutSin:
+                case Curve.InOutSin:
                     return InOut( TweenAnimationCurve.Sin);
-                case TweenCurve.InBack:
+                case Curve.InBack:
                     return TweenAnimationCurve.back;
-                case TweenCurve.OutBack:
+                case Curve.OutBack:
                     return Out(TweenAnimationCurve.back);
-                case TweenCurve.InOutBack:
+                case Curve.InOutBack:
                     return InOut(TweenAnimationCurve.back);
                 default:
                     return null;
