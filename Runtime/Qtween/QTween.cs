@@ -47,7 +47,7 @@ namespace QTool.Tween
             endTime += value;
         }
         bool _autoStop = true;
-        public bool autoStop;
+        public bool autoStop=true;
         public bool playBack = false;
         public bool isPlaying = false;
         public bool ignoreTimeScale = false;
