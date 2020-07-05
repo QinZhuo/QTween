@@ -30,7 +30,7 @@ public class Test : MonoBehaviour
     {
         if (tween == null)
         {
-            tween =transform.PosTo(Vector3.right*4, 1).SetCurve( Curve.OutBack).IgnoreTimeScale().AutoStop();
+            tween =transform.LocalPosTo(Vector3.right*4, 1).SetCurve( Curve.Bounce.Out()).IgnoreTimeScale().AutoStop();
            
         }
         else

@@ -134,11 +134,6 @@ namespace QTool.Tween
             this.curve = curveFunction;
             return this;
         }
-        public QTween SetCurve(Curve tweenCurve)
-        {
-            this.curve = CurveTool.GetFunction(tweenCurve);
-            return this;
-        }
         public QTween IgnoreTimeScale(bool value=true)
         {
             ignoreTimeScale = value;
