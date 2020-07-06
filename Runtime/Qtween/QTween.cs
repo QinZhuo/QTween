@@ -268,6 +268,7 @@ namespace QTool.Tween
         {
             return transform.position;
         }
+ 
         public static void SetPos(this Transform transform,Vector3 postion)
         {
             transform.position=postion;
@@ -277,6 +278,44 @@ namespace QTool.Tween
             return  QTween.Tween(transform.GetPos,
             transform.SetPos,
             QTween.Lerp, postion, duration);
+        }
+        public static QTween PosXTo(this Transform transform, float value, float duration)
+        {
+            return QTween.Tween(()=>transform.position.x,
+            (setValue)=> { transform.position = new Vector3(setValue, transform.position.y, transform.position.z); },
+            QTween.Lerp, value, duration);
+        }
+
+        public static QTween PosYTo(this Transform transform, float value, float duration)
+        {
+            return QTween.Tween(() => transform.position.y,
+            (setValue) => { transform.position = new Vector3( transform.position.x, setValue, transform.position.z); },
+            QTween.Lerp, value, duration);
+        }
+        public static QTween PosZTo(this Transform transform, float value, float duration)
+        {
+            return QTween.Tween(() => transform.position.z,
+            (setValue) => { transform.position = new Vector3(transform.position.x, transform.position.y, setValue); },
+            QTween.Lerp, value, duration);
+        }
+        public static QTween LocalPosXTo(this Transform transform, float value, float duration)
+        {
+            return QTween.Tween(() => transform.localPosition.x,
+            (setValue) => { transform.localPosition = new Vector3(setValue, transform.localPosition.y, transform.localPosition.z); },
+            QTween.Lerp, value, duration);
+        }
+
+        public static QTween LocalPosYTo(this Transform transform, float value, float duration)
+        {
+            return QTween.Tween(() => transform.localPosition.y,
+            (setValue) => { transform.localPosition = new Vector3(transform.localPosition.x, setValue, transform.localPosition.z); },
+            QTween.Lerp, value, duration);
+        }
+        public static QTween LocalPosZTo(this Transform transform, float value, float duration)
+        {
+            return QTween.Tween(() => transform.localPosition.z,
+            (setValue) => { transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, setValue); },
+            QTween.Lerp, value, duration);
         }
 
         public static QTween LocalPosTo(this Transform transform, Vector3 postion, float duration)
