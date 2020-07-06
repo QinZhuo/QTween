@@ -31,7 +31,7 @@ public class Test : MonoBehaviour
         graphics.FillAmountTo(0, 1);
         if (tween == null)
         {
-            tween =transform.LocalRotTo(Vector3.one*780, 1).SetCurve( Curve.back.Out()).IgnoreTimeScale().AutoStop();
+            tween =transform.LocalRotTo(Vector3.one*780, 1).SetCurve( Curve.Back.Out()).IgnoreTimeScale().AutoStop();
            
         }
         else

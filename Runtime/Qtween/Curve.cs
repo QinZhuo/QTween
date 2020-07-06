@@ -4,9 +4,113 @@ using UnityEngine;
 using System;
 namespace QTool.Tween
 {
+    public enum EaseCurve
+    {
+        Linear,
+        InSine,
+        OutSine,
+        InOutSine,
+        InQuad,
+        OutQuad,
+        InOutQuad,
+        InCubic,
+        OutCubic,
+        InOutCubic,
+        InQuart,
+        OutQuart,
+        InOutQuart,
+        InQuint,
+        OutQuint,
+        InOutQuint,
+        InExpo,
+        OutExpo,
+        InOutExpo,
+        InCirc,
+        OutCirc,
+        InOutCirc,
+        InBack,
+        OutBack,
+        InOutBack,
+        InElastic,
+        OutElastic,
+        InOutElastic,
+        InBounce,
+        OutBounce,
+        InOutBounce,
 
+    }
     public static class Curve
     {
+        public static Func<float,float> GetEaseFunc(EaseCurve ease)
+        {
+            switch (ease)
+            {
+                case EaseCurve.Linear:
+                    return Linear;
+                case EaseCurve.InSine:
+                    return Sine;
+                case EaseCurve.OutSine:
+                    return Sine.Out();
+                case EaseCurve.InOutSine:
+                    return Sine.InOut();
+                case EaseCurve.InQuad:
+                    return Quad;
+                case EaseCurve.OutQuad:
+                    return Quad.Out();
+                case EaseCurve.InOutQuad:
+                    return Quad.InOut();
+                case EaseCurve.InCubic:
+                    return Cubic;
+                case EaseCurve.OutCubic:
+                    return Cubic.Out();
+                case EaseCurve.InOutCubic:
+                    return Cubic.InOut();
+                case EaseCurve.InQuart:
+                    return Quart;
+                case EaseCurve.OutQuart:
+                    return Quart.Out();
+                case EaseCurve.InOutQuart:
+                    return Quart.InOut();
+                case EaseCurve.InQuint:
+                    return Quint;
+                case EaseCurve.OutQuint:
+                    return Quint.Out();
+                case EaseCurve.InOutQuint:
+                    return Quint.InOut();
+                case EaseCurve.InExpo:
+                    return Expo;
+                case EaseCurve.OutExpo:
+                    return Expo.Out();
+                case EaseCurve.InOutExpo:
+                    return Expo.InOut();
+                case EaseCurve.InCirc:
+                    return Circ;
+                case EaseCurve.OutCirc:
+                    return Circ.Out();
+                case EaseCurve.InOutCirc:
+                    return Circ.InOut();
+                case EaseCurve.InBack:
+                    return Back;
+                case EaseCurve.OutBack:
+                    return Back.Out();
+                case EaseCurve.InOutBack:
+                    return Back.InOut();
+                case EaseCurve.InElastic:
+                    return Elastic;
+                case EaseCurve.OutElastic:
+                    return Elastic.Out();
+                case EaseCurve.InOutElastic:
+                    return Elastic.InOut();
+                case EaseCurve.InBounce:
+                    return Bounce;
+                case EaseCurve.OutBounce:
+                    return Bounce.Out();
+                case EaseCurve.InOutBounce:
+                    return Bounce.InOut();
+                default:
+                    return Linear;
+            }
+        }
         public static Func<float,float> Linear
         {
             get
@@ -14,18 +118,40 @@ namespace QTool.Tween
                 return TweenAnimationCurve.Linear;
             }
         }
-        public static Func<float, float> Sin
+        public static Func<float, float> Sine
         {
             get
             {
-                return TweenAnimationCurve.Sin;
+                return TweenAnimationCurve.Sine;
+            }
+        }
+       
+        public static Func<float, float> Quad
+        {
+            get
+            {
+                return TweenAnimationCurve.PowFunc(2);
             }
         }
         public static Func<float, float> Cubic
         {
             get
             {
-                return TweenAnimationCurve.Cubic;
+                return TweenAnimationCurve.PowFunc(3);
+            }
+        }
+        public static Func<float, float> Quart
+        {
+            get
+            {
+                return TweenAnimationCurve.PowFunc(4);
+            }
+        }
+        public static Func<float, float> Quint
+        {
+            get
+            {
+                return TweenAnimationCurve.PowFunc(5);
             }
         }
         public static Func<float, float> Expo
@@ -42,7 +168,7 @@ namespace QTool.Tween
                 return TweenAnimationCurve.Circ;
             }
         }
-        public static Func<float, float> back
+        public static Func<float, float> Back
         {
             get
             {
@@ -104,25 +230,13 @@ namespace QTool.Tween
         {
             return t;
         }
-        public static float Sin(float t)
+        public static float Sine(float t)
         {
             return 1-Mathf.Sin((1-t )* Mathf.PI/2);
         }
-        public static float Square(float t)
+        public static Func<float,float> PowFunc(float p)
         {
-            return t * t;
-        }
-        public static float Cubic(float t)
-        {
-            return t * t * t;
-        }
-        public static float Quartic(float t)
-        {
-            return t * t * t * t;
-        }
-        public static float Quintic(float t)
-        {
-            return t * t * t * t * t;
+            return (t) => Mathf.Pow(t, p);
         }
         public static float Expo(float t)
         {

@@ -129,6 +129,11 @@ namespace QTool.Tween
             QTweenManager.Kill(this);
             return this;
         }
+        public QTween SetCurve(EaseCurve ease)
+        {
+            this.curve = Curve.GetEaseFunc(ease);
+            return this;
+        }
         public QTween SetCurve(Func<float, float> curveFunction)
         {
             this.curve = curveFunction;
