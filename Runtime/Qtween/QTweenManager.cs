@@ -46,7 +46,17 @@ namespace QTool.Tween
             
             foreach (var tween in tweenList)
             {
-                tween.Update();
+                try
+                {
+                    tween.Update();
+                }
+                catch (Exception e)
+                {
+
+                    tween.Stop();
+                    Debug.LogWarning("【QTween】动画终止：" + e);
+                }
+               
             }
         }
         private void Start()
