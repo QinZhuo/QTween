@@ -10,9 +10,9 @@ namespace QTool.Tween
     {
         static QTweenManager _instance;
 
-
+        Queue<QTween> addQueue = new Queue<QTween>();
         LinkedList<QTween> tweenList = new LinkedList<QTween>();
-        public Queue<QTween> removeQueue = new Queue<QTween>();
+        Queue<QTween> removeQueue = new Queue<QTween>();
         public static QTweenManager Instance
         {
             get
@@ -27,9 +27,11 @@ namespace QTool.Tween
         }
         public static void Add(QTween tween)
         {
-            if (!Instance.tweenList.Contains(tween))
+
+            if (!(Instance.tweenList.Contains(tween)|| Instance.addQueue.Contains(tween)))
             {
-                Instance.tweenList.AddLast(tween);
+                Instance.addQueue.Enqueue(tween);
+         
             }
            
         }
@@ -39,6 +41,11 @@ namespace QTool.Tween
         }
         private void Update()
         {
+            while (addQueue.Count > 0)
+            {
+                Instance.tweenList.AddLast(addQueue.Dequeue());
+            }
+           
             while (removeQueue.Count > 0)
             {
                 tweenList.Remove(removeQueue.Dequeue());
