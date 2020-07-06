@@ -158,9 +158,13 @@ namespace QTool.Tween
         {
             return new Vector3(Lerp(star.x, end.x, t), Lerp(star.y, end.y, t), Lerp(star.z, end.z, t));
         }
+        public static Quaternion Lerp(Quaternion star, Quaternion end, float t)
+        {
+            var result = Lerp(star.eulerAngles, end.eulerAngles, t);
+            return Quaternion.Euler(result);
+        }
         public static Color Lerp(Color star, Color end, float t)
         {
-        //    Debug.LogError("ColorLerp[" + t + "]");
             return new Color(Lerp(star.r, end.r, t), Lerp(star.g, end.g, t), Lerp(star.b, end.b, t), Lerp(star.a, end.a, t));
         }
     }
@@ -267,6 +271,18 @@ namespace QTool.Tween
         public static void SetPos(this Transform transform,Vector3 postion)
         {
             transform.position=postion;
+        }
+        public static QTween RotTo(this Transform transform, Vector3 value, float duration)
+        {
+            return QTween.Tween(()=>transform.rotation.eulerAngles,
+            (setValue)=> { transform.rotation =Quaternion.Euler( setValue); },
+            QTween.Lerp, value, duration);
+        }
+        public static QTween LocalRotTo(this Transform transform, Vector3 value, float duration)
+        {
+            return QTween.Tween(() => transform.localRotation.eulerAngles,
+            (setValue) => { transform.localRotation = Quaternion.Euler(setValue); },
+            QTween.Lerp, value, duration);
         }
         public static QTween PosTo(this Transform transform, Vector3 postion,float duration)
         {
