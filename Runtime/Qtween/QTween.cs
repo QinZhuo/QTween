@@ -338,6 +338,12 @@ namespace QTool.Tween
     public static class MaskableGraphicExtends
     {
 
+        public static QTween FillAmountTo(this Image graphic,float value, float duration)
+        {
+            return QTween.Tween(() => graphic.fillAmount,
+            (setValue) => { graphic.fillAmount = setValue; },
+            QTween.Lerp, value, duration);
+        }
         public static QTween ColorTo(this MaskableGraphic graphic, Color endColor, float duration)
         {
             return QTween.Tween(() => graphic.color,

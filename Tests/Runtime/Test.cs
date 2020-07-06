@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Test : MonoBehaviour
 {
     public GameObject cube;
-    public MaskableGraphic graphics;
+    public Image graphics;
     public string code { set; get; }
     public Vector3 endPos = Vector3.right *3;
     QTween tween;
@@ -28,9 +28,10 @@ public class Test : MonoBehaviour
     }
     public void Run()
     {
+        graphics.FillAmountTo(0, 1);
         if (tween == null)
         {
-            tween =transform.LocalPosYTo(4, 1).SetCurve( Curve.OutBack).IgnoreTimeScale().AutoStop();
+            tween =transform.LocalPosYTo(4, 1).SetCurve( Curve.back.Out()).IgnoreTimeScale().AutoStop();
            
         }
         else
