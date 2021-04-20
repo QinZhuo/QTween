@@ -66,7 +66,7 @@ public class Test : MonoBehaviour
                 }
                 else
                 {
-                    tweens[i, j].TweenList.Play(to);
+                    tweens[i, j].Play(to);
                 }
             }
         }

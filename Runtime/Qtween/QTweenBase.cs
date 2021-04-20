@@ -7,27 +7,27 @@ using QTool;
 
 namespace QTool.Tween
 {
-    public class QTweenList:PoolObject<QTweenList>
-    {
-        public QTweenBase first;
-        public QTweenBase end;
-        public void Play(bool forwards=true)
-        {
-            (forwards ? first : end)?.Play(forwards);
-        }
-        public override void OnPoolRecover()
-        {
-            first = null;
-            end = null;
-        }
-
-        public override void OnPoolReset()
-        {
-        }
-    }
+  
     public abstract class QTweenBase:IPoolObject
     {
-      
+        public class QTweenList : PoolObject<QTweenList>
+        {
+            public QTweenBase first;
+            public QTweenBase end;
+            public void Play(bool forwards = true)
+            {
+                (forwards ? first : end)?._Play(forwards);
+            }
+            public override void OnPoolRecover()
+            {
+                first = null;
+                end = null;
+            }
+
+            public override void OnPoolReset()
+            {
+            }
+        }
         //public static QTweenQueue Queue()
         //{
         //    return QTweenQueue.GetQueue().Init().Play() as QTweenQueue;
@@ -78,6 +78,20 @@ namespace QTool.Tween
         public QTweenList TweenList { private set; get; }
         public abstract QTweenBase Init();
         public QTweenBase Play(bool playForwads=true)
+        {
+            if (TweenList != null)
+            {
+                TweenList.Play(playForwads);
+                return this;
+            }
+            else
+            {
+
+                return _Play(playForwads);
+            }
+
+        }
+        private QTweenBase _Play(bool playForwads = true)
         {
             this.playForwads = playForwads;
             if (!IsPlaying)
@@ -132,7 +146,7 @@ namespace QTool.Tween
         public void Complete()
         {
             time = playForwads ?Duration:0;
-            (playForwads ? next: last  )?.Play(playForwads);
+            (playForwads ? next: last  )?._Play(playForwads);
             Stop();
             onComplete?.Invoke();
             if (autoDestory)
