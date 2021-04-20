@@ -193,11 +193,6 @@ namespace QTool.Tween
  
     public static class CurveTool
     {
-
-        public static Func<float, float> In(this Func<float, float> InFunc)
-        {
-            return InFunc;
-        }
         public static Func<float, float> Out(this Func<float, float> InFunc)
         {
             return (t) =>
