@@ -9,6 +9,7 @@ namespace QTool.Tween
     {
         public static QTween Tween<T>(Func<T> Get, Action<T> Set, Func<T, T, float, T> Lerp, T end, float duration)
         {
+           
             var tween = new QTween<T>()
             {
                 Set = Set,

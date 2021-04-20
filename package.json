@@ -12,6 +12,13 @@
     "name": "qinzhuo ",
     "url": "https://space.bilibili.com/3981300"
   }
+  "samples": [
+    {
+      "displayName": "Demo",
+      "description": "Demo",
+      "path": "Demo"
+    }
+  ]
 }
 
 

@@ -882,5 +882,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cube: {fileID: 1936923290}
-  graphics: {fileID: 0}
+  graphics: {fileID: 836658325}
   endPos: {x: 3, y: 0, z: 0}
