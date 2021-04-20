@@ -4,10 +4,9 @@
   "displayName": "QTween",
   "description": "Tween Animation",
   "unity": "2019.1",
- "keywords": [
-    "unity",
-    "tween"
-  ],
+  "repository": {
+    "url": "https://e.coding.net/qinzhuo/QTween/QTween.git"
+  },
   "author": {
     "name": "qinzhuo ",
     "url": "https://space.bilibili.com/3981300"
