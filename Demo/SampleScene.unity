@@ -555,10 +555,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f87a4db5c12dd0419c39e93cb1528df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cubePrefab: {fileID: 4275048192683605460, guid: 965e40055c0323042a41de2aef49d9f8,
-    type: 3}
+  cubePrefab: {fileID: 4275048192683605460, guid: 965e40055c0323042a41de2aef49d9f8, type: 3}
   graphics: {fileID: 0}
   endPos: {x: 3, y: 0, z: 0}
+  to: 1
 --- !u!4 &697593669
 Transform:
   m_ObjectHideFlags: 0
@@ -1067,9 +1067,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'DoTween
-
-'
+  m_Text: "\u6682\u505C"
 --- !u!222 &1912387152
 CanvasRenderer:
   m_ObjectHideFlags: 0

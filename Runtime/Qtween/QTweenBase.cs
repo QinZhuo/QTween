@@ -14,10 +14,7 @@ namespace QTool.Tween
         {
             public QTweenBase first;
             public QTweenBase end;
-            public void Play(bool forwards = true)
-            {
-                (forwards ? first : end)?._Play(forwards);
-            }
+            public QTweenBase current;
             public override void OnPoolRecover()
             {
                 first = null;
@@ -28,10 +25,6 @@ namespace QTool.Tween
             {
             }
         }
-        //public static QTweenQueue Queue()
-        //{
-        //    return QTweenQueue.GetQueue().Init().Play() as QTweenQueue;
-        //}
         public Func<float, float> TCurve = TweenAnimationCurve.Linear;
         public QTweenBase SetCurve(EaseCurve ease)
         {
@@ -65,11 +58,12 @@ namespace QTool.Tween
             {
                 TweenList = QTweenList.Get();
                 TweenList.first = this;
+                TweenList.current = this;
             }
             this.next = next;
             next.TweenList = TweenList;
             TweenList.end = next;
-            next.Pause();
+            next._Pause();
             next.last = this;
             return next;
         }
@@ -79,21 +73,21 @@ namespace QTool.Tween
         public abstract QTweenBase Init();
         public QTweenBase Play(bool playForwads=true)
         {
+            var cur = this;
             if (TweenList != null)
             {
-                TweenList.Play(playForwads);
-                return this;
+                cur = playForwads ? TweenList.first : TweenList.end;
             }
-            else
-            {
-
-                return _Play(playForwads);
-            }
-
+            cur._Play(playForwads);
+            return this;
         }
-        private QTweenBase _Play(bool playForwads = true)
+        private QTweenBase _Play(bool playForwads )
         {
             this.playForwads = playForwads;
+            if (TweenList != null)
+            {
+                TweenList.current = this;
+            }
             if (!IsPlaying)
             {
                 _isPlaying = true;
@@ -116,6 +110,7 @@ namespace QTool.Tween
             {
                 UpdateTime();
                 CheckOver();
+                onUpdate?.Invoke(time);
                 UpdateValue();
             }
         }
@@ -147,7 +142,7 @@ namespace QTool.Tween
         {
             time = playForwads ?Duration:0;
             (playForwads ? next: last  )?._Play(playForwads);
-            Stop();
+            _Stop();
             onComplete?.Invoke();
             if (autoDestory)
             {
@@ -156,18 +151,40 @@ namespace QTool.Tween
            
         }
         public event Action onComplete;
-
+        public event Action<float> onUpdate;
         public QTweenBase OnComplete(Action action)
         {
             onComplete += action;
             return this;
         }
-        public virtual QTweenBase Pause()
+        public QTweenBase OnComplete(Action<float> action)
+        {
+            onUpdate += action;
+            return this;
+        }
+        public QTweenBase CurTween
+        {
+            get
+            {
+
+                return TweenList == null ? this : TweenList.current;
+            }
+        }
+        public QTweenBase Pause()
+        {
+            return CurTween._Pause();
+        }
+        private QTweenBase _Pause()
         {
             pause = true;
             return this;
         }
-        public virtual QTweenBase Stop()
+        private QTweenBase Stop()
+        {
+            return CurTween._Stop();
+        }
+
+        private QTweenBase _Stop()
         {
             QTween.Instance.TweenUpdate-=Update;
             _isPlaying = false;
@@ -186,12 +203,12 @@ namespace QTool.Tween
         }
       
 
-        public void OnPoolReset()
+        public virtual void OnPoolReset()
         {
             time = 0;
         }
 
-        public void OnPoolRecover()
+        public virtual void OnPoolRecover()
         {
             onComplete = null;
             _isPlaying = false;
@@ -201,74 +218,7 @@ namespace QTool.Tween
         }
     }
 
-    //public class QTweenQueue : QTween
-    //{
-    //    static ObjectPool<QTweenQueue> _pool;
-    //    public static ObjectPool<QTweenQueue> Pool
-    //    {
-    //        get
-    //        {
-    //            return _pool ?? (_pool = PoolManager.GetPool(typeof(QTweenQueue).Name, () =>
-    //            {
-    //                return new QTweenQueue();
-    //            }));
-    //        }
-    //    }
-    //    public static QTweenQueue GetQueue()
-    //    {
-    //        return Pool.Get();
-    //    }
-    //    private QTweenQueue()
-    //    {
-
-    //    }
-        
-    //    public List<QTween> tweenList = new List<QTween>();
-    // //   public List<QTween> insertList = new List<QTween>();
-    //    public override QTween Play(bool back = false)
-    //    {
-    //        foreach (var tween in tweenList)
-    //        {
-    //            tween.playBack = back;
-    //        }
-    //        return base.Play(back);
-    //    }
-    //    public override QTween Init()
-    //    {
-    //        return this;
-    //    }
-    //    public override QTween AutoDestory(bool kill = true)
-    //    {
-    //        foreach (var tween in tweenList)
-    //        {
-    //            tween.AutoDestory(kill);
-    //        }
-    //        return base.AutoDestory(kill);
-    //    }
-    //    public QTweenQueue PushEnd(QTween tween)
-    //    {
-    //        tweenList.Add(tween.Stop());
-    //        Duration += tween.Duration;
-    //        return this;
-    //    }
-      
-    //    public override void UpdateValue()
-    //    {
-    //    }
-
-    //    public override void Destory()
-    //    {
-    //        tweenList.Clear();
-    //        Pool.Push(this);
-    //    }
-    //    //public QueueTween Insert(float insertTime,QTween tween)
-    //    //{
-    //    //    tweenList.Add(tween.Stop());
-    //    //    tween.SetStartTime(insertTime);
-    //    //    return this;
-    //    //}
-
-    //}
+  
     internal class QTweenDelay : QTweenBase
     {
         static ObjectPool<QTweenDelay> _pool;
@@ -312,14 +262,18 @@ namespace QTool.Tween
         {
             get
             {
-                return _pool ?? (_pool = PoolManager.GetPool(typeof(QTween<T>).Name, () =>
+                return _pool ?? (_pool = PoolManager.GetPool("["+typeof(T).Name+"]QTween动画", () =>
                 {
                     return new QTween<T>();
                 }));
             }
         }
-        public static QTweenBase GetTween(Func<T> Get, Action<T> Set, Func<T, T, float, T> tweenCurve, T end, float duration)
+        public static QTween<T> GetTween(Func<T> Get, Action<T> Set, Func<T, T, float, T> tweenCurve, T end, float duration)
         {
+            if (Pool == null)
+            {
+                Debug.LogError("不存在对象池" + typeof(T));
+            }
             var tween = Pool.Get();
             tween.Set = Set;
             tween.Get = Get;
@@ -328,21 +282,29 @@ namespace QTool.Tween
             tween.Duration = duration;
             return tween;
         }
+        public static QTweenBase GetTween(Func<T> Get, Action<T> Set, Func<T, T, float, T> tweenCurve,T start, T end, float duration)
+        {
+            var tween=GetTween(Get, Set, tweenCurve, end, duration);
+            tween.Start = start;
+            tween.initStart = false;
+            return tween;
+        }
         private QTween()
         {
 
         }
         public T Start { private set; get; }
         public T End { private set; get; }
-
+        bool initStart = true;
         public Func<T, T, float, T> ValueCurve { private set; get; }
         public Func<T> Get { private set; get; }
         public Action<T> Set { private set; get; }
         public override QTweenBase Init()
         {
-         
-            time = 0;
-            Start = Get();
+            if (initStart)
+            {
+                Start = Get();
+            }
             return this;
         }
         public override void UpdateValue()
@@ -355,6 +317,11 @@ namespace QTool.Tween
         public override void Destory()
         {
             Pool.Push(this);
+        }
+        public override void OnPoolReset()
+        {
+            base.OnPoolReset();
+            initStart = true;
         }
     }
     public static class TransformExtends
@@ -371,9 +338,9 @@ namespace QTool.Tween
         }
         public static QTweenBase QRotate(this Transform transform, Vector3 value, float duration)
         {
-            return QTween.Tween(()=>transform.rotation.eulerAngles,
-            (setValue)=> { transform.rotation =Quaternion.Euler( setValue); },
-            QTween.Lerp, value, duration);
+            return QTween.Tween(()=>transform.rotation,
+            (setValue)=> { transform.rotation =setValue; },
+            QTween.Lerp,Quaternion.Euler( value), duration);
         }
         public static QTweenBase QLocalRotate(this Transform transform, Vector3 value, float duration)
         {

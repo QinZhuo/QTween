@@ -13,6 +13,10 @@ namespace QTool.Tween
         {
             return QTween<T>.GetTween(Get, Set, tweenCurve, end, duration).Init().Play();
         }
+        public static QTweenBase Tween<T>(Func<T> Get, Action<T> Set, Func<T, T, float, T> tweenCurve, T start, T end, float duration)
+        {
+            return QTween<T>.GetTween(Get, Set, tweenCurve, start,end, duration).Init().Play();
+        }
         public static QTweenBase Delay(float duration)
         {
             return QTweenDelay.Get(duration).Init().Play();

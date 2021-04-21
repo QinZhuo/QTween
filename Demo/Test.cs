@@ -11,22 +11,22 @@ public class Test : MonoBehaviour
     public Image graphics;
     public string code { set; get; }
     public Vector3 endPos = Vector3.right *3;
-    QTweenBase tween;
-    public const int count = 30;
+    public const int count = 1;
     GameObject[,] objs = new GameObject[count, count];
     QTweenBase[,] tweens = new QTweenBase[count, count];
     private void Start()
     {
-        QTween.DelayInvoke(2, () =>
-         {
+       // //QTween.DelayInvoke(2, () =>
+     //    {
              for (int i = 0; i < count; i++)
              {
                  for (int j = 0; j < count; j++)
                  {
                      objs[i, j] = Instantiate(cubePrefab, new Vector3(i * 2, 0, j * 2), Quaternion.identity);
+                    
                  }
              }
-         });
+       //  });
        
         //.Next(
         //    transform.ScaleTo(Vector3.one * 2, 1).SetCurve(Curve.back.Out()).IgnoreTimeScale()
@@ -37,7 +37,7 @@ public class Test : MonoBehaviour
     
     private void Update()
     {
-       
+       // objs[0, 0].transform.rotation = Quaternion.Lerp(objs[0, 0].transform.rotation, Quaternion.Euler(90, 46, 789), Time.deltaTime);
     }
     public bool to = true;
     [ContextMenu("QTween测试")]
@@ -61,7 +61,7 @@ public class Test : MonoBehaviour
                 if (tweens[i, j] == null)
                 {
                     tweens[i, j] = objs[i, j].transform.QMove(to ? new Vector3(i * 2, 3, j * 2) : new Vector3(i * 2, 0, j * 2), 1).AutoDestory(false)
-                    .Next(objs[i, j].transform.QRotate(to ? new Vector3(180, 180, 180) : new Vector3(90, 90, 90), 1)).AutoDestory(false)
+                    .Next(objs[i, j].transform.QRotate(to ? new Vector3(70, 167, 34) : new Vector3(546, 4, 6), 1)).AutoDestory(false)
                  ;
                 }
                 else
@@ -72,19 +72,17 @@ public class Test : MonoBehaviour
         }
         to = !to;
     }
-    [ContextMenu("DoTween测试")]
+    [ContextMenu("暂停")]
     public void DoTween()
     {
-        ////graphics.FillAmountTo(0, 1);
-        ////if (tween == null)
-        ////{
-        ////    tween =transform.LocalRotTo(Vector3.one*780, 1).SetCurve( Curve.Back.Out()).IgnoreTimeScale().AutoStop();
+        for (int i = 0; i < count; i++)
+        {
+            for (int j = 0; j < count; j++)
+            {
 
-        ////}
-        ////else
-        ////{
-        ////    tween.Play(!tween.playBack);
-        ////}.PlayBackwards()
+                tweens[i, j].Pause();
+            }
+        }
         //for (int i = 0; i < count; i++)
         //{
         //    for (int j = 0; j < count; j++)
