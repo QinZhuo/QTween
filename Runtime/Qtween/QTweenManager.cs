@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace QTool.Tween
 {
-    public static class QTween
+    public class QTweenManager : MonoBehaviour
     {
         static QTweenManager _instance;
         public static QTweenManager Manager
@@ -43,15 +43,11 @@ namespace QTool.Tween
         {
             return Color.Lerp(star, end, t);
         }
-        public static QTweenBase Tween<T>(Func<T> Get, Action<T> Set, Func<T, T, float, T> tweenCurve, T end, float duration)
+        public static QTween Tween<T>(Func<T> Get, Action<T> Set, Func<T, T, float, T> tweenCurve, T end, float duration)
         {
             return QTween<T>.GetTween(Get, Set, tweenCurve, end, duration).Init().Play();
         }
-        public static QTweenBase Tween<T>(Func<T> Get, Action<T> Set, Func<T, T, float, T> tweenCurve, T start, T end, float duration)
-        {
-            return QTween<T>.GetTween(Get, Set, tweenCurve, start, end, duration).Init().Play();
-        }
-        public static QTweenBase Delay(float duration)
+        public static QTween Delay(float duration)
         {
             return QTweenDelay.Get(duration).Init().Play();
         }
@@ -59,9 +55,6 @@ namespace QTool.Tween
         {
             Delay(time).OnComplete(action);
         }
-    }
-    public class QTweenManager : MonoBehaviour
-    {
         public event Action TweenUpdate;
         private void Update()
         {
