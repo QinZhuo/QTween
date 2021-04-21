@@ -101,6 +101,7 @@ namespace QTool.Tween
         {
             if (!IsPlaying) return;
             time += (ignoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) * (playForwads ?1:-1);
+            time = Mathf.Clamp(time, 0, Duration);
         }
         public abstract void UpdateValue();
         public abstract void Destory();
@@ -109,8 +110,8 @@ namespace QTool.Tween
             if (IsPlaying && !pause)
             {
                 UpdateTime();
-                CheckOver();
                 onUpdate?.Invoke(time);
+                CheckOver();
                 try
                 {
                     UpdateValue();
@@ -126,7 +127,6 @@ namespace QTool.Tween
         {
             if (lastTime != time)
             {
-          
                 if (playForwads)
                 {
                     if (lastTime <= Duration && time >= Duration)
