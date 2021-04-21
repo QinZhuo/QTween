@@ -50,7 +50,7 @@ namespace QTool.Tween
             }
         }
         public bool pause = false;
-        public bool ignoreTimeScale = false;
+        public bool ignoreTimeScale = true;
         public QTweenBase Next(QTweenBase next)
         {
             if (next == null) return this;
@@ -91,7 +91,7 @@ namespace QTool.Tween
             if (!IsPlaying)
             {
                 _isPlaying = true;
-                QTween.Instance.TweenUpdate += Update;
+                QTween.Manager.TweenUpdate += Update;
             }
             pause = false;
             return this;
@@ -179,14 +179,13 @@ namespace QTool.Tween
             pause = true;
             return this;
         }
-        private QTweenBase Stop()
+        public QTweenBase Stop()
         {
             return CurTween._Stop();
         }
-
         private QTweenBase _Stop()
         {
-            QTween.Instance.TweenUpdate-=Update;
+            QTween.Manager.TweenUpdate-=Update;
             _isPlaying = false;
             return this;
         }
