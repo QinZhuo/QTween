@@ -26,7 +26,6 @@ namespace QTool.Tween
             var dir = b - a;
             return a + dir * t;
         }
-
         public static Vector2 Lerp(Vector2 star, Vector2 end, float t)
         {
             return new Vector2(Lerp(star.x, end.x, t), Lerp(star.y, end.y, t));
@@ -43,9 +42,54 @@ namespace QTool.Tween
         {
             return Color.Lerp(star, end, t);
         }
-        public static QTween Tween<T>(Func<T> Get, Action<T> Set, Func<T, T, float, T> tweenCurve, T end, float duration)
+        public static string Lerp(string a, string b, float t)
         {
-            return QTween<T>.GetTween(Get, Set, tweenCurve, end, duration).Init().Play();
+            int index =(int)(b.Length *Mathf.Clamp01( t));
+            var str = "";
+            for (int i = 0; i < a.Length||i<=index; i++)
+            {
+                if (i <= index)
+                {
+                    str += b[i];
+                }
+                else
+                {
+                    str += a[i];
+                }
+            }
+            return str;
+        }
+        public static QTween Tween(Func<string> Get, Action<string> Set, string end, float duration)
+        {
+            return Tween(Get, Set, end, duration, Lerp);
+        }
+        public static QTween Tween(Func<float> Get, Action<float> Set, float end, float duration)
+        {
+           return Tween(Get, Set, end, duration, Lerp);
+        }
+        public static QTween Tween(Func<Vector2> Get, Action<Vector2> Set, Vector2 end, float duration)
+        {
+            return Tween(Get, Set, end, duration, Lerp);
+        }
+        public static QTween Tween(Func<Vector3> Get, Action<Vector3> Set, Vector3 end, float duration)
+        {
+            return Tween(Get, Set, end, duration, Lerp);
+        }
+        public static QTween Tween(Func<Quaternion> Get, Action<Quaternion> Set, Quaternion end, float duration)
+        {
+            return Tween(Get, Set, end, duration, Lerp);
+        }
+        public static QTween Tween(Func<Color> Get, Action<Color> Set, Color end, float duration)
+        {
+            return Tween(Get, Set, end, duration, Lerp);
+        }
+        public static QTween Tween<T>(Func<T> Get, Action<T> Set, T end, float duration,Func<T, T, float, T> ValueLerp)
+        {
+            if (QTween<T>.ValueLerp == null)
+            {
+                QTween<T>.ValueLerp = ValueLerp;
+            }
+            return QTween<T>.GetTween(Get, Set, end, duration).Init().Play();
         }
         public static QTween Delay(float duration)
         {
@@ -55,6 +99,7 @@ namespace QTool.Tween
         {
             Delay(time).OnComplete(action);
         }
+
         public event Action TweenUpdate;
         private void Update()
         {

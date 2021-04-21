@@ -104,6 +104,7 @@ namespace QTool.Tween
                 CurTween._Stop();
                
             }
+            Debug.LogError("播放"+this);
             this.playForwads = playForwads;
             StartTween._Play(playForwads);
             return this;
@@ -299,7 +300,6 @@ namespace QTool.Tween
         {
         }
     }
-
     internal class QTween<T> : QTween
     {
         static ObjectPool<QTween<T>> _pool;
@@ -313,7 +313,7 @@ namespace QTool.Tween
                     }));
             }
         }
-        public static QTween<T> GetTween(Func<T> Get, Action<T> Set, Func<T, T, float, T> tweenCurve, T end, float duration)
+        public static QTween<T> GetTween(Func<T> Get, Action<T> Set, T end, float duration)
         {
             if (Pool == null)
             {
@@ -323,17 +323,16 @@ namespace QTool.Tween
             tween.Set = Set;
             tween.Get = Get;
             tween.End = end;
-            tween.ValueCurve = tweenCurve;
             tween.Duration = duration;
             return tween;
         }
-        private QTween()
+        protected QTween()
         {
 
         }
         public T Start {  set; get; }
         public T End { private set; get; }
-        public Func<T, T, float, T> ValueCurve { private set; get; }
+        public static Func<T, T, float, T> ValueLerp;
         public Func<T> Get { private set; get; }
         public Action<T> Set { private set; get; }
         public override QTween Init()
@@ -345,7 +344,7 @@ namespace QTool.Tween
         {
             if (time >= 0 && time <= Duration)
             {
-                Set(ValueCurve(Start, End, TCurve.Invoke((time - 0) / Duration)));
+                Set(ValueLerp(Start, End, TCurve.Invoke((time - 0) / Duration)));
             }
         }
         public override void Destory()
@@ -369,70 +368,70 @@ namespace QTool.Tween
         {
             return QTweenManager.Tween(()=>transform.rotation,
             (setValue)=> { transform.rotation =setValue; },
-            QTweenManager.Lerp,Quaternion.Euler( value), duration);
+            Quaternion.Euler( value), duration);
         }
         public static QTween QLocalRotate(this Transform transform, Vector3 value, float duration)
         {
             return QTweenManager.Tween(() => transform.localRotation.eulerAngles,
             (setValue) => { transform.localRotation = Quaternion.Euler(setValue); },
-            QTweenManager.Lerp, value, duration);
+             value, duration);
         }
         public static QTween QMove(this Transform transform, Vector3 postion,float duration)
         {
             return  QTweenManager.Tween(transform.GetPosition,
             transform.SetPosition,
-            QTweenManager.Lerp, postion, duration);
+            postion, duration);
         }
         public static QTween QMoveX(this Transform transform, float value, float duration)
         {
             return QTweenManager.Tween(()=>transform.position.x,
             (setValue)=> { transform.position = new Vector3(setValue, transform.position.y, transform.position.z); },
-            QTweenManager.Lerp, value, duration);
+            value, duration);
         }
 
         public static QTween QMoveY(this Transform transform, float value, float duration)
         {
             return QTweenManager.Tween(() => transform.position.y,
             (setValue) => { transform.position = new Vector3( transform.position.x, setValue, transform.position.z); },
-            QTweenManager.Lerp, value, duration);
+            value, duration);
         }
         public static QTween QMoveZ(this Transform transform, float value, float duration)
         {
             return QTweenManager.Tween(() => transform.position.z,
             (setValue) => { transform.position = new Vector3(transform.position.x, transform.position.y, setValue); },
-            QTweenManager.Lerp, value, duration);
+            value, duration);
         }
         public static QTween QLocalMoveX(this Transform transform, float value, float duration)
         {
             return QTweenManager.Tween(() => transform.localPosition.x,
             (setValue) => { transform.localPosition = new Vector3(setValue, transform.localPosition.y, transform.localPosition.z); },
-            QTweenManager.Lerp, value, duration);
+           value, duration);
         }
 
         public static QTween QLocalMoveY(this Transform transform, float value, float duration)
         {
             return QTweenManager.Tween(() => transform.localPosition.y,
             (setValue) => { transform.localPosition = new Vector3(transform.localPosition.x, setValue, transform.localPosition.z); },
-            QTweenManager.Lerp, value, duration);
+            value, duration);
         }
         public static QTween QLocalMoveZ(this Transform transform, float value, float duration)
         {
             return QTweenManager.Tween(() => transform.localPosition.z,
             (setValue) => { transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, setValue); },
-            QTweenManager.Lerp, value, duration);
+            value, duration);
         }
 
         public static QTween QLocalMove(this Transform transform, Vector3 postion, float duration)
         {
             return QTweenManager.Tween(() => transform.localPosition,
             (pos) => { transform.localPosition = pos; },
-            QTweenManager.Lerp, postion, duration);
+             postion, duration);
         }
         public static QTween QScale(this Transform transform, Vector3 endScale, float duration)
         {
             return QTweenManager.Tween(() => transform.localScale,
             (scale) => { transform.localScale = scale; },
-            QTweenManager.Lerp, endScale, duration);
+            endScale, duration);
         }
         public static QTween QScale(this Transform transform, float endScale, float duration)
         {
@@ -445,7 +444,7 @@ namespace QTool.Tween
         {
             return QTweenManager.Tween(() => transform.anchoredPosition,
             (pos) => { transform.anchoredPosition = pos; },
-            QTweenManager.Lerp, postion, duration);
+            postion, duration);
         }
     }
     public static class MaskableGraphicExtends
@@ -455,20 +454,20 @@ namespace QTool.Tween
         {
             return QTweenManager.Tween(() => graphic.fillAmount,
             (setValue) => { graphic.fillAmount = setValue; },
-            QTweenManager.Lerp, value, duration);
+            value, duration);
         }
         public static QTween QColor(this MaskableGraphic graphic, Color endColor, float duration)
         {
             return QTweenManager.Tween(() => graphic.color,
             (color) => { graphic.color = color;},
-            QTweenManager.Lerp, endColor, duration);
+            endColor, duration);
         }
 
         public static QTween QAlpha(this MaskableGraphic graphic, float endAlpha, float duration)
         {
             return QTweenManager.Tween(() => graphic.color.a,
             (alpha) => { graphic.color =new Color(graphic.color.r,graphic.color.g,graphic.color.b,alpha); },
-            QTweenManager.Lerp, endAlpha, duration);
+            endAlpha, duration);
         }
     }
 }
