@@ -36,7 +36,7 @@ namespace QTool.Tween
             TCurve = curveFunction;
             return this;
         }
-        public float time = 0f;
+        public float time = -1f;
         public float Duration { protected set; get; }
         public bool _isPlaying=false;
         public bool autoDestory=true;
@@ -48,20 +48,6 @@ namespace QTool.Tween
                 return _isPlaying;
             }
         }
-        public QTween Start<T>(T startValue)
-        {
-            if(this is QTween<T>)
-            {
-                var tween = (this as QTween<T>);
-                tween.Start = startValue;
-                return this;
-            }
-            else
-            {
-                throw new Exception(this + "错误的起始数值[" + startValue + "]");
-            }
-        }
-        public bool pause = false;
         public bool ignoreTimeScale = true;
         public QTween Next(QTween next)
         {
@@ -75,14 +61,14 @@ namespace QTool.Tween
             this.next = next;
             next.TweenList = TweenList;
             TweenList.end = next;
-            next._Stop();
+           // next._Stop();
             next.last = this;
             return next;
         }
         public QTween next;
         public QTween last;
         public QTweenList TweenList { private set; get; }
-        public abstract QTween Init();
+      
         public QTween StartTween
         {
             get
@@ -101,10 +87,8 @@ namespace QTool.Tween
         {
             if (CurTween.IsPlaying)
             {
-                CurTween._Stop();
-               
+                CurTween._Pause();
             }
-            Debug.LogError("播放"+this);
             this.playForwads = playForwads;
             StartTween._Play(playForwads);
             return this;
@@ -112,10 +96,16 @@ namespace QTool.Tween
         private QTween _Play(bool playForwads )
         {
             this.playForwads = playForwads;
+            if (time < 0)
+            {
+                time = playForwads ? 0 : Duration;
+            }
+            
             if (TweenList != null)
             {
                 TweenList.current = this;
             }
+            Start();
             if (!_isPlaying)
             {
 
@@ -130,8 +120,11 @@ namespace QTool.Tween
                 }
               
             }
-            pause = false;
             return this;
+
+        }
+        protected virtual void Start()
+        {
 
         }
         bool UpdateTime()
@@ -146,7 +139,7 @@ namespace QTool.Tween
         public abstract void Destory();
         public void Update()
         {
-            if (IsPlaying && !pause)
+            if (IsPlaying )
             {
                 if(UpdateTime())
                 {
@@ -181,10 +174,10 @@ namespace QTool.Tween
         }
     
        
-        public void Complete()
+        public virtual void Complete()
         {
             time = playForwads ? Duration : 0;
-            UpdateValue();
+                UpdateValue();
             onComplete?.Invoke();
             _Stop();
             (playForwads ? next: last  )?._Play(playForwads);
@@ -220,20 +213,25 @@ namespace QTool.Tween
         }
         private QTween _Pause()
         {
-            pause = true;
+            if (Application.isPlaying)
+            {
+                QTweenManager.Manager.TweenUpdate -= Update;
+            }
+            _isPlaying = false;
             return this;
         }
         public QTween Stop()
         {
             return CurTween._Stop();
         }
-        private QTween _Stop()
+        protected virtual QTween _Stop()
         {
-            if (Application.isPlaying)
+
+            _Pause();
+            if (EndTween == this)
             {
-                QTweenManager.Manager.TweenUpdate -= Update;
+                time = -1;
             }
-            _isPlaying = false;
             return this;
         }
       
@@ -251,7 +249,7 @@ namespace QTool.Tween
 
         public virtual void OnPoolReset()
         {
-            time = 0;
+            time = -1;
         }
 
         public virtual void OnPoolRecover()
@@ -261,6 +259,7 @@ namespace QTool.Tween
             next = null;
             last = null;
             TweenList?.Recover();
+            TweenList = null;
         }
     }
 
@@ -289,18 +288,11 @@ namespace QTool.Tween
         {
             Pool.Push(this);
         }
-
-        public override QTween Init()
-        {
-            time = 0;
-            return this;
-        }
-
         public override void UpdateValue()
         {
         }
     }
-    internal class QTween<T> : QTween
+    public class QTween<T> : QTween
     {
         static ObjectPool<QTween<T>> _pool;
         public static ObjectPool<QTween<T>> Pool
@@ -322,31 +314,74 @@ namespace QTool.Tween
             var tween = Pool.Get();
             tween.Set = Set;
             tween.Get = Get;
-            tween.End = end;
+            tween.EndValue = end;
+            tween.runtimeEnd = end;
             tween.Duration = duration;
+            tween.ResetStart(tween.Get());
             return tween;
         }
         protected QTween()
         {
 
         }
-        public T Start {  set; get; }
-        public T End { private set; get; }
+        protected override void Start()
+        {
+            var curVallue = Get();
+            base.Start();
+            if (playForwads)
+            {
+                runtimeStart = curVallue;
+            }
+            else
+            {
+                runtimeEnd = curVallue;
+            }
+        }
+        protected override QTween _Stop()
+        {
+            if (playForwads)
+            {
+                runtimeStart = StartValue;
+            }
+            else
+            {
+                runtimeEnd = EndValue;
+            }
+            return base._Stop();
+        }
+        public override void Complete()
+        {
+            //if (playForwads)
+            //{
+            //    runtimeStart = StartValue;
+            //}
+            //else
+            //{
+            //    runtimeEnd = EndValue;
+            //}
+            base.Complete();
+        }
+        public T StartValue { private set; get; }
+        public QTween<T> ResetStart(T start)
+        {
+            StartValue=start;
+            runtimeStart = start;
+            return this;
+        }
+        T runtimeStart;
+        T runtimeEnd;
+        public T EndValue { private set; get; }
         public static Func<T, T, float, T> ValueLerp;
         public Func<T> Get { private set; get; }
         public Action<T> Set { private set; get; }
-        public override QTween Init()
-        {
-            Start = Get();
-            return this;
-        }
         public override void UpdateValue()
         {
             if (time >= 0 && time <= Duration)
             {
-                Set(ValueLerp(Start, End, TCurve.Invoke((time - 0) / Duration)));
+                Set(ValueLerp(runtimeStart, runtimeEnd, TCurve.Invoke((time - 0) / Duration)));
             }
         }
+
         public override void Destory()
         {
             Pool.Push(this);
@@ -364,83 +399,83 @@ namespace QTool.Tween
         {
             transform.position=postion;
         }
-        public static QTween QRotate(this Transform transform, Vector3 value, float duration)
+        public static QTween<Quaternion> QRotate(this Transform transform, Vector3 value, float duration)
         {
             return QTweenManager.Tween(()=>transform.rotation,
             (setValue)=> { transform.rotation =setValue; },
             Quaternion.Euler( value), duration);
         }
-        public static QTween QLocalRotate(this Transform transform, Vector3 value, float duration)
+        public static QTween<Vector3> QLocalRotate(this Transform transform, Vector3 value, float duration)
         {
             return QTweenManager.Tween(() => transform.localRotation.eulerAngles,
             (setValue) => { transform.localRotation = Quaternion.Euler(setValue); },
              value, duration);
         }
-        public static QTween QMove(this Transform transform, Vector3 postion,float duration)
+        public static QTween<Vector3> QMove(this Transform transform, Vector3 postion,float duration)
         {
             return  QTweenManager.Tween(transform.GetPosition,
             transform.SetPosition,
             postion, duration);
         }
-        public static QTween QMoveX(this Transform transform, float value, float duration)
+        public static QTween<float> QMoveX(this Transform transform, float value, float duration)
         {
             return QTweenManager.Tween(()=>transform.position.x,
             (setValue)=> { transform.position = new Vector3(setValue, transform.position.y, transform.position.z); },
             value, duration);
         }
 
-        public static QTween QMoveY(this Transform transform, float value, float duration)
+        public static QTween<float> QMoveY(this Transform transform, float value, float duration)
         {
             return QTweenManager.Tween(() => transform.position.y,
             (setValue) => { transform.position = new Vector3( transform.position.x, setValue, transform.position.z); },
             value, duration);
         }
-        public static QTween QMoveZ(this Transform transform, float value, float duration)
+        public static QTween<float> QMoveZ(this Transform transform, float value, float duration)
         {
             return QTweenManager.Tween(() => transform.position.z,
             (setValue) => { transform.position = new Vector3(transform.position.x, transform.position.y, setValue); },
             value, duration);
         }
-        public static QTween QLocalMoveX(this Transform transform, float value, float duration)
+        public static QTween<float> QLocalMoveX(this Transform transform, float value, float duration)
         {
             return QTweenManager.Tween(() => transform.localPosition.x,
             (setValue) => { transform.localPosition = new Vector3(setValue, transform.localPosition.y, transform.localPosition.z); },
            value, duration);
         }
 
-        public static QTween QLocalMoveY(this Transform transform, float value, float duration)
+        public static QTween<float> QLocalMoveY(this Transform transform, float value, float duration)
         {
             return QTweenManager.Tween(() => transform.localPosition.y,
             (setValue) => { transform.localPosition = new Vector3(transform.localPosition.x, setValue, transform.localPosition.z); },
             value, duration);
         }
-        public static QTween QLocalMoveZ(this Transform transform, float value, float duration)
+        public static QTween<float> QLocalMoveZ(this Transform transform, float value, float duration)
         {
             return QTweenManager.Tween(() => transform.localPosition.z,
             (setValue) => { transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, setValue); },
             value, duration);
         }
 
-        public static QTween QLocalMove(this Transform transform, Vector3 postion, float duration)
+        public static QTween<Vector3> QLocalMove(this Transform transform, Vector3 postion, float duration)
         {
             return QTweenManager.Tween(() => transform.localPosition,
             (pos) => { transform.localPosition = pos; },
              postion, duration);
         }
-        public static QTween QScale(this Transform transform, Vector3 endScale, float duration)
+        public static QTween<Vector3> QScale(this Transform transform, Vector3 endScale, float duration)
         {
             return QTweenManager.Tween(() => transform.localScale,
             (scale) => { transform.localScale = scale; },
             endScale, duration);
         }
-        public static QTween QScale(this Transform transform, float endScale, float duration)
+        public static QTween<Vector3> QScale(this Transform transform, float endScale, float duration)
         {
             return QScale(transform, Vector3.one * endScale, duration);
         }
     }
     public static class RectTransformExtends
     {
-        public static QTween QAnchorPosition(this RectTransform transform, Vector2 postion, float duration)
+        public static QTween<Vector2> QAnchorPosition(this RectTransform transform, Vector2 postion, float duration)
         {
             return QTweenManager.Tween(() => transform.anchoredPosition,
             (pos) => { transform.anchoredPosition = pos; },
@@ -450,20 +485,20 @@ namespace QTool.Tween
     public static class MaskableGraphicExtends
     {
 
-        public static QTween QFillAmount(this Image graphic,float value, float duration)
+        public static QTween<float> QFillAmount(this Image graphic,float value, float duration)
         {
             return QTweenManager.Tween(() => graphic.fillAmount,
             (setValue) => { graphic.fillAmount = setValue; },
             value, duration);
         }
-        public static QTween QColor(this MaskableGraphic graphic, Color endColor, float duration)
+        public static QTween<Color> QColor(this MaskableGraphic graphic, Color endColor, float duration)
         {
             return QTweenManager.Tween(() => graphic.color,
             (color) => { graphic.color = color;},
             endColor, duration);
         }
 
-        public static QTween QAlpha(this MaskableGraphic graphic, float endAlpha, float duration)
+        public static QTween<float> QAlpha(this MaskableGraphic graphic, float endAlpha, float duration)
         {
             return QTweenManager.Tween(() => graphic.color.a,
             (alpha) => { graphic.color =new Color(graphic.color.r,graphic.color.g,graphic.color.b,alpha); },

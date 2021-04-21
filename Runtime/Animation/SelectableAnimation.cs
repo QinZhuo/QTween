@@ -8,43 +8,49 @@ using UnityEngine.Serialization;
 
 namespace QTool.Tween.Component
 {
-    //public class TweenRef
-    //{
-    //    AnimRef anim = new AnimRef();
-    //    QTweenBehavior _tween;
-    //    public QTweenBehavior Tween
-    //    {
-    //        get
-    //        {
-    //            return _tween;
-    //        }
-    //        set
-    //        {
-    //            if (value != _tween)
-    //            {
-    //                _tween?.Complete();
-    //                _tween = value;
-    //            }
-    //            anim.Anim = _tween.CurAnim;
-    //        }
-    //    }
-    //}
-    public class SelectableAnimation : Selectable, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler, IPointerDownHandler, IPointerUpHandler
+    public class QTweenPlayer
     {
-        Selectable ui
+        public QTweenBehavior CurTween { get;private set; }
+        public void Show(QTweenBehavior newTween)
         {
-            get
+            Play(newTween, true);
+        }
+        public void Hide(QTweenBehavior newTween)
+        {
+            Play(newTween, false);
+        }
+        public void Play(QTweenBehavior newTween,bool show)
+        {
+            if (newTween == null) return;
+            if (CurTween != null)
             {
-                return this;
+                CurTween.Complete();
             }
+            CurTween = newTween;
+            newTween.Play(show);
+        }
+    }
+    [RequireComponent(typeof(Selectable))]
+    public class SelectableAnimation : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler, IPointerDownHandler, IPointerUpHandler
+    {
+        [HideInInspector]
+        public Selectable selectable;
+        private void Reset()
+        {
+            selectable = GetComponent<Selectable>();
         }
         public UnityEvent onSelect = new UnityEvent();
-        [FormerlySerializedAs("selectAnim")]
         public QTweenBehavior enterAnim;
         public QTweenBehavior selectAnim;
         public QTweenBehavior downAnim;
-        //TweenRef CurAnim = new TweenRef();
-
+        public QTweenPlayer qTweenPlayer = new QTweenPlayer();
+        private void Awake()
+        {
+            if (selectable == null)
+            {
+                selectable = GetComponent<Selectable>();
+            }
+        }
         public bool SelectThis
         {
             get
@@ -52,74 +58,48 @@ namespace QTool.Tween.Component
                 return EventSystem.current.currentSelectedGameObject == gameObject;
             }
         }
-        public override void OnPointerEnter(PointerEventData eventData)
+        public bool Interactable
         {
-            if (!interactable) return;
-            if (enterAnim != null)
+            get
             {
-                enterAnim.Show();
-            //    CurAnim.Tween = enterAnim;
+                return selectable.interactable;
             }
         }
-        public override void OnPointerExit(PointerEventData eventData)
+        public  void OnPointerEnter(PointerEventData eventData)
         {
-            if (downAnim != null
-                // &&  CurAnim != null && CurAnim.Tween == downAnim
-                )
-            {
-                downAnim.Hide();
-                downAnim.Complete();
-            }
-            if (enterAnim != null)
-            {
-                enterAnim?.Hide();
-           //     CurAnim.Tween = enterAnim;
-            }
-
-
+            if (!Interactable) return;
+            qTweenPlayer.Show( enterAnim);
+        }
+        public  void OnPointerExit(PointerEventData eventData)
+        {
+            qTweenPlayer.Hide(downAnim);
+            qTweenPlayer.Hide( enterAnim);
         }
 
 
-        public override void OnSelect(BaseEventData eventData)
+        public  void OnSelect(BaseEventData eventData)
         {
-            if (!interactable) return;
+            if (!Interactable) return;
             onSelect?.Invoke();
-            if (selectAnim != null)
-            {
-                selectAnim.Show();
-        //        CurAnim.Tween = selectAnim;
-            }
+            qTweenPlayer.Show(selectAnim);
 
         }
 
-        public override void OnDeselect(BaseEventData eventData)
+        public  void OnDeselect(BaseEventData eventData)
         {
-            if (selectAnim != null)
-            {
-                selectAnim?.Hide();
-      //          CurAnim.Tween = selectAnim;
-            }
+            qTweenPlayer.Hide(selectAnim);
         }
 
-        public override void OnPointerDown(PointerEventData eventData)
+        public  void OnPointerDown(PointerEventData eventData)
         {
-            if (!IsInteractable()) return;
-            if (downAnim != null)
-            {
-                downAnim.Show();
-       //         CurAnim.Tween = downAnim;
-            }
-
+            if (!Interactable) return;
+            qTweenPlayer.Show(downAnim);
         }
 
-        public override void OnPointerUp(PointerEventData eventData)
+        public  void OnPointerUp(PointerEventData eventData)
         {
-            if (!IsInteractable()) return;
-            if (downAnim != null)
-            {
-                downAnim.Hide();
-       //         CurAnim.Tween = downAnim;
-            }
+            if (!Interactable) return;
+            qTweenPlayer.Hide(downAnim);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace QTool.Tween.Component
         protected override QTween ShowTween()
         {
 
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, HideValue, animTime);
+            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, ShowValue, showTime).ResetStart(HideValue);
         }
     }
     public abstract class QTweenVector2 : QTweenBehavior<Vector2>
@@ -17,35 +17,35 @@ namespace QTool.Tween.Component
         protected override QTween ShowTween()
         {
 
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, HideValue, animTime);
+            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, ShowValue, showTime).ResetStart(HideValue);
         }
     }
     public abstract class QTweenVector3 : QTweenBehavior<Vector3>
     {
         protected override QTween ShowTween()
         {
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, HideValue, animTime);
+            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, ShowValue, showTime).ResetStart(HideValue);
         }
     }
     public abstract class QTweenFloat : QTweenBehavior<float>
     {
         protected override QTween ShowTween()
         {
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, HideValue, animTime);
+            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, ShowValue, showTime).ResetStart(HideValue);
         }
     }
     public abstract class QTweenColor : QTweenBehavior<Color>
     {
         protected override QTween ShowTween()
         {
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, HideValue, animTime);
+            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, ShowValue, showTime).ResetStart(HideValue);
         }
     }
     public abstract class QTweenQuaternion : QTweenBehavior<Quaternion>
     {
         protected override QTween ShowTween()
         {
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, HideValue, animTime);
+            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, ShowValue, showTime).ResetStart(HideValue);
         }
     }
     public abstract class QTweenBehavior<T> : QTweenBehavior
@@ -73,26 +73,37 @@ namespace QTool.Tween.Component
     public abstract class QTweenBehavior : MonoBehaviour
     {
         public EaseCurve curve = EaseCurve.OutQuad;
-        public float animTime = 0.2f;
-        public float hideTime = 0.2f;
+        [FormerlySerializedAs("animTime")]
+        public float showTime = 0.4f;
+        public float hideTime = 0.4f;
         protected abstract QTween ShowTween();
-        public QTweenBehavior nextUIShow;
-        public List<QTweenBehavior> uiShowList = new List<QTweenBehavior>();
+        [FormerlySerializedAs("nextUIShow")]
+        public QTweenBehavior nextTween;
+        [FormerlySerializedAs("uiShowList")]
+        public List<QTweenBehavior> startTweenList = new List<QTweenBehavior>();
 
+        public ActionEvent OnShow;
+        public ActionEvent OnHide;
         QTween _anim;
         public QTween Anim
         {
             get
             {
-                return _anim ?? (_anim = ShowTween().SetCurve(curve));
+                if (_anim == null)
+                {
+                    _anim = ShowTween().SetCurve(curve).AutoDestory(false);
+                    if (nextTween != null)
+                    {
+                        _anim.Next(nextTween.Anim);
+                    }
+                }
+                return _anim;  
             }
         }
         public void Play(bool show)
         {
             Anim.Play(show);
         }
-        public ActionEvent OnShow;
-        public ActionEvent OnHide;
         [ContextMenu("隐藏")]
         public void Hide()
         {
@@ -105,12 +116,13 @@ namespace QTool.Tween.Component
         }
         public void Complete()
         {
-            Anim.Complete();
+            Anim.Stop();
+            //Anim.Complete(false);
         }
-        private void OnDrawGizmos()
-        {
-            Gizmos.DrawIcon(transform.position, "UIAnimationIcon");
-        }
+        //private void OnDrawGizmos()
+        //{
+        //    Gizmos.DrawIcon(transform.position, "UIAnimationIcon");
+        //}
     }
 
     public class UIPosAnimation : QTweenVector2
