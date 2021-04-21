@@ -25,7 +25,7 @@ namespace QTool.Tween
             {
             }
         }
-        public Func<float, float> TCurve = TweenAnimationCurve.Linear;
+        public Func<float, float> TCurve = Curve.Quad.Out();
         public QTweenBase SetCurve(EaseCurve ease)
         {
             TCurve = Curve.GetEaseFunc(ease);
@@ -111,7 +111,15 @@ namespace QTool.Tween
                 UpdateTime();
                 CheckOver();
                 onUpdate?.Invoke(time);
-                UpdateValue();
+                try
+                {
+                    UpdateValue();
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("【QTween】更新数值出错："+e);
+                }
+              
             }
         }
         public virtual void CheckOver()
@@ -403,6 +411,10 @@ namespace QTool.Tween
             return QTween.Tween(() => transform.localScale,
             (scale) => { transform.localScale = scale; },
             QTween.Lerp, endScale, duration);
+        }
+        public static QTweenBase QScale(this Transform transform, float endScale, float duration)
+        {
+            return QScale(transform, Vector3.one * endScale, duration);
         }
     }
     public static class RectTransformExtends

@@ -186,12 +186,12 @@ namespace QTool.Tween
         {
             get
             {
-                return CurveTool.Out( TweenAnimationCurve.Bounce);
+                return TweenAnimationCurve.Out( TweenAnimationCurve.Bounce);
             }
         }
     }
  
-    public static class CurveTool
+    static class TweenAnimationCurve
     {
         public static Func<float, float> Out(this Func<float, float> InFunc)
         {
@@ -215,9 +215,6 @@ namespace QTool.Tween
                 }
             };
         }
-    }
-    static class TweenAnimationCurve
-    {
         static float temp1 = 1.70158f;
         static float d1 = 2.75f;
         static float temp2 = 7.5625f;
