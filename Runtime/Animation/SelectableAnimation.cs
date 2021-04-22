@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using static UnityEngine.UI.Selectable;
 
 namespace QTool.Tween.Component
 {
@@ -35,16 +36,23 @@ namespace QTool.Tween.Component
     {
         [HideInInspector]
         public Selectable selectable;
-        private void Reset()
+#if UNITY_EDITOR
+        protected void Reset()
         {
             selectable = GetComponent<Selectable>();
+            selectable.transition = Transition.None;
+            selectable.navigation = new UnityEngine.UI.Navigation
+            {
+                mode = UnityEngine.UI.Navigation.Mode.None
+            };
         }
-        public UnityEvent onSelect = new UnityEvent();
+#endif
         public QTweenBehavior enterAnim;
         public QTweenBehavior selectAnim;
         public QTweenBehavior downAnim;
+        public QTweenBehavior InteractableAnim;
         public QTweenState qTweenPlayer = new QTweenState();
-        private void Awake()
+        protected void Awake()
         {
             if (selectable == null)
             {
@@ -80,7 +88,6 @@ namespace QTool.Tween.Component
         public  void OnSelect(BaseEventData eventData)
         {
             if (!Interactable) return;
-            onSelect?.Invoke();
             qTweenPlayer.Show(selectAnim);
 
         }
