@@ -4,9 +4,129 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using QTool;
+using UnityEngine.Serialization;
+
 namespace QTool.Tween
 {
-   
+    public abstract class QTweenString : QTweenBehavior<string>
+    {
+        protected override QTween ShowTween()
+        {
+
+            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, ShowValue, AnimTime).ResetStart(HideValue);
+        }
+    }
+    public abstract class QTweenVector2 : QTweenBehavior<Vector2>
+    {
+        protected override QTween ShowTween()
+        {
+
+            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, ShowValue, AnimTime).ResetStart(HideValue);
+        }
+    }
+    public abstract class QTweenVector3 : QTweenBehavior<Vector3>
+    {
+        protected override QTween ShowTween()
+        {
+            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, ShowValue, AnimTime).ResetStart(HideValue);
+        }
+    }
+    public abstract class QTweenFloat : QTweenBehavior<float>
+    {
+        protected override QTween ShowTween()
+        {
+            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, ShowValue, AnimTime).ResetStart(HideValue);
+        }
+    }
+    public abstract class QTweenColor : QTweenBehavior<Color>
+    {
+        protected override QTween ShowTween()
+        {
+            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, ShowValue, AnimTime).ResetStart(HideValue);
+        }
+    }
+    public abstract class QTweenQuaternion : QTweenBehavior<Quaternion>
+    {
+        protected override QTween ShowTween()
+        {
+            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, ShowValue, AnimTime).ResetStart(HideValue);
+        }
+    }
+    public abstract class QTweenBehavior<T> : QTweenBehavior
+    {
+        private void Reset()
+        {
+            ShowValue = CurValue;
+            HideValue = CurValue;
+        }
+        RectTransform _rect;
+        public RectTransform RectTransform
+        {
+            get
+            {
+                return _rect ?? (_rect.GetComponent<RectTransform>());
+            }
+        }
+        public T ShowValue;
+        public T HideValue;
+        public abstract T CurValue { get; set; }
+        public virtual QTween ChangeFunc(T value, float time)
+        {
+            CurValue = value;
+
+            Debug.Log("Value:" + CurValue);
+            return null;
+        }
+
+    }
+    public abstract class QTweenBehavior : MonoBehaviour
+    {
+        public EaseCurve curve = EaseCurve.OutQuad;
+        [FormerlySerializedAs("animTime")]
+        public float AnimTime = 0.4f;
+        public float hideTime = 0.4f;
+        protected abstract QTween ShowTween();
+        public ActionEvent OnShow;
+        public ActionEvent OnHide;
+        QTween _anim;
+        public QTween Anim
+        {
+            get
+            {
+                if (_anim == null)
+                {
+                    _anim = ShowTween().SetCurve(curve).OnComplete(AnimOver);
+                    _anim.AutoDestory = false;
+                }
+                return _anim;
+            }
+        }
+        void AnimOver()
+        {
+            if (Anim.PlayForwads)
+            {
+                OnShow?.Invoke();
+            }
+            else
+            {
+                OnHide?.Invoke();
+            }
+        }
+        public void Play(bool show)
+        {
+            Anim.Play(show);
+        }
+        [ContextMenu("隐藏")]
+        public void Hide()
+        {
+            Play(false);
+        }
+        [ContextMenu("显示")]
+        public void Show()
+        {
+            Play(true);
+        }
+    }
     public class QTweenList :QTween
     {
         static ObjectPool<QTweenList> _pool;
