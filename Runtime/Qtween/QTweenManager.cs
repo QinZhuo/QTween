@@ -59,6 +59,10 @@ namespace QTool.Tween
             }
             return str;
         }
+        public static QTweenList TweenList()
+        {
+            return QTweenList.Get();
+        }
         public static QTween<string> Tween(Func<string> Get, Action<string> Set, string end, float duration)
         {
             return Tween(Get, Set, end, duration, Lerp);

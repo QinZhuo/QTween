@@ -57,8 +57,8 @@ public class Test : MonoBehaviour
         //}
         if (tween == null)
         {
-            tween = cube.transform.QMove( new Vector3(0, 3, 0) , 1).ResetStart(Vector3.zero).AutoDestory(false)
-                    .Next(cube.transform.QRotate(new Vector3(70, 167, 34) , 1).ResetStart(Quaternion.identity)).AutoDestory(false).Play(to);
+            tween =QTweenList.Get().AddLast(  cube.transform.QMove( new Vector3(0, 3, 0) , 1).ResetStart(Vector3.zero))
+                    .AddLast(cube.transform.QRotate(new Vector3(70, 167, 34) , 1).ResetStart(Quaternion.identity)).Play(to);
         }
         else
         {

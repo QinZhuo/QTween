@@ -8,23 +8,23 @@ using UnityEngine.Serialization;
 
 namespace QTool.Tween.Component
 {
-    public class QTweenPlayer
+    public class QTweenState
     {
-        public QTweenBehavior CurTween { get;private set; }
+        public QTween CurTween { get;private set; }
         public void Show(QTweenBehavior newTween)
         {
-            Play(newTween, true);
+            Play(newTween?.Anim, true);
         }
         public void Hide(QTweenBehavior newTween)
         {
-            Play(newTween, false);
+            Play(newTween?.Anim, false);
         }
-        public void Play(QTweenBehavior newTween,bool show)
+        public void Play(QTween newTween,bool show)
         {
             if (newTween == null) return;
-            if (CurTween != null)
+            if (CurTween != null&&CurTween.IsPlaying&&!CurTween.PlayForwads)
             {
-                CurTween.Complete();
+                CurTween.Stop();
             }
             CurTween = newTween;
             newTween.Play(show);
@@ -43,7 +43,7 @@ namespace QTool.Tween.Component
         public QTweenBehavior enterAnim;
         public QTweenBehavior selectAnim;
         public QTweenBehavior downAnim;
-        public QTweenPlayer qTweenPlayer = new QTweenPlayer();
+        public QTweenState qTweenPlayer = new QTweenState();
         private void Awake()
         {
             if (selectable == null)
