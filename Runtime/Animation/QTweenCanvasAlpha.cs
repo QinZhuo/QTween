@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace QTool.Tween.Component
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class UIAlphaAnimation : QTweenFloat
+    public class QTweenCanvasAlpha : QTweenFloat
     {
         public CanvasGroup group;
         private void Reset()

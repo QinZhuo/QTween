@@ -6,7 +6,7 @@ using System;
 namespace QTool.Tween.Component
 {
     [RequireComponent(typeof(Text))]
-    public class FloatText : QTweenFloat
+    public class QFloatText : QTweenFloat
     {
         public Text Text
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 namespace QTool.Tween.Component
 {
-    public class UIStringAnimation : QTweenString
+    public class QTweenText : QTweenString
     {
         private void Reset()
         {

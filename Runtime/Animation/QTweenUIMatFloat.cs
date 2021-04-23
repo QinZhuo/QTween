@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace QTool.Tween.Component
 {
-    public class UIMatFloatAnimation :QTweenFloat
+    public class QTweenUIMatFloat : QTweenFloat
     {
         Material _mat;
         Material Mat

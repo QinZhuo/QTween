@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 namespace QTool.Tween.Component
 {
-    public class UIRotationAnimation :QTweenQuaternion
+    public class QTweenUIRotation : QTweenQuaternion
     {
         public override Quaternion CurValue { get => RectTransform.rotation; set => RectTransform.rotation = value; }
     }

@@ -6,7 +6,7 @@ namespace QTool.Tween.Component
 {
    
 
-    public class UIPosAnimation : QTweenVector2
+    public class QTweenUIPos : QTweenVector2
     {
         public override Vector2 CurValue { get => RectTransform.anchoredPosition; set => RectTransform.anchoredPosition = value; }
     }

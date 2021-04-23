@@ -54,7 +54,15 @@ namespace QTool.Tween
     }
     public abstract class QTweenBehavior<T> : QTweenBehavior
     {
-        private void Reset()
+        public EaseCurve curve = EaseCurve.OutQuad;
+        [FormerlySerializedAs("animTime")]
+        public float animTime = 0.4f;
+        public float hideTime = 0.4f;
+        [FormerlySerializedAs("HideValue")]
+        public T StartValue;
+        [FormerlySerializedAs("ShowValue")]
+        public T EndValue;
+        protected virtual void Reset()
         {
             EndValue = CurValue;
             StartValue = CurValue;
@@ -67,27 +75,24 @@ namespace QTool.Tween
                 return _rect ?? (gameObject.GetComponent<RectTransform>());
             }
         }
-        [FormerlySerializedAs("HideValue")]
-        public T StartValue;
-        [FormerlySerializedAs("ShowValue")]
-        public T EndValue;
         public abstract T CurValue { get; set; }
         public virtual QTween ChangeFunc(T value, float time)
         {
             CurValue = value;
             return null;
         }
+        protected override QTween TweenInit(QTween tween)
+        {
+            return base.TweenInit(tween).SetCurve(curve);
+        }
 
     }
     public abstract class QTweenBehavior : MonoBehaviour
     {
-        public EaseCurve curve = EaseCurve.OutQuad;
-        [FormerlySerializedAs("animTime")]
-        public float animTime = 0.4f;
-        public float hideTime = 0.4f;
-        protected abstract QTween ShowTween();
+
         public ActionEvent OnShow;
         public ActionEvent OnHide;
+        protected abstract QTween ShowTween();
         QTween _anim;
         public QTween Anim
         {
@@ -95,11 +100,14 @@ namespace QTool.Tween
             {
                 if (_anim == null)
                 {
-                    _anim = ShowTween().SetCurve(curve).OnComplete(AnimOver);
-                    _anim.AutoDestory = false;
+                    _anim = TweenInit(ShowTween());
                 }
                 return _anim;
             }
+        }
+        protected virtual QTween TweenInit(QTween tween)
+        {
+            return tween.OnComplete(AnimOver).AutoDestory(false);
         }
         void AnimOver()
         {

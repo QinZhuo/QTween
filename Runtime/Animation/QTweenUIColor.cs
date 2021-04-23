@@ -4,14 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace QTool.Tween.Component
 {
-    public class UIColorAnimation :QTweenColor
+    public class QTweenUIColor : QTweenColor
     {
-        private void Reset()
+        protected override void Reset()
         {
             if (ui == null)
             {
                 ui = GetComponent<MaskableGraphic>();
             }
+            base.Reset();
         }
         public override Color CurValue
         {

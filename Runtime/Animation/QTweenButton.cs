@@ -32,7 +32,7 @@ namespace QTool.Tween.Component
         }
     }
     [RequireComponent(typeof(Selectable))]
-    public class SelectableAnimation : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler, IPointerDownHandler, IPointerUpHandler
+    public class QTweenButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler, IPointerDownHandler, IPointerUpHandler
     {
         [HideInInspector]
         public Selectable selectable;
