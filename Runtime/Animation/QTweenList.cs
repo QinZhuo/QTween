@@ -6,6 +6,15 @@ namespace QTool.Tween.Component
     public class QTweenList : QTweenBehavior
     {
         public List<QTweenBehavior> tweenList = new List<QTweenBehavior>();
+
+        public override void ReverseStartEnd()
+        {
+            foreach (var item in tweenList)
+            {
+                item.ReverseStartEnd();
+            }
+        }
+
         protected override QTween ShowTween()
         {
 

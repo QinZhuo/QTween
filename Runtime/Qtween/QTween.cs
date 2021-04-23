@@ -67,8 +67,8 @@ namespace QTool.Tween
             EndValue = CurValue;
             StartValue = CurValue;
         }
-        [ContextMenu("动画起止反向")]
-        public void Reverse()
+        
+        public override void ReverseStartEnd()
         {
             var temp = EndValue;
             EndValue = StartValue;
@@ -117,6 +117,15 @@ namespace QTool.Tween
                 }
                 return _anim;
             }
+        }
+        [ContextMenu("动画起止反向")]
+        public void Reverse()
+        {
+            ReverseStartEnd();
+        }
+        public virtual void ReverseStartEnd()
+        {
+
         }
         private void OnValidate()
         {
