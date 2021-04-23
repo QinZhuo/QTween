@@ -8,12 +8,13 @@ namespace QTool.Tween.Component
     public class QTweenCanvasAlpha : QTweenFloat
     {
         public CanvasGroup group;
-        private void Reset()
+        protected override void Reset()
         {
             if (group == null)
             {
                 group = GetComponent<CanvasGroup>();
             }
+            base.Reset();
         }
         public override float CurValue
         {

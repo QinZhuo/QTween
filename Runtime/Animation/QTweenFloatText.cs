@@ -6,7 +6,7 @@ using System;
 namespace QTool.Tween.Component
 {
     [RequireComponent(typeof(Text))]
-    public class QFloatText : QTweenFloat
+    public class QTweenFloatText : QTweenFloat
     {
         public Text Text
         {
@@ -24,9 +24,10 @@ namespace QTool.Tween.Component
         public Text _text;
         private float curValue = 0;
         public float TargetValue;
-        private void Reset()
+        protected override void Reset()
         {
             _text = GetComponent<Text>();
+            base.Reset();
         }
         public void SetFloat(float value)
         {
