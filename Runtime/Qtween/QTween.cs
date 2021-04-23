@@ -265,8 +265,9 @@ namespace QTool.Tween
             tween.OnStartEvent -= SyncPlay;
             while (NextNode != null && NextNode.Value.type == TweenListType.同时播放)
             {
-                NextNode.Value.tween?.Play(PlayForwads);
+                var  tempTween = NextNode.Value.tween;
                 Next();
+                tempTween?.Play(PlayForwads);
             }
         }
         public void NextPlay()
