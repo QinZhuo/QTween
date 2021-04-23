@@ -73,7 +73,7 @@ namespace QTool.Tween.Component
                 return selectable.interactable;
             }
         }
-        public  void OnPointerEnter(PointerEventData eventData)
+        public void OnPointerEnter(PointerEventData eventData)
         {
             if (!Interactable) return;
             qTweenPlayer.Show( enterAnim);

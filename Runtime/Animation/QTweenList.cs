@@ -19,7 +19,7 @@ namespace QTool.Tween.Component
             }
             public void FreshName()
             {
-                name = qTween.name+"."+qTween;
+                name = qTween?.name+"."+qTween;
             }
         }
         public List<QTweenlistNode> tweenList = new List<QTweenlistNode>();
@@ -27,7 +27,15 @@ namespace QTool.Tween.Component
         {
             foreach (var item in tweenList)
             {
-                item.qTween.ReverseStartEnd();
+                item.qTween?.ReverseStartEnd();
+            }
+        }
+        public override void ClearAnim()
+        {
+            base.ClearAnim();
+            foreach (var tween in tweenList)
+            {
+                tween.qTween?.ClearAnim();
             }
         }
         protected override void OnValidate()
@@ -43,6 +51,7 @@ namespace QTool.Tween.Component
             var list = QTool.Tween.QTweenList.Get();
             foreach (var tween in tweenList)
             {
+                if (tween.qTween == null) continue;
                 list.AddLast(tween.qTween.Anim,tween.type);
             }
             return list;

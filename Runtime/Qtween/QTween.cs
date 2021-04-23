@@ -132,15 +132,20 @@ namespace QTool.Tween
         public void Reverse()
         {
             ReverseStartEnd();
-            _anim = null;
+            ClearAnim();
         }
         public virtual void ReverseStartEnd()
         {
 
         }
+        [ContextMenu("清除动画缓存")]
+        public virtual void ClearAnim()
+        {
+            _anim = null;
+        }
         protected virtual void OnValidate()
         {
-            _anim=null;
+            ClearAnim();
         }
         protected virtual QTween TweenInit(QTween tween)
         {
