@@ -1298,12 +1298,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectable: {fileID: 0}
-  onSelect:
-    m_PersistentCalls:
-      m_Calls: []
   enterAnim: {fileID: 836658327}
   selectAnim: {fileID: 0}
   downAnim: {fileID: 836658329}
+  InteractableAnim: {fileID: 0}
 --- !u!114 &836658329
 MonoBehaviour:
   m_ObjectHideFlags: 0

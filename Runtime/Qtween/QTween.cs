@@ -64,7 +64,7 @@ namespace QTool.Tween
         {
             get
             {
-                return _rect ?? (_rect.GetComponent<RectTransform>());
+                return _rect ?? (gameObject.GetComponent<RectTransform>());
             }
         }
         public T ShowValue;
