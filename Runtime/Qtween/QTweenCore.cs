@@ -35,7 +35,7 @@ namespace QTool.Tween
             return this;
         }
         public float time = -1f;
-        public bool AutoDestory { set; get; } = false;
+        public bool AutoDestory { set; get; } = true;
         private bool _isPlaying = false;
         public bool IsPlaying
         {
@@ -114,15 +114,8 @@ namespace QTool.Tween
             {
                 if (UpdateTime())
                 {
-                    try
-                    {
-                        OnUpdateEvent?.Invoke(time);
-                        UpdateValue();
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogWarning("【QTween】更新数值出错：" + e);
-                    }
+                    OnUpdateEvent?.Invoke(time);
+                    UpdateValue();
                 }
             }
         }
@@ -155,7 +148,6 @@ namespace QTool.Tween
             {
                 Destory();
             }
-
         }
 
        

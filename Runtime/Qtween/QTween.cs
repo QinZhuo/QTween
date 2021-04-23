@@ -407,7 +407,15 @@ namespace QTool.Tween
         {
             if (time >= 0 && time <= Duration)
             {
-                Set(ValueLerp(runtimeStart, runtimeEnd, TCurve.Invoke((time - 0) / Duration)));
+                try
+                {
+                    Set(ValueLerp(runtimeStart, runtimeEnd, TCurve.Invoke((time - 0) / Duration)));
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("【QTween】更新数值出错：" + e);
+                }
+               
             }
         }
 
