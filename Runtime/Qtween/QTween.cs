@@ -105,6 +105,10 @@ namespace QTool.Tween
                 return _anim;
             }
         }
+        private void OnValidate()
+        {
+            _anim=null;
+        }
         protected virtual QTween TweenInit(QTween tween)
         {
             return tween.OnComplete(AnimOver).AutoDestory(false);
@@ -166,13 +170,13 @@ namespace QTool.Tween
         }
         public override QTween Play(bool playForwads = true)
         {
-
+            var tween= base.Play(playForwads);
             if (CurNode == null)
             {
                 CurNode = playForwads ? tweenList.First : tweenList.Last;
             }
             CurNode?.Value.OnComplete(Next).Play(playForwads);
-            return base.Play(playForwads);
+            return tween;
         }
         public void Next()
         {
@@ -265,7 +269,7 @@ namespace QTool.Tween
         protected override void Start()
         {
             base.Start();
-            if (!IsPlaying)
+            if (Application.isPlaying&& !IsPlaying)
             {
                 var curVallue = Get();
                 if (PlayForwads)
