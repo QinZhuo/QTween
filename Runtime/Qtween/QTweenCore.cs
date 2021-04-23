@@ -170,6 +170,7 @@ namespace QTool.Tween
             OnCompleteEvent = null;
             OnUpdateEvent = null;
             OnStopEvent = null;
+            OnStartEvent = null;
             IsPlaying = false;
         }
     }
