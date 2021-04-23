@@ -1401,7 +1401,7 @@ RectTransform:
   m_GameObject: {fileID: 864485359}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 0}
   m_Children:
   - {fileID: 429325218}
   m_Father: {fileID: 531520165}
@@ -1516,7 +1516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1585,15 +1585,15 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   tweenList:
-  - name: "Button.\u5927\u5C0F (0.5, 0.5) => (2.0, 2.0)"
-    qTween: {fileID: 864485361}
-    type: 2
-  - name: "Button.\u989C\u8272 FFFFFFFF => FF0000FF"
-    qTween: {fileID: 864485365}
-    type: 2
   - name: "Image.\u52A8\u753B\u5217\u8868[2]0.8"
     qTween: {fileID: 1096840115}
-    type: 2
+    type: 1
+  - name: "Button.\u989C\u8272 FFFFFFFF => FF0000FF"
+    qTween: {fileID: 864485365}
+    type: 1
+  - name: "Button.\u5927\u5C0F (0.5, 0.5) => (2.0, 2.0)"
+    qTween: {fileID: 864485361}
+    type: 1
 --- !u!1 &1096840109
 GameObject:
   m_ObjectHideFlags: 0
@@ -1624,7 +1624,7 @@ RectTransform:
   m_GameObject: {fileID: 1096840109}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 531520165}
   m_RootOrder: 6
@@ -1670,7 +1670,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.97164285, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1741,10 +1741,10 @@ MonoBehaviour:
   tweenList:
   - name: "Image.\u5927\u5C0F (0.5, 0.5) => (1.0, 1.0)"
     qTween: {fileID: 1096840111}
-    type: 2
+    type: 1
   - name: "Image.\u989C\u8272 FFFFFFFF => FFF800FF"
     qTween: {fileID: 1096840114}
-    type: 2
+    type: 1
 --- !u!1 &1111290911
 GameObject:
   m_ObjectHideFlags: 0
