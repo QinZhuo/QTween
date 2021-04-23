@@ -28,6 +28,10 @@ namespace QTool.Tween.Component
                 ui = GetComponent<MaskableGraphic>();
             }
         }
+        public override string ToString()
+        {
+            return "颜色 "+ base.ToString();
+        }
     }
 
 }

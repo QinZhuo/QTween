@@ -15,6 +15,7 @@ namespace QTool.Tween
         }
         public event Action OnCompleteEvent;
         public event Action OnStopEvent;
+        public event Action OnStartEvent;
         public event Action<float> OnUpdateEvent;
         public QTween Stop()
         {
@@ -95,7 +96,7 @@ namespace QTool.Tween
         }
         protected virtual void Start()
         {
-
+            OnStartEvent?.Invoke();
         }
         bool UpdateTime()
         {

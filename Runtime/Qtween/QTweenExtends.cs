@@ -8,6 +8,16 @@ namespace QTool.Tween
 {
     public static class QTweenExtends
     {
+        public static QTween OnStart(this QTween tween, Action action)
+        {
+            tween.OnStartEvent += action;
+            return tween;
+        }
+        public static QTween OnStop(this QTween tween, Action action)
+        {
+            tween.OnStopEvent += action;
+            return tween;
+        }
         public static QTween OnComplete(this QTween tween, Action action)
         {
             tween.OnCompleteEvent += action;

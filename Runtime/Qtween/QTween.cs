@@ -20,7 +20,6 @@ namespace QTool.Tween
     {
         protected override QTween ShowTween()
         {
-
             return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, EndValue, animTime).ResetStart(StartValue);
         }
     }
@@ -43,6 +42,14 @@ namespace QTool.Tween
         protected override QTween ShowTween()
         {
             return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, EndValue, animTime).ResetStart(StartValue);
+        }
+        public override string ToString()
+        {
+            return ToViewString(StartValue) + " => " + ToViewString(EndValue);
+        }
+        public static string ToViewString(Color color)
+        {
+            return ColorUtility.ToHtmlStringRGBA(color);
         }
     }
     public abstract class QTweenQuaternion : QTweenBehavior<Quaternion>
@@ -67,7 +74,10 @@ namespace QTool.Tween
             EndValue = CurValue;
             StartValue = CurValue;
         }
-        
+        public override string ToString()
+        {
+            return StartValue + " => " + EndValue;
+        }
         public override void ReverseStartEnd()
         {
             var temp = EndValue;
@@ -128,7 +138,7 @@ namespace QTool.Tween
         {
 
         }
-        private void OnValidate()
+        protected virtual void OnValidate()
         {
             _anim=null;
         }
@@ -180,34 +190,92 @@ namespace QTool.Tween
             var tween = Pool.Get();
             return tween;
         }
-
-        public LinkedList<QTween> tweenList = new LinkedList<QTween>();
-
-        LinkedListNode<QTween> CurNode;
-        public QTweenList AddLast(QTween tween)
+        public enum TweenListType
         {
-            
-            tweenList.AddLast(tween);
+            同时播放 = 1,
+            顺序播放 = 2,
+        }
+        public class TweenListNode 
+        {
+            public TweenListType type = TweenListType.同时播放;
+            public QTween tween;
+            public TweenListNode(QTween tween,TweenListType type= TweenListType.同时播放)
+            {
+                this.tween = tween;
+                this.type = type;
+            }
+        }
+        public LinkedList<TweenListNode> tweenList = new LinkedList<TweenListNode>();
+
+        LinkedListNode<TweenListNode> _curNode;
+        LinkedListNode<TweenListNode> CurNode
+        {
+            get
+            {
+                if (_curNode == null)
+                {
+                    return PlayForwads ? tweenList.First : tweenList.Last;
+                }
+                return _curNode;
+            }
+            set
+            {
+                _curNode = value;
+            }
+        }
+        LinkedListNode<TweenListNode> NextNode
+        {
+            get
+            {
+                if (CurNode == null) return null;
+                return PlayForwads ? CurNode.Next : CurNode.Previous;
+            }
+        }
+        public void Next()
+        {
+            CurNode = NextNode;
+        }
+        public QTweenList AddLast(QTween tween, TweenListType listType= TweenListType.顺序播放)
+        {
+            tweenList.AddLast(new TweenListNode( tween, listType));
             Duration += tween.Duration;
             return this;
         }
         public override QTween Play(bool playForwads = true)
         {
             var tween= base.Play(playForwads);
-            if (CurNode == null)
+            if (tweenList.Count > 0)
             {
-                CurNode = playForwads ? tweenList.First : tweenList.Last;
+                InitTween();
             }
-            CurNode?.Value.OnComplete(Next).Play(playForwads);
             return tween;
         }
-        public void Next()
+        public void InitTween()
         {
-            if (CurNode != null)
+            CurNode.Value.tween?.OnStart(SyncPlay).OnComplete(NextPlay).Play(PlayForwads);
+        }
+        public void SyncPlay()
+        {
+            var tween = CurNode.Value.tween;
+            tween.OnStartEvent -= SyncPlay;
+            while (NextNode != null && NextNode.Value.type == TweenListType.同时播放)
             {
-                CurNode.Value.OnCompleteEvent -= Next;
-                CurNode = PlayForwads ? CurNode.Next:CurNode.Previous;
-                CurNode?.Value.OnComplete(Next).Play(PlayForwads);
+                NextNode.Value.tween?.Play(PlayForwads);
+                Next();
+            }
+        }
+        public void NextPlay()
+        {
+            if (NextNode != null )
+            {
+                if (NextNode.Value.type != TweenListType.顺序播放)
+                {
+                    throw new Exception("顺序播放出错"+this);
+                }
+                var tween = CurNode.Value.tween;
+                tween.OnCompleteEvent -= NextPlay;
+                Next();
+                InitTween();
             }
         }
         public override void OnPoolRecover()
@@ -223,6 +291,10 @@ namespace QTool.Tween
 
         public override void UpdateValue()
         {
+        }
+        public override string ToString()
+        {
+            return "动画列表[" + tweenList.Count + "]"+Duration;
         }
     }
     
@@ -255,6 +327,10 @@ namespace QTool.Tween
         }
         public override void UpdateValue()
         {
+        }
+        public override string ToString()
+        {
+            return "延迟 "+Duration+" 秒";
         }
     }
     public class QTween<T> : QTween
@@ -332,6 +408,10 @@ namespace QTool.Tween
         public override void Destory()
         {
             Pool.Push(this);
+        }
+        public override string ToString()
+        {
+            return ""+typeof(T).Name+" "+StartValue+" to "+EndValue+"";
         }
     }
   
