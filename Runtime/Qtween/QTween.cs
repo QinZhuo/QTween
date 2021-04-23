@@ -122,6 +122,7 @@ namespace QTool.Tween
         public void Reverse()
         {
             ReverseStartEnd();
+            _anim = null;
         }
         public virtual void ReverseStartEnd()
         {
