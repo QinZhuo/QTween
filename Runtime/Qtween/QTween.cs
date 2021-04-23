@@ -67,6 +67,19 @@ namespace QTool.Tween
             EndValue = CurValue;
             StartValue = CurValue;
         }
+        [ContextMenu("动画起止反向")]
+        public void Reverse()
+        {
+            var temp = EndValue;
+            EndValue = StartValue;
+            StartValue = temp;
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                UnityEditor.EditorUtility.SetDirty(this);
+            }
+#endif
+        }
         RectTransform _rect;
         public RectTransform RectTransform
         {
