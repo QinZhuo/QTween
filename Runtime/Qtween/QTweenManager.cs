@@ -107,6 +107,7 @@ namespace QTool.Tween
         public event Action TweenUpdate;
         private void Update()
         {
+            if (Time.time == 0) return;
             TweenUpdate?.Invoke();
         }
     }

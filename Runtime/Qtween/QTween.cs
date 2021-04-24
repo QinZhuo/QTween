@@ -1,312 +1,172 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using QTool;
-using UnityEngine.Serialization;
 
 namespace QTool.Tween
 {
-    public abstract class QTweenString : QTweenBehavior<string>
+    public abstract class QTween:IPoolObject
     {
-        protected override QTween ShowTween()
+        public float Duration { protected set; get; }
+        public bool PlayForwads
         {
-
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, EndValue, animTime).ResetStart(StartValue);
+            get;
+            protected set;
         }
-    }
-    public abstract class QTweenVector2 : QTweenBehavior<Vector2>
-    {
-        protected override QTween ShowTween()
+        public event Action OnCompleteEvent;
+        public event Action OnStopEvent;
+        public event Action OnStartEvent;
+        public event Action<float> OnUpdateEvent;
+        public QTween Stop()
         {
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, EndValue, animTime).ResetStart(StartValue);
+            IsPlaying = false;
+            OnStopEvent?.Invoke();
+            return this;
         }
-    }
-    public abstract class QTweenVector3 : QTweenBehavior<Vector3>
-    {
-        protected override QTween ShowTween()
+        public Func<float, float> TCurve = Curve.Quad.Out();
+        public QTween SetCurve(EaseCurve ease)
         {
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, EndValue, animTime).ResetStart(StartValue);
+            TCurve = Curve.GetEaseFunc(ease);
+            return this;
         }
-    }
-    public abstract class QTweenFloat : QTweenBehavior<float>
-    {
-        protected override QTween ShowTween()
+        public QTween SetCurve(Func<float, float> curveFunction)
         {
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, EndValue, animTime).ResetStart(StartValue);
+            TCurve = curveFunction;
+            return this;
         }
-    }
-    public abstract class QTweenColor : QTweenBehavior<Color>
-    {
-        protected override QTween ShowTween()
-        {
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, EndValue, animTime).ResetStart(StartValue);
-        }
-        public override string ToString()
-        {
-            return ToViewString(StartValue) + " => " + ToViewString(EndValue);
-        }
-        public static string ToViewString(Color color)
-        {
-            return ColorUtility.ToHtmlStringRGBA(color);
-        }
-    }
-    public abstract class QTweenQuaternion : QTweenBehavior<Quaternion>
-    {
-        protected override QTween ShowTween()
-        {
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, EndValue, animTime).ResetStart(StartValue);
-        }
-    }
-    public abstract class QTweenBehavior<T> : QTweenBehavior
-    {
-        public EaseCurve curve = EaseCurve.OutQuad;
-        [FormerlySerializedAs("animTime")]
-        public float animTime = 0.4f;
-        public float hideTime = 0.4f;
-        [FormerlySerializedAs("HideValue")]
-        public T StartValue;
-        [FormerlySerializedAs("ShowValue")]
-        public T EndValue;
-        protected virtual void Reset()
-        {
-            EndValue = CurValue;
-            StartValue = CurValue;
-        }
-        public override string ToString()
-        {
-            return StartValue + " => " + EndValue;
-        }
-        public override void ReverseStartEnd()
-        {
-            var temp = EndValue;
-            EndValue = StartValue;
-            StartValue = temp;
-#if UNITY_EDITOR
-            if (!Application.isPlaying)
-            {
-                UnityEditor.EditorUtility.SetDirty(this);
-            }
-#endif
-        }
-        RectTransform _rect;
-        public RectTransform RectTransform
+        public float time = -1f;
+        public bool AutoDestory { set; get; } = true;
+        private bool _isPlaying = false;
+        public bool IsPlaying
         {
             get
             {
-                return _rect ?? (gameObject.GetComponent<RectTransform>());
+                return _isPlaying;
             }
-        }
-        public abstract T CurValue { get; set; }
-        public virtual QTween ChangeFunc(T value, float time)
-        {
-            CurValue = value;
-            return null;
-        }
-        protected override QTween TweenInit(QTween tween)
-        {
-            return base.TweenInit(tween).SetCurve(curve);
-        }
-
-    }
-    public abstract class QTweenBehavior : MonoBehaviour
-    {
-
-        public ActionEvent OnShow;
-        public ActionEvent OnHide;
-        protected abstract QTween ShowTween();
-        QTween _anim;
-        public QTween Anim
-        {
-            get
+            protected set
             {
-                if (_anim == null)
+                if (value != _isPlaying)
                 {
-                    _anim = TweenInit(ShowTween());
+                    _isPlaying = value;
+                    if (_isPlaying)
+                    {
+                        QTweenManager.Manager.TweenUpdate += Update;
+                    }
+                    else
+                    {
+                        QTweenManager.Manager.TweenUpdate -= Update;
+                    }
+
                 }
-                return _anim;
             }
         }
-        [ContextMenu("动画起止反向")]
-        public void Reverse()
+        public bool IsStop
         {
-            ReverseStartEnd();
-            ClearAnim();
+            get
+            {
+                return !IsPlaying && time < 0;
+            }
         }
-        public virtual void ReverseStartEnd()
+        public bool IgnoreTimeScale {  set; get; } = true;
+
+
+
+        public virtual QTween Play(bool playForwads=true)
         {
+            this.PlayForwads = playForwads;
+            Start();
+            if (time < 0)
+            {
+                time = playForwads ? 0 : Duration;
+            }
+            if (!IsPlaying)
+            {
+                if (Application.isPlaying)
+                {
+                    IsPlaying = true;
+                }
+                else
+                {
+                    Complete();
+                }
+
+            }
+            return this;
 
         }
-        [ContextMenu("清除动画缓存")]
-        public virtual void ClearAnim()
+        protected virtual void Start()
         {
-            _anim = null;
+            OnStartEvent?.Invoke();
         }
-        protected virtual void OnValidate()
+        bool UpdateTime()
         {
-            ClearAnim();
+            if (!IsPlaying) return false;
+            time += (IgnoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) * (PlayForwads ? 1 : -1);
+            time = Mathf.Clamp(time, 0, Duration);
+            CheckOver();
+            return IsPlaying;
         }
-        protected virtual QTween TweenInit(QTween tween)
+        public abstract void UpdateValue();
+        public abstract void Destory();
+        public void Update()
         {
-            return tween.OnComplete(AnimOver).AutoDestory(false);
-        }
-        void AnimOver()
-        {
-            if (Anim.PlayForwads)
+            if (IsPlaying)
             {
-                OnShow?.Invoke();
+                if (UpdateTime())
+                {
+                    OnUpdateEvent?.Invoke(time);
+                    UpdateValue();
+                }
+            }
+        }
+        public virtual void CheckOver()
+        {
+            if (PlayForwads)
+            {
+                if (time >= Duration)
+                {
+                    Complete();
+                }
             }
             else
             {
-                OnHide?.Invoke();
+                if (time <= 0)
+                {
+                    Complete();
+                }
             }
         }
-        public void Play(bool show)
+
+
+        public virtual void Complete()
         {
-            Anim.Play(show);
+            time = PlayForwads ? Duration : 0;
+            UpdateValue();
+            OnCompleteEvent?.Invoke();
+            Stop();
+            if (AutoDestory)
+            {
+                Destory();
+            }
         }
-        [ContextMenu("隐藏")]
-        public void Hide()
+
+       
+
+        public virtual void OnPoolReset()
         {
-            Play(false);
+            time = -1;
         }
-        [ContextMenu("显示")]
-        public void Show()
+
+        public virtual void OnPoolRecover()
         {
-            Play(true);
+            OnCompleteEvent = null;
+            OnUpdateEvent = null;
+            OnStopEvent = null;
+            OnStartEvent = null;
+            IsPlaying = false;
         }
     }
-    public class QTweenList :QTween
-    {
-        static ObjectPool<QTweenList> _pool;
-        static ObjectPool<QTweenList> Pool
-        {
-            get
-            {
-                return _pool ?? (_pool = PoolManager.GetPool(typeof(QTweenList).Name, () =>
-                {
-                    return new QTweenList();
-                }));
-            }
-        }
-        public static QTweenList Get()
-        {
-            var tween = Pool.Get();
-            return tween;
-        }
-        public enum TweenListType
-        {
-            同时播放 = 1,
-            顺序播放 = 2,
-        }
-        public class TweenListNode 
-        {
-            public TweenListType type = TweenListType.同时播放;
-            public QTween tween;
-            public TweenListNode(QTween tween,TweenListType type= TweenListType.同时播放)
-            {
-                this.tween = tween;
-                this.type = type;
-            }
-        }
-        public LinkedList<TweenListNode> tweenList = new LinkedList<TweenListNode>();
 
-        LinkedListNode<TweenListNode> _curNode;
-        LinkedListNode<TweenListNode> CurNode
-        {
-            get
-            {
-                if (_curNode == null)
-                {
-                    return PlayForwads ? tweenList.First : tweenList.Last;
-                }
-                return _curNode;
-            }
-            set
-            {
-                _curNode = value;
-            }
-        }
-        LinkedListNode<TweenListNode> NextNode
-        {
-            get
-            {
-                if (CurNode == null) return null;
-                return PlayForwads ? CurNode.Next : CurNode.Previous;
-            }
-        }
-        public void Next()
-        {
-            CurNode = NextNode;
-        }
-        public QTweenList AddLast(QTween tween, TweenListType listType= TweenListType.顺序播放)
-        {
-            tweenList.AddLast(new TweenListNode( tween, listType));
-            Duration += tween.Duration;
-            return this;
-        }
-        public override QTween Play(bool playForwads = true)
-        {
-            var tween= base.Play(playForwads);
-            if (tweenList.Count > 0)
-            {
-                InitTween();
-            }
-            return tween;
-        }
-        public void InitTween()
-        {
-            CurNode.Value.tween?.OnStart(SyncPlay).OnComplete(NextPlay).Play(PlayForwads);
-        }
-        public void SyncPlay()
-        {
-            var tween = CurNode.Value.tween;
-            tween.OnStartEvent -= SyncPlay;
-            while (NextNode != null && NextNode.Value.type == TweenListType.同时播放)
-            {
-                var  tempTween = NextNode.Value.tween;
-                Next();
-                tempTween?.Play(PlayForwads);
-            }
-        }
-        public void NextPlay()
-        {
-            if (NextNode != null )
-            {
-                if (NextNode.Value.type != TweenListType.顺序播放)
-                {
-                    throw new Exception("顺序播放出错"+this);
-                }
-                var tween = CurNode.Value.tween;
-                tween.OnCompleteEvent -= NextPlay;
-                Next();
-                InitTween();
-            }
-        }
-        public override void OnPoolRecover()
-        {
-            base.OnPoolRecover();
-            tweenList.Clear();
-        }
-
-        public override void Destory()
-        {
-            Pool.Push(this);
-        }
-
-        public override void UpdateValue()
-        {
-        }
-        public override string ToString()
-        {
-            return "动画列表[" + tweenList.Count + "]"+Duration;
-        }
-    }
-    
-   
-
-  
     internal class QTweenDelay : QTween
     {
         static ObjectPool<QTweenDelay> _pool;
@@ -322,7 +182,7 @@ namespace QTool.Tween
         }
         public static QTweenDelay Get(float t)
         {
-            var tween= Pool.Get();
+            var tween = Pool.Get();
             tween.Duration = t;
             return tween;
         }
@@ -336,7 +196,7 @@ namespace QTool.Tween
         }
         public override string ToString()
         {
-            return "延迟 "+Duration+" 秒";
+            return "�ӳ� " + Duration + " ��";
         }
     }
     public class QTween<T> : QTween
@@ -346,17 +206,17 @@ namespace QTool.Tween
         {
             get
             {
-                return _pool ?? (_pool = PoolManager.GetPool("[" + typeof(T).Name + "]QTween动画", () =>
-                    {
-                        return new QTween<T>();
-                    }));
+                return _pool ?? (_pool = PoolManager.GetPool("[" + typeof(T).Name + "]QTween����", () =>
+                {
+                    return new QTween<T>();
+                }));
             }
         }
         public static QTween<T> GetTween(Func<T> Get, Action<T> Set, T end, float duration)
         {
             if (Pool == null)
             {
-                Debug.LogError("不存在对象池" + typeof(T));
+                Debug.LogError("�����ڶ����" + typeof(T));
             }
             var tween = Pool.Get();
             tween.Set = Set;
@@ -374,7 +234,7 @@ namespace QTool.Tween
         protected override void Start()
         {
             base.Start();
-            if (Application.isPlaying&& !IsPlaying)
+            if (Application.isPlaying && !IsPlaying)
             {
                 var curVallue = Get();
                 if (PlayForwads)
@@ -388,12 +248,12 @@ namespace QTool.Tween
                     runtimeStart = StartValue;
                 }
             }
-         
+
         }
         public T StartValue { private set; get; }
         public QTween<T> ResetStart(T start)
         {
-            StartValue=start;
+            StartValue = start;
             runtimeStart = start;
             return this;
         }
@@ -413,9 +273,9 @@ namespace QTool.Tween
                 }
                 catch (Exception e)
                 {
-                    Debug.LogWarning("【QTween】更新数值出错：" + e);
+                    Debug.LogWarning("��QTween��������ֵ������" + e);
                 }
-               
+
             }
         }
 
@@ -425,9 +285,7 @@ namespace QTool.Tween
         }
         public override string ToString()
         {
-            return ""+typeof(T).Name+" "+StartValue+" to "+EndValue+"";
+            return "" + typeof(T).Name + " " + StartValue + " to " + EndValue + "";
         }
     }
-  
 }
-
