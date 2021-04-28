@@ -1,6 +1,6 @@
 {
   "name": "com.qtool.tween",
-  "version": "1.3.7",
+  "version": "1.3.8",
   "displayName": "QTween",
   "description": "Tween Animation",
   "unity": "2019.1",
@@ -9,7 +9,7 @@
   },
   "dependencies": {},
   "author": {
-    "name": "QinZhuo ",
+    "name": "QinZhuo",
     "url": "https://space.bilibili.com/3981300"
   },
   "samples": [

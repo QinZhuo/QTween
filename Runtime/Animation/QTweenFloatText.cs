@@ -23,7 +23,6 @@ namespace QTool.Tween.Component
 
         public Text _text;
         private float curValue = 0;
-        public float TargetValue;
         protected override void Reset()
         {
             _text = GetComponent<Text>();
@@ -31,12 +30,13 @@ namespace QTool.Tween.Component
         }
         public void SetFloat(float value)
         {
-            TargetValue = value;
+            EndValue = value;
         }
 
         public void SetFloatAnim(float value)
         {
             SetFloat(value);
+            Anim.time = 0;
             Show();
         }
     }
