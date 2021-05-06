@@ -23,15 +23,15 @@ namespace QTool.Tween.Component
         public void Play(QTween newTween,bool show)
         {
             if (newTween == null) return;
-            if (CurTween != null&&CurTween.IsPlaying&&!CurTween.PlayForwads)
+           // if (CurTween != null&&CurTween.IsPlaying&&!CurTween.PlayForwads)
             {
-                CurTween.Stop();
+                CurTween?.Stop();
             }
             CurTween = newTween;
             newTween.Play(show);
         }
     }
-    [RequireComponent(typeof(Selectable))]
+    //[RequireComponent(typeof(Selectable))]
     public class QTweenButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler, IPointerDownHandler, IPointerUpHandler
     {
         [HideInInspector]
@@ -51,12 +51,26 @@ namespace QTool.Tween.Component
         public QTweenBehavior selectAnim;
         public QTweenBehavior downAnim;
         public QTweenBehavior InteractableAnim;
+        public QTweenBehavior onAnim;
         public QTweenState qTweenPlayer = new QTweenState();
         protected void Awake()
         {
             if (selectable == null)
             {
                 selectable = GetComponent<Selectable>();
+            }
+            if (onAnim != null && selectable is Toggle)
+            {
+                var toggle = selectable as Toggle;
+                toggle.onValueChanged .AddListener( onAnim.Play);
+            }
+        }
+        private void OnDestroy()
+        {
+            if (onAnim != null && selectable is Toggle)
+            {
+                var toggle = selectable as Toggle;
+                toggle.onValueChanged.RemoveListener(onAnim.Play);
             }
         }
         public bool SelectThis
