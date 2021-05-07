@@ -31,13 +31,14 @@ namespace QTool.Tween.Component
         }
         public void SetFloat(float value)
         {
+            StartValue = curValue;
             EndValue = value;
+            Anim.time = 0;
         }
 
         public void SetFloatAnim(float value)
         {
             SetFloat(value);
-            Anim.time = 0;
             Show();
         }
     }
