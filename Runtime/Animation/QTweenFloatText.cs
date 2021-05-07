@@ -31,9 +31,11 @@ namespace QTool.Tween.Component
         }
         public void SetFloat(float value)
         {
-            StartValue = curValue;
-            EndValue = value;
-            Anim.time = 0;
+            Anim.Stop();
+            var floatAnim= Anim as QTween<float>;
+            floatAnim.StartValue = curValue;
+            floatAnim.EndValue = value;
+            floatAnim.time = 0;
         }
 
         public void SetFloatAnim(float value)

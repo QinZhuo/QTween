@@ -250,7 +250,7 @@ namespace QTool.Tween
             }
 
         }
-        public T StartValue { private set; get; }
+        public T StartValue {  set; get; }
         public QTween<T> ResetStart(T start)
         {
             StartValue = start;
@@ -259,7 +259,7 @@ namespace QTool.Tween
         }
         T runtimeStart;
         T runtimeEnd;
-        public T EndValue { private set; get; }
+        public T EndValue {  set; get; }
         public static Func<T, T, float, T> ValueLerp;
         public Func<T> Get { private set; get; }
         public Action<T> Set { private set; get; }
