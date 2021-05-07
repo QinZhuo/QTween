@@ -23,7 +23,7 @@ namespace QTool.Tween.Component
 
         public Text _text;
         private float curValue = 0;
-        public string format="F2";
+        public string format="F0";
         protected override void Reset()
         {
             _text = GetComponent<Text>();
