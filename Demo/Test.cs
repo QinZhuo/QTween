@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Threading;
 using System.Threading.Tasks;
 using QTool.Tween;
-using UnityEngine.AddressableAssets;
+//using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 public class Test : MonoBehaviour
 {
@@ -19,10 +19,10 @@ public class Test : MonoBehaviour
     QTween[,] tweens = new QTween[count, count];
     private void Start()
     {
-        Addressables.LoadAssetAsync<GameObject>("Assets/Demo/Cube.prefab").Completed += (loader) =>
-        {
-            Debug.LogError(loader.Result);
-        };
+        //Addressables.LoadAssetAsync<GameObject>("Assets/Demo/Cube.prefab").Completed += (loader) =>
+        //{
+        //    Debug.LogError(loader.Result);
+        //};
        // //QTween.DelayInvoke(2, () =>
      //    {
              //for (int i = 0; i < count; i++)

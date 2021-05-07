@@ -18,11 +18,12 @@ namespace QTool.Tween.Component
 
         public override float CurValue
         {
-            get => curValue; set { Text.text = value.ToString(); curValue = value; }
+            get => curValue; set { Text.text = value.ToString(format); curValue = value; }
         }
 
         public Text _text;
         private float curValue = 0;
+        public string format="F2";
         protected override void Reset()
         {
             _text = GetComponent<Text>();
