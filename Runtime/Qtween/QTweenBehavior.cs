@@ -92,7 +92,7 @@ namespace QTool.Tween
         {
             get
             {
-                return _rect ?? (gameObject.GetComponent<RectTransform>());
+                return _rect ?? (_rect=gameObject.GetComponent<RectTransform>());
             }
         }
         public abstract T CurValue { get; set; }
