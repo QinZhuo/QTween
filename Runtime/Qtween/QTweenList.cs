@@ -75,7 +75,15 @@ namespace QTool.Tween
         public QTweenList AddLast(QTween tween, TweenListType listType= TweenListType.顺序播放)
         {
             tweenList.AddLast(new TweenListNode( tween, listType));
-            Duration += tween.Duration;
+            if(listType== TweenListType.顺序播放)
+            {
+                Duration += tween.Duration;
+            }
+            else if(listType== TweenListType.同时播放)
+            {
+                Duration = Mathf.Max(tween.Duration, Duration);
+            }
+          
             return this;
         }
         public override QTween Play(bool playForwads = true)

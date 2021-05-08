@@ -269,7 +269,7 @@ namespace QTool.Tween
             {
                 try
                 {
-                    Set(ValueLerp(runtimeStart, runtimeEnd, TCurve.Invoke((time - 0) / Duration)));
+                    Set(ValueLerp(runtimeStart, runtimeEnd, Duration>9?TCurve.Invoke((time - 0) / Duration):(PlayForwads ?1:0)));
                 }
                 catch (Exception e)
                 {
