@@ -46,15 +46,21 @@ namespace QTool.Tween.Component
                 tween.FreshName();
             }
         }
+        QTool.Tween.QTweenList tempTween;
         protected override QTween ShowTween()
         {
-            var list = QTool.Tween.QTweenList.Get();
+            if (tempTween == null)
+            {
+                tempTween = QTool.Tween.QTweenList.Get();
+            }
+            tempTween.OnPoolRecover();
+            tempTween.OnPoolReset();
             foreach (var tween in tweenList)
             {
                 if (tween.qTween == null) continue;
-                list.AddLast(tween.qTween.Anim,tween.type);
+                tempTween.AddLast(tween.qTween.Anim, tween.type);
             }
-            return list;
+            return tempTween;
         }
         private void Reset()
         {

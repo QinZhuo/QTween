@@ -134,7 +134,14 @@ namespace QTool.Tween
         {
             Pool.Push(this);
         }
-
+        public override void Complete()
+        {
+            foreach (var kv in tweenList)
+            {
+                kv.tween?.Complete();
+            }
+            base.Complete();
+        }
         public override void UpdateValue()
         {
         }
