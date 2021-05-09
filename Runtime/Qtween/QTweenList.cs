@@ -134,10 +134,10 @@ namespace QTool.Tween
         }
         public override void Complete()
         {
-            //foreach (var kv in tweenList)
-            //{
-            //    kv.tween?.Complete();
-            //}
+            foreach (var kv in tweenList)
+            {
+                kv.tween?.Complete();
+            }
             base.Complete();
         }
         public override void UpdateValue()
