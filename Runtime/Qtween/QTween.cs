@@ -5,8 +5,10 @@ using UnityEngine;
 
 namespace QTool.Tween
 {
-    public abstract class QTween:IPoolObject
+    public abstract class QTween : IPoolObject
     {
+        public float TimeScale { get; set; } = 1;
+        public float HideTimeScale { get; set; } = 1;
         public float Duration { protected set; get; }
         public bool PlayForwads
         {
@@ -71,9 +73,10 @@ namespace QTool.Tween
 
 
 
-        public virtual QTween Play(bool playForwads=true)
+        public virtual QTween Play(bool playForwads=true,float timeSacle=1)
         {
             this.PlayForwads = playForwads;
+            this.TimeScale = timeSacle* (PlayForwads ? 1 : HideTimeScale);
             Start();
             if (time < 0)
             {
@@ -101,7 +104,7 @@ namespace QTool.Tween
         bool UpdateTime()
         {
             if (!IsPlaying) return false;
-            time += (IgnoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) * (PlayForwads ? 1 : -1);
+            time += (IgnoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) * (PlayForwads ? 1 : -1)* TimeScale;
             time = Mathf.Clamp(time, 0, Duration);
             CheckOver();
             return IsPlaying;

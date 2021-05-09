@@ -61,7 +61,8 @@ namespace QTool.Tween
         public EaseCurve curve = EaseCurve.OutQuad;
         [FormerlySerializedAs("animTime")]
         public float animTime = 0.4f;
-        public float hideTime = 0.4f;
+        [Range(0.1f,5f)]
+        public float hideTimeScale = 2f;
         [FormerlySerializedAs("HideValue")]
         public T StartValue;
         [FormerlySerializedAs("ShowValue")]
@@ -103,13 +104,20 @@ namespace QTool.Tween
         }
         protected override QTween TweenInit(QTween tween)
         {
+            tween.HideTimeScale = hideTimeScale;
             return base.TweenInit(tween).SetCurve(curve);
         }
 
     }
     public abstract class QTweenBehavior : MonoBehaviour
     {
-
+#if UNITY_EDITOR
+        public float curTime;
+        private void Update()
+        {
+            curTime = Anim.time;
+        }
+#endif
         public ActionEvent OnShow;
         public ActionEvent OnHide;
         protected abstract QTween ShowTween();
@@ -159,7 +167,7 @@ namespace QTool.Tween
                 OnHide?.Invoke();
             }
         }
-        public void Play(bool show)
+        public virtual void Play(bool show)
         {
             Anim.Play(show);
         }
