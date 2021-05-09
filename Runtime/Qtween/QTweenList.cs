@@ -64,7 +64,6 @@ namespace QTool.Tween
                 {
                     curNode = playForwads ? tweenList[0] : tweenList[tweenList.Count - 1];
                 }
-                InitTime();
             }
             curNode?.tween?.Play(playForwads);
             return base.Play(playForwads);
@@ -78,6 +77,10 @@ namespace QTool.Tween
             {
                 var last = (i - 1) >= 0 ? tweenList[i - 1] : null;
                 var tweenNode = tweenList[i];
+                if(tweenNode.tween is QTweenList)
+                {
+                    (tweenNode.tween as QTweenList).InitTime();
+                }
                 if (tweenNode.type == TweenListType.顺序播放)
                 {
                     Duration += tweenNode.tween.Duration;
