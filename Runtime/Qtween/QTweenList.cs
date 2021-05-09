@@ -64,6 +64,7 @@ namespace QTool.Tween
                 {
                     curNode = playForwads ? tweenList[0] : tweenList[tweenList.Count - 1];
                 }
+                InitTime();
             }
             curNode?.tween?.Play(playForwads);
             return base.Play(playForwads);
