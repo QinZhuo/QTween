@@ -53,8 +53,8 @@ namespace QTool.Tween.Component
             {
                 tempTween = QTool.Tween.QTweenList.Get();
             }
-            tempTween.OnPoolRecover();
-            tempTween.OnPoolReset();
+            tempTween.curNode = null;
+            tempTween.tweenList.Clear();
             foreach (var tween in tweenList)
             {
                 if (tween.qTween == null) continue;
