@@ -73,6 +73,7 @@ namespace QTool.Tween
         public TweenListNode curNode;
         public void InitTime()
         {
+            Duration = 0;
             for (int i = 0; i < tweenList.Count; i++)
             {
                 var last = (i - 1) >= 0 ? tweenList[i - 1] : null;
@@ -95,7 +96,7 @@ namespace QTool.Tween
         {
             if (initOver) return;
             initOver = true;
-            Duration = 0;
+            
             for (int i = 0; i < tweenList.Count; i++)
             {
                 var last = (i - 1) >= 0? tweenList[i-1] : null;
