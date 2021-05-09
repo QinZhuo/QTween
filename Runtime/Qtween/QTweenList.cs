@@ -46,34 +46,6 @@ namespace QTool.Tween
         }
         public List<TweenListNode> tweenList = new List<TweenListNode>();
 
-        //LinkedListNode<TweenListNode> _curNode;
-        //LinkedListNode<TweenListNode> CurNode
-        //{
-        //    get
-        //    {
-        //        if (_curNode == null)
-        //        {
-        //            return PlayForwads ? tweenList.First : tweenList.Last;
-        //        }
-        //        return _curNode;
-        //    }
-        //    set
-        //    {
-        //        _curNode = value;
-        //    }
-        //}
-        //LinkedListNode<TweenListNode> NextNode
-        //{
-        //    get
-        //    {
-        //        if (CurNode == null) return null;
-        //        return PlayForwads ? CurNode.Next : CurNode.Previous;
-        //    }
-        //}
-        //public void Next()
-        //{
-        //    CurNode = NextNode;
-        //}
         public QTweenList AddLast(QTween tween, TweenListType listType= TweenListType.顺序播放)
         {
             tweenList.Add(new TweenListNode( tween, listType));
@@ -88,12 +60,11 @@ namespace QTool.Tween
             if (tweenList.Count > 0)
             {
                 InitTween();
+                if (curNode == null)
+                {
+                    curNode = playForwads ? tweenList[0] : tweenList[tweenList.Count - 1];
+                }
             }
-            if (curNode == null)
-            {
-                curNode = playForwads ? tweenList[0] : tweenList[tweenList.Count - 1];
-            }
-
             curNode?.tween?.Play(playForwads);
             return base.Play(playForwads);
         }
