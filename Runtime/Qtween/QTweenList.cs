@@ -64,21 +64,18 @@ namespace QTool.Tween
                 {
                     curNode = playForwads ? tweenList[0] : tweenList[tweenList.Count - 1];
                 }
+                InitTime();
             }
             curNode?.tween?.Play(playForwads);
             return base.Play(playForwads);
         }
         bool initOver = false;
         public TweenListNode curNode;
-        public void InitTween()
+        public void InitTime()
         {
-            if (initOver) return;
-            initOver = true;
-            Duration = 0;
             for (int i = 0; i < tweenList.Count; i++)
             {
-                var last = (i - 1) >= 0? tweenList[i-1] : null;
-                var next= (i + 1) < tweenList.Count ? tweenList[i + 1] : null;
+                var last = (i - 1) >= 0 ? tweenList[i - 1] : null;
                 var tweenNode = tweenList[i];
                 if (tweenNode.type == TweenListType.顺序播放)
                 {
@@ -92,6 +89,19 @@ namespace QTool.Tween
                     }
                     Duration += tweenNode.tween.Duration;
                 }
+            }
+        }
+        public void InitTween()
+        {
+            if (initOver) return;
+            initOver = true;
+            Duration = 0;
+            for (int i = 0; i < tweenList.Count; i++)
+            {
+                var last = (i - 1) >= 0? tweenList[i-1] : null;
+                var next= (i + 1) < tweenList.Count ? tweenList[i + 1] : null;
+                var tweenNode = tweenList[i];
+               
                 tweenNode.tween.OnStartEvent -= tweenNode.Start;
                 tweenNode.tween.OnCompleteEvent -= tweenNode.Compelete; 
                 tweenNode.Start = () =>
@@ -106,6 +116,7 @@ namespace QTool.Tween
                 };
                 tweenNode.tween?.OnStart(tweenNode.Start).OnComplete(tweenNode.Compelete);
             }
+            InitTime();
         }
         public void SyncPlay(TweenListNode next)
         {
