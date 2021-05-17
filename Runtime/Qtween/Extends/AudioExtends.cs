@@ -7,10 +7,6 @@ namespace QTool.Tween
     {
         public static void Play(this AudioSource audio, AudioClip clip, float delay)
         {
-            if (audio.isPlaying)
-            {
-                audio.Stop(delay);
-            }
             audio.volume = 0;
             audio.clip = clip;
             audio.Play();
