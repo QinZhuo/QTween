@@ -143,7 +143,7 @@ namespace QTool.Tween
 
         public virtual void Complete()
         {
-            if (!IsPlaying) return;
+            if (!IsPlaying&&Application.isPlaying) return;
             time = PlayForwads ? Duration : 0;
             UpdateValue();
             OnCompleteEvent?.Invoke();
