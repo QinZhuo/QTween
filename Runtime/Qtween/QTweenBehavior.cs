@@ -80,12 +80,7 @@ namespace QTool.Tween
             var temp = EndValue;
             EndValue = StartValue;
             StartValue = temp;
-#if UNITY_EDITOR
-            if (!Application.isPlaying)
-            {
-                UnityEditor.EditorUtility.SetDirty(this);
-            }
-#endif
+            this.SetDirty();
         }
         RectTransform _rect;
         public RectTransform RectTransform
@@ -99,6 +94,7 @@ namespace QTool.Tween
         public virtual QTween ChangeFunc(T value, float time)
         {
             CurValue = value;
+            this.SetDirty();
             return null;
         }
         protected override QTween TweenInit(QTween tween)

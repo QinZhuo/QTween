@@ -112,9 +112,7 @@ namespace QTool.Tween
         }
         bool UpdateTime()
         {
-        
             if (!IsPlaying) return false;
-            Debug.LogError("Update");
             time +=(Application.isPlaying?(IgnoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime):0.01f) * (PlayForwads ? 1 : -1)* TimeScale;
             time = Mathf.Clamp(time, 0, Duration);
             CheckOver();
