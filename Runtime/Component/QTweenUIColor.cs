@@ -19,7 +19,7 @@ namespace QTool.Tween.Component
             get => ui.color;
             set {
                 ui.color = onlyAlpha ? new Color(ui.color.r, ui.color.g, ui.color.b, value.a) : value;
-                LayoutRebuilder.ForceRebuildLayoutImmediate(RectTransform);
+                ui.canvasRenderer.SetColor(Color.white);
             }
         }
         public bool onlyAlpha = false;
