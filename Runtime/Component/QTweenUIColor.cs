@@ -17,7 +17,10 @@ namespace QTool.Tween.Component
         public override Color CurValue
         {
             get => ui.color;
-            set => ui.color = onlyAlpha ? new Color(ui.color.r, ui.color.g, ui.color.b, value.a) : value;
+            set {
+                ui.color = onlyAlpha ? new Color(ui.color.r, ui.color.g, ui.color.b, value.a) : value;
+                ui.SetVerticesDirty();
+            }
         }
         public bool onlyAlpha = false;
         public MaskableGraphic ui;

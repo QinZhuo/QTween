@@ -94,7 +94,6 @@ namespace QTool.Tween
         public virtual QTween ChangeFunc(T value, float time)
         {
             CurValue = value;
-            this.SetDirty();
             return null;
         }
         protected override QTween TweenInit(QTween tween)
