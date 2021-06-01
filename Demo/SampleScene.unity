@@ -1636,7 +1636,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   tweenList:
-  - name: "Image.\u52A8\u753B\u5217\u8868[2]0"
+  - name: "Image.\u52A8\u753B\u5217\u8868[3]0"
     qTween: {fileID: 1096840115}
     type: 1
   - name: "Button.\u989C\u8272 FF0000FF => FFFFFFFF"
@@ -1659,6 +1659,8 @@ GameObject:
   - component: {fileID: 1096840115}
   - component: {fileID: 1096840111}
   - component: {fileID: 1096840114}
+  - component: {fileID: 1096840117}
+  - component: {fileID: 1096840116}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -1796,9 +1798,44 @@ MonoBehaviour:
   - name: "Image.\u5927\u5C0F (1.0, 1.0) => (0.5, 0.5)"
     qTween: {fileID: 1096840111}
     type: 1
+  - name: "Image.\u5EF6\u8FDF 1 \u79D2"
+    qTween: {fileID: 1096840116}
+    type: 2
   - name: "Image.\u989C\u8272 FFF800FF => FFFFFFFF"
     qTween: {fileID: 1096840114}
-    type: 1
+    type: 2
+--- !u!114 &1096840116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096840109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d94d12b9918e3e4babaff480193765c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curTime: 0
+  OnShow:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHide:
+    m_PersistentCalls:
+      m_Calls: []
+  time: 1
+--- !u!225 &1096840117
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096840109}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1111290911
 GameObject:
   m_ObjectHideFlags: 0

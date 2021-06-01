@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using QTool.Inspector;
 namespace QTool.Tween
 {
     public abstract class QTweenString : QTweenBehavior<string>
@@ -57,13 +58,18 @@ namespace QTool.Tween
     }
     public abstract class QTweenBehavior<T> : QTweenBehavior
     {
+        [ViewName("动画曲线")]
         public EaseCurve curve = EaseCurve.OutQuad;
+        [ViewName("动画时长")]
         [FormerlySerializedAs("animTime")]
         public float animTime = 0.4f;
+        [ViewName("隐藏速度")]
         [Range(0.1f,5f)]
         public float hideTimeScale = 2f;
+        [ViewName("开始")]
         [FormerlySerializedAs("HideValue")]
         public T StartValue;
+        [ViewName("结束")]
         [FormerlySerializedAs("ShowValue")]
         public T EndValue;
         protected virtual void Reset()
@@ -106,6 +112,7 @@ namespace QTool.Tween
     public abstract class QTweenBehavior : MonoBehaviour
     {
 #if UNITY_EDITOR
+        [ViewName("当前时间")]
         public float curTime;
         private void Update()
         {
