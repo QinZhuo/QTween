@@ -110,10 +110,11 @@ namespace QTool.Tween
         {
             OnStartEvent?.Invoke();
         }
+
         bool UpdateTime()
         {
             if (!IsPlaying) return false;
-            time +=(Application.isPlaying?(IgnoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime):0.01f) * (PlayForwads ? 1 : -1)* TimeScale;
+            time +=(Application.isPlaying?(IgnoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime): Tool.EditorDeltaTime) * (PlayForwads ? 1 : -1)* TimeScale;
             time = Mathf.Clamp(time, 0, Duration);
             CheckOver();
             return IsPlaying;

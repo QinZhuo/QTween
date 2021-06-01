@@ -1482,8 +1482,8 @@ MonoBehaviour:
   curve: 23
   animTime: 0.4
   hideTimeScale: 2
-  StartValue: {x: 0.5, y: 0.5}
-  EndValue: {x: 2, y: 2}
+  StartValue: {x: 2, y: 2}
+  EndValue: {x: 0.5, y: 0.5}
 --- !u!114 &864485362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1612,8 +1612,8 @@ MonoBehaviour:
   curve: 5
   animTime: 0.4
   hideTimeScale: 2
-  StartValue: {r: 1, g: 1, b: 1, a: 1}
-  EndValue: {r: 1, g: 0, b: 0, a: 1}
+  StartValue: {r: 1, g: 0, b: 0, a: 1}
+  EndValue: {r: 1, g: 1, b: 1, a: 1}
   onlyAlpha: 0
   ui: {fileID: 864485363}
 --- !u!114 &864485366
@@ -1639,10 +1639,10 @@ MonoBehaviour:
   - name: "Image.\u52A8\u753B\u5217\u8868[2]0"
     qTween: {fileID: 1096840115}
     type: 1
-  - name: "Button.\u989C\u8272 FFFFFFFF => FF0000FF"
+  - name: "Button.\u989C\u8272 FF0000FF => FFFFFFFF"
     qTween: {fileID: 864485365}
     type: 1
-  - name: "Button.\u5927\u5C0F (0.5, 0.5) => (2.0, 2.0)"
+  - name: "Button.\u5927\u5C0F (2.0, 2.0) => (0.5, 0.5)"
     qTween: {fileID: 864485361}
     type: 1
 --- !u!1 &1096840109
@@ -1707,8 +1707,8 @@ MonoBehaviour:
   curve: 5
   animTime: 0.4
   hideTimeScale: 2
-  StartValue: {x: 0.5, y: 0.5}
-  EndValue: {x: 1, y: 1}
+  StartValue: {x: 1, y: 1}
+  EndValue: {x: 0.5, y: 0.5}
 --- !u!114 &1096840112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1769,8 +1769,8 @@ MonoBehaviour:
   curve: 5
   animTime: 0.4
   hideTimeScale: 2
-  StartValue: {r: 1, g: 1, b: 1, a: 1}
-  EndValue: {r: 1, g: 0.97164285, b: 0, a: 1}
+  StartValue: {r: 1, g: 0.97164285, b: 0, a: 1}
+  EndValue: {r: 1, g: 1, b: 1, a: 1}
   onlyAlpha: 0
   ui: {fileID: 1096840112}
 --- !u!114 &1096840115
@@ -1793,10 +1793,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   tweenList:
-  - name: "Image.\u5927\u5C0F (0.5, 0.5) => (1.0, 1.0)"
+  - name: "Image.\u5927\u5C0F (1.0, 1.0) => (0.5, 0.5)"
     qTween: {fileID: 1096840111}
     type: 1
-  - name: "Image.\u989C\u8272 FFFFFFFF => FFF800FF"
+  - name: "Image.\u989C\u8272 FFF800FF => FFFFFFFF"
     qTween: {fileID: 1096840114}
     type: 1
 --- !u!1 &1111290911

@@ -46,6 +46,26 @@ public class Test : MonoBehaviour
     {
        // objs[0, 0].transform.rotation = Quaternion.Lerp(objs[0, 0].transform.rotation, Quaternion.Euler(90, 46, 789), Time.deltaTime);
     }
+    double sum;
+    int t;
+     double last;
+    [ContextMenu("update测试")]
+    public void UpdateTest()
+    {
+
+        UnityEditor.EditorApplication.update += () =>
+        {
+            if (last > 1)
+            {
+                t++;
+                sum += UnityEditor.EditorApplication.timeSinceStartup - last;
+                Debug.LogError("timed:" + (sum/t));
+            }
+          
+            last = UnityEditor.EditorApplication.timeSinceStartup;
+           
+        };
+    }
     public bool to = true;
     [ContextMenu("QTween测试")]
     public void RunTween()
