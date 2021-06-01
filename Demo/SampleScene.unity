@@ -1068,6 +1068,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202baf7b91b533540b266841d5649be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curTime: 0
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -1076,7 +1077,7 @@ MonoBehaviour:
       m_Calls: []
   curve: 23
   animTime: 0.4
-  hideTime: 1
+  hideTimeScale: 2
   StartValue: {x: 0, y: 0}
   EndValue: {x: 2, y: 2}
 --- !u!114 &816792045
@@ -1277,6 +1278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202baf7b91b533540b266841d5649be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curTime: 0
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -1285,7 +1287,7 @@ MonoBehaviour:
       m_Calls: []
   curve: 5
   animTime: 0.4
-  hideTime: 0.4
+  hideTimeScale: 2
   StartValue: {x: 1, y: 1}
   EndValue: {x: 1.1, y: 1.1}
 --- !u!114 &836658328
@@ -1318,6 +1320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202baf7b91b533540b266841d5649be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curTime: 0
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -1326,7 +1329,7 @@ MonoBehaviour:
       m_Calls: []
   curve: 5
   animTime: 0.4
-  hideTime: 0.4
+  hideTimeScale: 2
   StartValue: {x: 1, y: 1}
   EndValue: {x: 0.8, y: 0.8}
 --- !u!114 &836658330
@@ -1401,6 +1404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0333a03d205ef0419e373860fcd5573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curTime: 0
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -1409,7 +1413,7 @@ MonoBehaviour:
       m_Calls: []
   curve: 5
   animTime: 0.4
-  hideTime: 0.4
+  hideTimeScale: 2
   StartValue: {r: 1, g: 1, b: 1, a: 1}
   EndValue: {r: 1, g: 0.3622641, b: 0.3622641, a: 1}
   onlyAlpha: 0
@@ -1468,6 +1472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202baf7b91b533540b266841d5649be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curTime: 0
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -1476,7 +1481,7 @@ MonoBehaviour:
       m_Calls: []
   curve: 23
   animTime: 0.4
-  hideTime: 1
+  hideTimeScale: 2
   StartValue: {x: 0.5, y: 0.5}
   EndValue: {x: 2, y: 2}
 --- !u!114 &864485362
@@ -1597,6 +1602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0333a03d205ef0419e373860fcd5573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curTime: 0
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -1605,7 +1611,7 @@ MonoBehaviour:
       m_Calls: []
   curve: 5
   animTime: 0.4
-  hideTime: 1
+  hideTimeScale: 2
   StartValue: {r: 1, g: 1, b: 1, a: 1}
   EndValue: {r: 1, g: 0, b: 0, a: 1}
   onlyAlpha: 0
@@ -1622,6 +1628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d83c75b851ac2040ab3763939459e00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curTime: 0
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -1629,7 +1636,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   tweenList:
-  - name: "Image.\u52A8\u753B\u5217\u8868[2]0.8"
+  - name: "Image.\u52A8\u753B\u5217\u8868[2]0"
     qTween: {fileID: 1096840115}
     type: 1
   - name: "Button.\u989C\u8272 FFFFFFFF => FF0000FF"
@@ -1690,6 +1697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202baf7b91b533540b266841d5649be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curTime: 0
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -1698,7 +1706,7 @@ MonoBehaviour:
       m_Calls: []
   curve: 5
   animTime: 0.4
-  hideTime: 0.4
+  hideTimeScale: 2
   StartValue: {x: 0.5, y: 0.5}
   EndValue: {x: 1, y: 1}
 --- !u!114 &1096840112
@@ -1751,6 +1759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0333a03d205ef0419e373860fcd5573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curTime: 0
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -1759,7 +1768,7 @@ MonoBehaviour:
       m_Calls: []
   curve: 5
   animTime: 0.4
-  hideTime: 0.4
+  hideTimeScale: 2
   StartValue: {r: 1, g: 1, b: 1, a: 1}
   EndValue: {r: 1, g: 0.97164285, b: 0, a: 1}
   onlyAlpha: 0
@@ -1776,6 +1785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d83c75b851ac2040ab3763939459e00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curTime: 0
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -2134,6 +2144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48f0dc06af3108e41b2bdbee35890ced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curTime: 0
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -2142,7 +2153,7 @@ MonoBehaviour:
       m_Calls: []
   curve: 5
   animTime: 0.4
-  hideTime: 0.4
+  hideTimeScale: 2
   StartValue: 0
   EndValue: 10
   _text: {fileID: 1635715345}

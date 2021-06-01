@@ -50,13 +50,29 @@ namespace QTool.Tween
                 if (value != _isPlaying)
                 {
                     _isPlaying = value;
-                    if (_isPlaying)
+                    if (Application.isPlaying)
                     {
-                        QTweenManager.Manager.TweenUpdate += Update;
+                        if (_isPlaying)
+                        {
+                            QTweenManager.Manager.TweenUpdate += Update;
+                        }
+                        else
+                        {
+                            QTweenManager.Manager.TweenUpdate -= Update;
+                        }
                     }
                     else
                     {
-                        QTweenManager.Manager.TweenUpdate -= Update;
+#if UNITY_EDITOR
+                        if (_isPlaying)
+                        {
+                            UnityEditor.EditorApplication.update += Update;
+                        }
+                        else
+                        {
+                            UnityEditor.EditorApplication.update -= Update;
+                        }
+#endif
                     }
 
                 }
@@ -84,14 +100,7 @@ namespace QTool.Tween
             }
             if (!IsPlaying)
             {
-                if (Application.isPlaying)
-                {
-                    IsPlaying = true;
-                }
-                else
-                {
-                    Complete();
-                }
+                IsPlaying = true;
 
             }
             return this;
@@ -103,8 +112,9 @@ namespace QTool.Tween
         }
         bool UpdateTime()
         {
+        
             if (!IsPlaying) return false;
-            time += (IgnoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) * (PlayForwads ? 1 : -1)* TimeScale;
+            time +=(Application.isPlaying?(IgnoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime):0.01f) * (PlayForwads ? 1 : -1)* TimeScale;
             time = Mathf.Clamp(time, 0, Duration);
             CheckOver();
             return IsPlaying;
@@ -143,7 +153,7 @@ namespace QTool.Tween
 
         public virtual void Complete()
         {
-            if (!IsPlaying&&Application.isPlaying) return;
+            if (!IsPlaying) return;
             time = PlayForwads ? Duration : 0;
             UpdateValue();
             OnCompleteEvent?.Invoke();
@@ -238,7 +248,7 @@ namespace QTool.Tween
         protected override void Start()
         {
             base.Start();
-            if (Application.isPlaying && !IsPlaying)
+            if (!IsPlaying)
             {
                 var curVallue = Get();
                 if (PlayForwads)
