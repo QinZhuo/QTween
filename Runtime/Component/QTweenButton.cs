@@ -24,8 +24,9 @@ namespace QTool.Tween.Component
         {
             if (newTween == null) return;
            // if (CurTween != null&&CurTween.IsPlaying&&!CurTween.PlayForwads)
+            if(CurTween!=null&&CurTween.IsPlaying)
             {
-                CurTween?.Stop();
+                CurTween.Complete();
             }
             CurTween = newTween;
             newTween.Play(show);
