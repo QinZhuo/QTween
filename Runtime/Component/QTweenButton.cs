@@ -41,10 +41,10 @@ namespace QTool.Tween.Component
         {
             selectable = GetComponent<Selectable>();
             selectable.transition = Transition.None;
-            selectable.navigation = new UnityEngine.UI.Navigation
-            {
-                mode = UnityEngine.UI.Navigation.Mode.None
-            };
+            //selectable.navigation = new UnityEngine.UI.Navigation
+            //{
+            //    mode = UnityEngine.UI.Navigation.Mode.None
+            //};
         }
 #endif
         public QTweenBehavior enterAnim;
