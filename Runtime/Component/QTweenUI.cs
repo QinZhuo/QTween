@@ -5,11 +5,12 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using QTool.Inspector;
 using static UnityEngine.UI.Selectable;
 
 namespace QTool.Tween.Component
 {
-    public class QTweenState
+    public class QTweenPlayer
     {
         public QTween CurTween { get;private set; }
         public void Show(QTweenBehavior newTween)
@@ -23,7 +24,6 @@ namespace QTool.Tween.Component
         public void Play(QTween newTween,bool show)
         {
             if (newTween == null) return;
-           // if (CurTween != null&&CurTween.IsPlaying&&!CurTween.PlayForwads)
             if(CurTween!=null&&CurTween.IsPlaying)
             {
                 CurTween.Complete();
@@ -32,35 +32,60 @@ namespace QTool.Tween.Component
             newTween.Play(show);
         }
     }
-    //[RequireComponent(typeof(Selectable))]
-    public class QTweenButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler, IPointerDownHandler, IPointerUpHandler
+    public class QTweenUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler, IPointerDownHandler, IPointerUpHandler
     {
         [HideInInspector]
         public Selectable selectable;
 #if UNITY_EDITOR
         protected void Reset()
         {
-            selectable = GetComponent<Selectable>();
-            selectable.transition = Transition.None;
-            //selectable.navigation = new UnityEngine.UI.Navigation
-            //{
-            //    mode = UnityEngine.UI.Navigation.Mode.None
-            //};
+            Init();
+        }
+        private void OnValidate()
+        {
+            Init();
         }
 #endif
-        public QTweenBehavior enterAnim;
-        public QTweenBehavior selectAnim;
-        public QTweenBehavior downAnim;
-        public QTweenBehavior InteractableAnim;
-        public QTweenBehavior onAnim;
-        public QTweenState qTweenPlayer = new QTweenState();
-        protected void Awake()
+        public void Init()
         {
             if (selectable == null)
             {
                 selectable = GetComponent<Selectable>();
+                if (selectable != null)
+                {
+                    selectable.transition = Transition.None;
+                }
             }
-            if (onAnim != null && selectable is Toggle)
+        }
+        [ViewName("进入动画")]
+        public QTweenBehavior enterAnim;
+        [ViewName("按下动画")]
+        public QTweenBehavior downAnim;
+        [ViewName("选中动画", "HasSelectable")]
+        public QTweenBehavior selectAnim;
+        [ViewName("禁用动画", "HasSelectable")]
+        public QTweenBehavior InteractableAnim;
+        [ViewName("开关动画", "HasToggle")]
+        public QTweenBehavior onAnim;
+        public QTweenPlayer qTweenPlayer = new QTweenPlayer();
+        public bool HasSelectable
+        {
+            get
+            {
+                return selectable != null;
+            }
+        }
+        public bool HasToggle
+        {
+            get
+            {
+                return selectable is Toggle;
+            }
+        }
+        protected void Awake()
+        {
+            Init();
+            if (HasToggle)
             {
                 var toggle = selectable as Toggle;
                 toggle.onValueChanged .AddListener( onAnim.Play);
@@ -85,7 +110,14 @@ namespace QTool.Tween.Component
         {
             get
             {
-                return selectable.interactable;
+                if (HasSelectable)
+                {
+                    return selectable.IsInteractable();
+                }
+                else
+                {
+                    return true;
+                }
             }
         }
         public void OnPointerEnter(PointerEventData eventData)
