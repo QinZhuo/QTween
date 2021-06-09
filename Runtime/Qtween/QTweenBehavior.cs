@@ -88,12 +88,11 @@ namespace QTool.Tween
             StartValue = temp;
             this.SetDirty();
         }
-        RectTransform _rect;
         public RectTransform RectTransform
         {
             get
             {
-                return _rect ?? (_rect=gameObject.GetComponent<RectTransform>());
+                return transform as RectTransform;
             }
         }
         public abstract T CurValue { get; set; }
