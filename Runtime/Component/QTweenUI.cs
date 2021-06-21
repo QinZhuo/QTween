@@ -99,6 +99,15 @@ namespace QTool.Tween.Component
                 toggle.onValueChanged.RemoveListener(onAnim.Play);
             }
         }
+        private void OnDisable()
+        {
+            Hide();
+        }
+        public void Hide()
+        {
+            qTweenPlayer.Hide(downAnim);
+            qTweenPlayer.Hide(enterAnim);
+        }
         public bool SelectThis
         {
             get
