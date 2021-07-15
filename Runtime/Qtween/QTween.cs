@@ -168,6 +168,7 @@ namespace QTool.Tween
 
         public virtual void OnPoolReset()
         {
+            AutoDestory = true;
             time = -1;
         }
 
