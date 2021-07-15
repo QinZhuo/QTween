@@ -23,6 +23,10 @@ namespace QTool.Tween
         {
             IsPlaying = false;
             OnStopEvent?.Invoke();
+            if (AutoDestory)
+            {
+                Destory();
+            }
             return this;
         }
         public Func<float, float> TCurve = Curve.Quad.Out();
@@ -158,10 +162,7 @@ namespace QTool.Tween
             UpdateValue();
             OnCompleteEvent?.Invoke();
             Stop();
-            if (AutoDestory)
-            {
-                Destory();
-            }
+          
         }
 
        
