@@ -18,7 +18,8 @@ namespace QTool.Tween.Component
         {
             get => curValue; set { OnValueChange?.Invoke( value.ToString(format)); curValue = value; }
         }
-        private Text _text;
+
+        public Text _text;
         private float curValue = 0;
         public string format="F0";
         public StringEvent OnValueChange; 
