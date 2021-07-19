@@ -77,6 +77,16 @@ namespace QTool.Tween
             EndValue = CurValue;
             StartValue = CurValue;
         }
+        [ContextMenu("设为开始值")]
+        public void SetStrat()
+        {
+            StartValue = CurValue;
+        }
+        [ContextMenu("设为结束值")]
+        public void SetEnd()
+        {
+            StartValue = EndValue;
+        }
         public override string ToString()
         {
             return StartValue + " => " + EndValue;
