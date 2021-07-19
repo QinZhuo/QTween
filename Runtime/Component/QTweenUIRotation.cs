@@ -5,8 +5,8 @@ using UnityEngine.Serialization;
 
 namespace QTool.Tween.Component
 {
-    public class QTweenUIRotation : QTweenQuaternion
+    public class QTweenUIRotation : QTweenVector3
     {
-        public override Quaternion CurValue { get => RectTransform.rotation; set => RectTransform.rotation = value; }
+        public override Vector3 CurValue { get => RectTransform.rotation.eulerAngles; set => RectTransform.rotation =Quaternion.Euler( value); }
     }
 }
