@@ -5,29 +5,31 @@ using UnityEngine.UI;
 using System;
 namespace QTool.Tween.Component
 {
-    [RequireComponent(typeof(Text))]
     public class QTweenFloatText : QTweenFloat
     {
-        public Text Text
+        void ChangeText(string value)
         {
-            get
+            if (_text != null)
             {
-                return _text;
+                _text.text = value;
             }
         }
-
         public override float CurValue
         {
-            get => curValue; set { Text.text = value.ToString(format); curValue = value; }
+            get => curValue; set { OnValueChange?.Invoke( value.ToString(format)); curValue = value; }
         }
-
-        public Text _text;
+        private Text _text;
         private float curValue = 0;
         public string format="F0";
+        public StringEvent OnValueChange; 
         protected override void Reset()
         {
             _text = GetComponent<Text>();
             base.Reset();
+        }
+        private void Awake()
+        {
+            OnValueChange.AddListener(ChangeText);
         }
         public void SetFloat(float value)
         {
