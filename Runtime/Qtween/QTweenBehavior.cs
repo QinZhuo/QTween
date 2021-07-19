@@ -85,7 +85,7 @@ namespace QTool.Tween
         [ContextMenu("设为结束值")]
         public void SetEnd()
         {
-            StartValue = EndValue;
+            EndValue = CurValue;
         }
         public override string ToString()
         {
