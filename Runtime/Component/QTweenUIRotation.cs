@@ -7,6 +7,6 @@ namespace QTool.Tween.Component
 {
     public class QTweenUIRotation : QTweenVector3
     {
-        public override Vector3 CurValue { get => RectTransform.rotation.eulerAngles; set => RectTransform.rotation =Quaternion.Euler( value); }
+        public override Vector3 CurValue { get => RectTransform.localRotation.eulerAngles; set => RectTransform.localRotation =Quaternion.Euler( value); }
     }
 }
