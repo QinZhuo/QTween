@@ -6,7 +6,12 @@ namespace QTool.Tween
 {
     public static class MaskableGraphicExtends
     {
-
+        public static QTween<string> QFillAmount(this Text text, string value, float duration)
+        {
+            return QTweenManager.Tween(() => text.text,
+            (setValue) => { text.text = setValue; },
+            value, duration);
+        }
         public static QTween<float> QFillAmount(this Image graphic, float value, float duration)
         {
             return QTweenManager.Tween(() => graphic.fillAmount,
