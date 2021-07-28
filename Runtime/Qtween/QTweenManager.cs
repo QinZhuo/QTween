@@ -44,15 +44,14 @@ namespace QTool.Tween
         }
         public static string Lerp(string a, string b, float t)
         {
-            int index =(int)((b.Length-1) *Mathf.Clamp01( t));
             var str = "";
-            for (int i = 0; i < a.Length||i<=index; i++)
+            for (int i = 0; i < a.Length||i<b.Length; i++)
             {
-                if (i <= index)
+                if (i <t*b.Length)
                 {
                     str += b[i];
                 }
-                else
+                else if(i<a.Length)
                 {
                     str += a[i];
                 }
