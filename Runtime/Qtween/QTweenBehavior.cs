@@ -128,8 +128,17 @@ namespace QTool.Tween
             curTime = Anim.time;
         }
 #endif
+        [ViewName("≥ı º≤•∑≈")]
+        public bool awakePlay=false;
         public ActionEvent OnShow;
         public ActionEvent OnHide;
+        protected void Awake()
+        {
+            if (awakePlay)
+            {
+                Show();
+            }
+        }
         protected abstract QTween ShowTween();
         QTween _anim;
         public QTween Anim
