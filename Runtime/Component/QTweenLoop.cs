@@ -8,20 +8,18 @@ namespace QTool.Tween
         public QTweenBehavior qTween;
         protected override QTween ShowTween()
         {
-            return qTween.Anim;
+            return qTween?.Anim;
         }
         public override void ClearAnim()
         {
-            qTween.ClearAnim();
+            qTween?.ClearAnim();
             base.ClearAnim();
         }
-        public void Awake()
+        private void Reset()
         {
-            //OnShow.AddListener(() => Anim.Play(false));
-            //OnHide.AddListener(() => Anim.Play(true));
-
+            qTween = GetComponent<QTweenBehavior>();
         }
-        
+
         public override void Play(bool show)
         {
             if (show)
