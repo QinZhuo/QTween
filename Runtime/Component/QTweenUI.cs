@@ -15,20 +15,20 @@ namespace QTool.Tween.Component
         public QTween CurTween { get;private set; }
         public void Show(QTweenBehavior newTween)
         {
-            Play(newTween?.Anim, true);
+            Play(newTween, true);
         }
         public void Hide(QTweenBehavior newTween)
         {
-            Play(newTween?.Anim, false);
+            Play(newTween, false);
         }
-        public void Play(QTween newTween,bool show)
+        public void Play(QTweenBehavior newTween,bool show)
         {
-            if (newTween == null) return;
+            if (newTween?.Anim == null) return;
             if(CurTween!=null&&CurTween.IsPlaying)
             {
                 CurTween.Complete();
             }
-            CurTween = newTween;
+            CurTween = newTween.Anim;
             newTween.Play(show);
         }
     }

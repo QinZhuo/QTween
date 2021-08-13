@@ -161,8 +161,9 @@ namespace QTool.Tween
             IsPlaying = false;
             time = PlayForwads ? Duration : 0;
             UpdateValue();
-            OnCompleteEvent?.Invoke();
             Stop();
+            OnCompleteEvent?.Invoke();
+          
           
         }
 
