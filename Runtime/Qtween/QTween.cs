@@ -19,9 +19,12 @@ namespace QTool.Tween
         public event Action OnStopEvent;
         public event Action OnStartEvent;
         public event Action<float> OnUpdateEvent;
-        public QTween Stop()
+        public QTween Stop(bool controlPlaying=true)
         {
-            IsPlaying = false;
+            if (controlPlaying)
+            {
+                IsPlaying = false;
+            }
             OnStopEvent?.Invoke();
             if (AutoDestory)
             {
@@ -161,10 +164,9 @@ namespace QTool.Tween
             IsPlaying = false;
             time = PlayForwads ? Duration : 0;
             UpdateValue();
-            Stop();
+
             OnCompleteEvent?.Invoke();
-          
-          
+            Stop(false);
         }
 
        
