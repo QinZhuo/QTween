@@ -17,6 +17,18 @@ public class Test : MonoBehaviour
     public const int count = 1;
     GameObject[,] objs = new GameObject[count, count];
     QTween[,] tweens = new QTween[count, count];
+    public QTweenBehavior tweenBehavior;
+    [ContextMenu("开测试")]
+    public void ShowTest()
+    {
+        tweenBehavior.Play(true);
+    }
+    [ContextMenu("开关测试")]
+    public void PlayBoolTest()
+    {
+        tweenBehavior.Play(false);
+        tweenBehavior.Play(true);
+    }
     private void Start()
     {
         //Addressables.LoadAssetAsync<GameObject>("Assets/Demo/Cube.prefab").Completed += (loader) =>

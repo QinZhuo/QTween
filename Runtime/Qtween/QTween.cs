@@ -121,8 +121,10 @@ namespace QTool.Tween
         bool UpdateTime()
         {
             if (!IsPlaying) return false;
+           
             time +=(Application.isPlaying?(IgnoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime): Tool.EditorDeltaTime) * (PlayForwads ? 1 : -1)* TimeScale;
             time = Mathf.Clamp(time, 0, Duration);
+          //  Debug.LogError(PlayForwads + " : " + time);
             CheckOver();
             return IsPlaying;
         }
@@ -139,21 +141,32 @@ namespace QTool.Tween
                 }
             }
         }
+        public bool IsOver
+        {
+            get
+            {
+                if (PlayForwads)
+                {
+                    if (time >= Duration)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (time <= 0)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
         public virtual void CheckOver()
         {
-            if (PlayForwads)
+            if (IsOver)
             {
-                if (time >= Duration)
-                {
-                    Complete();
-                }
-            }
-            else
-            {
-                if (time <= 0)
-                {
-                    Complete();
-                }
+                Complete();
             }
         }
 
@@ -163,6 +176,7 @@ namespace QTool.Tween
             if (!IsPlaying) return;
             IsPlaying = false;
             time = PlayForwads ? Duration : 0;
+
             UpdateValue();
 
             OnCompleteEvent?.Invoke();
@@ -254,23 +268,24 @@ namespace QTool.Tween
         protected override void Start()
         {
             base.Start();
-            if (!IsPlaying)
+            //if (!IsPlaying)
+            //{
+            var curVallue = Get();
+            if (PlayForwads)
             {
-                var curVallue = Get();
-                if (PlayForwads)
-                {
-                    runtimeStart = curVallue;
-                    runtimeEnd = EndValue;
-                }
-                else
-                {
-                    runtimeEnd = curVallue;
-                    runtimeStart = StartValue;
-                }
+                runtimeStart = curVallue;
+                runtimeEnd = EndValue;
             }
+            else
+            {
+                runtimeEnd = curVallue;
+                runtimeStart = StartValue;
+            }
+            //    Debug.LogError("开始 "+ PlayForwads + ":" + runtimeStart + " => " + runtimeEnd + " 真事： " + StartValue + "=>" + EndValue + ":" + curVallue);
+            //}
 
         }
-        public T StartValue {  set; get; }
+        public T StartValue { set; get; }
         public QTween<T> ResetStart(T start)
         {
             StartValue = start;
@@ -279,26 +294,24 @@ namespace QTool.Tween
         }
         T runtimeStart;
         T runtimeEnd;
-        public T EndValue {  set; get; }
+        public T EndValue { set; get; }
         public static Func<T, T, float, T> ValueLerp;
         public Func<T> Get { private set; get; }
         public Action<T> Set { private set; get; }
         public override void UpdateValue()
         {
-            if (time >= 0 && time <= Duration)
-            {
-                try
-                {
-                    Set(ValueLerp(runtimeStart, runtimeEnd, Duration>0?TCurve.Invoke((time - 0) / Duration):(PlayForwads ?1:0)));
-                }
-                catch (Exception e)
-                {
-                    Debug.LogWarning("【QTween】更新数值出错：" + e);
-                }
 
+            try
+            {
+                var t= Duration > 0 ? TCurve.Invoke((time - 0) / Duration) : (PlayForwads ? 1 : 0);
+     //           Debug.LogError("重新开始 " + runtimeStart + " => " + runtimeEnd);
+                Set(ValueLerp(runtimeStart, runtimeEnd, t));
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("【QTween】更新数值出错：" + e);
             }
         }
-
         public override void Destory()
         {
             Pool.Push(this);

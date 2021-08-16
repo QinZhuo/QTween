@@ -24,6 +24,7 @@ namespace QTool.Tween
         public static float Lerp(float a, float b, float t)
         {
             var dir = b - a;
+            //Debug.LogError(a + " => " + b + " : " + t+" = " +( a + dir * t));
             return a + dir * t;
         }
         public static Vector2 Lerp(Vector2 star, Vector2 end, float t)
