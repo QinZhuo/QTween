@@ -5,6 +5,7 @@ namespace QTool.Tween
 {
     public class QTweenLoop : QTweenBehavior
     {
+
         public QTweenBehavior qTween;
         protected override QTween ShowTween()
         {
@@ -15,6 +16,7 @@ namespace QTool.Tween
             qTween?.ClearAnim();
             base.ClearAnim();
         }
+    
         private void Reset()
         {
             qTween = GetComponent<QTweenBehavior>();
