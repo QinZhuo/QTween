@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace QTool.Tween.Component
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class QTweenCanvasAlpha : QTweenFloat
+    public class QTweenAlpha : QTweenFloat
     {
         public CanvasGroup group;
         protected override void Reset()
@@ -23,7 +23,7 @@ namespace QTool.Tween.Component
             {
                 group.alpha = value;
                 var boolvalue = group.alpha >= 0.9f;
-                group.blocksRaycasts = boolvalue;
+               // group.blocksRaycasts = boolvalue;
                 group.interactable = boolvalue;
             }
         }
