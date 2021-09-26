@@ -23,7 +23,7 @@ namespace QTool.Tween.Component
             {
                 group.alpha = value;
                 var boolvalue = group.alpha >= 0.9f;
-               // group.blocksRaycasts = boolvalue;
+                group.blocksRaycasts = boolvalue;
                 group.interactable = boolvalue;
             }
         }
