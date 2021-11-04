@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace QTool.Tween
@@ -95,7 +96,15 @@ namespace QTool.Tween
         public bool IgnoreTimeScale {  set; get; } = true;
 
 
-
+        public virtual async Task PlayAsync(bool playForwads = true, float timeSacle = 1)
+        {
+            var gamePlaying = Application.isPlaying;
+            Play(playForwads, timeSacle);
+            while (IsPlaying&& gamePlaying==Application.isPlaying)
+            {
+                await Task.Yield();
+            }
+        }
         public virtual QTween Play(bool playForwads=true,float timeSacle=1)
         {
             this.PlayForwads = playForwads;
