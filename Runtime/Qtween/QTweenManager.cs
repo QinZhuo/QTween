@@ -8,17 +8,14 @@ namespace QTool.Tween
     public class QTweenManager : MonoBehaviour
     {
         static QTweenManager _instance;
-        public static QTweenManager Manager
+        [RuntimeInitializeOnLoadMethod]
+        static void Init()
         {
-            get
+            if (_instance == null && Application.isPlaying)
             {
-                if (_instance == null && Application.isPlaying)
-                {
-                    var obj = new GameObject("QTweenManager");
-                    _instance = obj.AddComponent<QTweenManager>();
-                    GameObject.DontDestroyOnLoad(obj);
-                }
-                return _instance;
+                var obj = new GameObject("QTweenManager");
+                _instance = obj.AddComponent<QTweenManager>();
+                GameObject.DontDestroyOnLoad(obj);
             }
         }
         public static float Lerp(float a, float b, float t)
@@ -104,7 +101,8 @@ namespace QTool.Tween
             Delay(time).OnComplete(action).Play();
         }
 
-        public event Action TweenUpdate;
+        public static event Action TweenUpdate;
+     
         private void Update()
         {
             if (Time.time == 0) return;
