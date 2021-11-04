@@ -8,7 +8,7 @@ namespace QTool.Tween
     public class QTweenManager : MonoBehaviour
     {
         static QTweenManager _instance;
-        [RuntimeInitializeOnLoadMethod]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void Init()
         {
             if (_instance == null && Application.isPlaying)
