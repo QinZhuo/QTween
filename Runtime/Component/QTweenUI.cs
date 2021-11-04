@@ -90,9 +90,13 @@ namespace QTool.Tween.Component
                 var toggle = selectable as Toggle;
                 if (onAnim != null)
                 {
-                    toggle.onValueChanged.AddListener(onAnim.Play);
+                    toggle.onValueChanged.AddListener(ValueChange);
                 }
             }
+        }
+        void ValueChange(bool value)
+        {
+            onAnim?.Play(value);
         }
         private void OnDestroy()
         {
@@ -101,7 +105,7 @@ namespace QTool.Tween.Component
                 var toggle = selectable as Toggle;
                 if (onAnim != null)
                 {
-                    toggle.onValueChanged.RemoveListener(onAnim.Play);
+                    toggle.onValueChanged.RemoveListener(ValueChange);
                 }
             }
         }

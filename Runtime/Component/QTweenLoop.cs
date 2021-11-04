@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 namespace QTool.Tween
 {
@@ -22,7 +23,7 @@ namespace QTool.Tween
             qTween = GetComponent<QTweenBehavior>();
         }
 
-        public override void Play(bool show)
+        public override async Task Play(bool show)
         {
             if (show)
             {
