@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using QTool.Inspector;
+using System.Threading.Tasks;
+
 namespace QTool.Tween
 {
     public abstract class QTweenString : QTweenBehavior<string>
@@ -186,9 +188,9 @@ namespace QTool.Tween
                 OnHide?.Invoke();
             }
         }
-        public virtual void Play(bool show)
+        public virtual async Task Play(bool show)
         {
-            Anim.Play(show);
+            await Anim.PlayAsync(show);
         }
         [ContextMenu("вўВи")]
         public void Hide()
