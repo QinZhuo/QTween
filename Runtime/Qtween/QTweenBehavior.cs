@@ -188,9 +188,13 @@ namespace QTool.Tween
                 OnHide?.Invoke();
             }
         }
-        public virtual async Task Play(bool show)
+        public virtual async Task PlayAsync(bool show)
         {
             await Anim.PlayAsync(show);
+        }
+        public virtual void Play(bool show)
+        {
+             Anim.Play(show);
         }
         [ContextMenu("вўВи")]
         public void Hide()

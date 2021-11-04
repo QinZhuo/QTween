@@ -23,7 +23,7 @@ namespace QTool.Tween
             qTween = GetComponent<QTweenBehavior>();
         }
 
-        public override async Task Play(bool show)
+        public override void Play(bool show)
         {
             if (show)
             {
