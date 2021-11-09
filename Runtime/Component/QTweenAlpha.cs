@@ -8,6 +8,7 @@ namespace QTool.Tween.Component
     public class QTweenAlpha : QTweenFloat
     {
         public CanvasGroup group;
+        public bool controlRaycast = true;
         protected override void Reset()
         {
             if (group == null)
@@ -22,9 +23,13 @@ namespace QTool.Tween.Component
             set
             {
                 group.alpha = value;
-                var boolvalue = group.alpha >= 0.9f;
-                group.blocksRaycasts = boolvalue;
-                group.interactable = boolvalue;
+                if (controlRaycast)
+                {
+                    var boolvalue = group.alpha >= 0.9f;
+                    group.blocksRaycasts = boolvalue;
+                    group.interactable = boolvalue;
+                }
+               
             }
         }
     }
