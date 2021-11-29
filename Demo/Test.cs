@@ -65,18 +65,18 @@ public class Test : MonoBehaviour
     public void UpdateTest()
     {
 
-        UnityEditor.EditorApplication.update += () =>
-        {
-            if (last > 1)
-            {
-                t++;
-                sum += UnityEditor.EditorApplication.timeSinceStartup - last;
-                Debug.LogError("timed:" + (sum/t));
-            }
+        //UnityEditor.EditorApplication.update += () =>
+        //{
+        //    if (last > 1)
+        //    {
+        //        t++;
+        //        sum += UnityEditor.EditorApplication.timeSinceStartup - last;
+        //        Debug.LogError("timed:" + (sum/t));
+        //    }
           
-            last = UnityEditor.EditorApplication.timeSinceStartup;
+        //    last = UnityEditor.EditorApplication.timeSinceStartup;
            
-        };
+        //};
     }
     public bool to = true;
     [ContextMenu("QTween测试")]
