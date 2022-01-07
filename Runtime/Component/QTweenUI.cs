@@ -63,8 +63,8 @@ namespace QTool.Tween.Component
         public QTweenBehavior downAnim;
         [ViewName("选中动画", "HasSelectable")]
         public QTweenBehavior selectAnim;
-        [ViewName("禁用动画", "HasSelectable")]
-        public QTweenBehavior InteractableAnim;
+        //[ViewName("禁用动画", "HasSelectable")]
+        //public QTweenBehavior InteractableAnim;
         [ViewName("开关动画", "HasToggle")]
         public QTweenBehavior onAnim;
         public QTweenPlayer qTweenPlayer = new QTweenPlayer();
@@ -82,6 +82,7 @@ namespace QTool.Tween.Component
                 return selectable is Toggle;
             }
         }
+
         protected void Awake()
         {
             Init();
