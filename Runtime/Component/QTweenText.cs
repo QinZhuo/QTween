@@ -5,8 +5,9 @@ namespace QTool.Tween.Component
 {
     public class QTweenText : QTweenString
     {
-        private void Reset()
+        protected override void Reset()
         {
+            base.Reset();
             text = GetComponent<Text>();
         }
         public override string CurValue { get => text.text; set => text.text = value; }
