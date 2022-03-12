@@ -16,7 +16,7 @@ namespace QTool.Tween
         {
             get
             {
-                return _pool ?? (_pool = PoolManager.GetPool(typeof(QTweenList).Name, () =>
+                return _pool ?? (_pool = QPoolManager.GetPool(typeof(QTweenList).Name, () =>
                 {
                     return new QTweenList();
                 }));

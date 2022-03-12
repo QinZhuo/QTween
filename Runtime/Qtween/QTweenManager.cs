@@ -25,27 +25,27 @@ namespace QTool.Tween
         }
         public static QTween<string> Tween(Func<string> Get, Action<string> Set, string end, float duration)
         {
-            return Tween(Get, Set, end, duration,LerpManager.LerpTo);
+            return Tween(Get, Set, end, duration,QLerp.LerpTo);
         }
         public static QTween<float> Tween(Func<float> Get, Action<float> Set, float end, float duration)
         {
-           return Tween(Get, Set, end, duration,LerpManager.LerpTo);
+           return Tween(Get, Set, end, duration, QLerp.LerpTo);
         }
         public static QTween<Vector2> Tween(Func<Vector2> Get, Action<Vector2> Set, Vector2 end, float duration)
         {
-            return Tween(Get, Set, end, duration,LerpManager.LerpTo);
+            return Tween(Get, Set, end, duration, QLerp.LerpTo);
         }
         public static QTween<Vector3> Tween(Func<Vector3> Get, Action<Vector3> Set, Vector3 end, float duration)
         {
-            return Tween(Get, Set, end, duration, LerpManager.LerpTo);
+            return Tween(Get, Set, end, duration, QLerp.LerpTo);
         }
         public static QTween<Quaternion> Tween(Func<Quaternion> Get, Action<Quaternion> Set, Quaternion end, float duration)
         {
-            return Tween(Get, Set, end, duration, LerpManager.LerpTo);
+            return Tween(Get, Set, end, duration, QLerp.LerpTo);
         }
         public static QTween<Color> Tween(Func<Color> Get, Action<Color> Set, Color end, float duration)
         {
-            return Tween(Get, Set, end, duration, LerpManager.LerpTo);
+            return Tween(Get, Set, end, duration, QLerp.LerpTo);
         }
         public static QTween<T> Tween<T>(Func<T> Get, Action<T> Set, T end, float duration,Func<T, T, float, T> ValueLerp)
         {

@@ -217,7 +217,7 @@ namespace QTool.Tween
         {
             get
             {
-                return _pool ?? (_pool = PoolManager.GetPool(typeof(QTweenDelay).Name, () =>
+                return _pool ?? (_pool = QPoolManager.GetPool(typeof(QTweenDelay).Name, () =>
                 {
                     return new QTweenDelay();
                 }));
@@ -249,7 +249,7 @@ namespace QTool.Tween
         {
             get
             {
-                return _pool ?? (_pool = PoolManager.GetPool("[" + typeof(T).Name + "]QTween¶¯»­", () =>
+                return _pool ?? (_pool = QPoolManager.GetPool("[" + typeof(T).Name + "]QTween¶¯»­", () =>
                 {
                     return new QTween<T>();
                 }));
