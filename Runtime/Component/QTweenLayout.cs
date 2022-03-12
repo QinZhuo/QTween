@@ -4,15 +4,15 @@ using UnityEngine;
 using QTool.UI;
 namespace QTool.Tween.Component
 {
-    [RequireComponent(typeof( QGameObjList))]
+    [RequireComponent(typeof( QObjectList))]
     public class QTweenLayout: QTweenList
     {
         public Tween.QTweenList.TweenListType listType = Tween.QTweenList.TweenListType.顺序播放;
-        public QGameObjList layout;
+        public QObjectList layout;
 
         private void Reset()
         {
-            layout = GetComponent<QGameObjList>();
+            layout = GetComponent<QObjectList>();
         }
   
         private void Start()
