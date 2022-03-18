@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using QTool.UI;
 namespace QTool.Tween.Component
 {
     [RequireComponent(typeof( QObjectList))]
