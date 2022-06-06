@@ -196,6 +196,11 @@ namespace QTool.Tween
         {
              Anim.Play(show);
         }
+        public async void ShowAndHide()
+        {
+            await Anim.PlayAsync(true);
+            await Anim.PlayAsync(false);
+        }
         [ContextMenu("вўВи")]
         public void Hide()
         {
