@@ -194,15 +194,11 @@ namespace QTool.Tween
 
        
 
-        public virtual void OnPoolReset()
-        {
-            AutoDestory = true;
-            time = -1;
-        }
-
         public virtual void OnPoolRecover()
-        {
-            OnCompleteEvent = null;
+		{
+			AutoDestory = true;
+			time = -1;
+			OnCompleteEvent = null;
             OnUpdateEvent = null;
             OnStopEvent = null;
             OnStartEvent = null;
@@ -239,7 +235,7 @@ namespace QTool.Tween
         }
         public override string ToString()
         {
-            return "ÑÓ³Ù " + Duration + " Ãë";
+            return "å»¶è¿Ÿ " + Duration + " ç§’";
         }
     }
     public class QTween<T> : QTween
@@ -249,7 +245,7 @@ namespace QTool.Tween
         {
             get
             {
-                return _pool ?? (_pool = QPoolManager.GetPool("[" + typeof(T).Name + "]QTween¶¯»­", () =>
+                return _pool ?? (_pool = QPoolManager.GetPool("[" + typeof(T).Name + "]QTweenåŠ¨ç”»", () =>
                 {
                     return new QTween<T>();
                 }));
@@ -259,7 +255,7 @@ namespace QTool.Tween
         {
             if (Pool == null)
             {
-                Debug.LogError("²»´æÔÚ¶ÔÏó³Ø" + typeof(T));
+                Debug.LogError("ä¸å­˜åœ¨å¯¹è±¡æ± " + typeof(T));
             }
             var tween = Pool.Get();
             tween.Set = Set;
@@ -290,7 +286,7 @@ namespace QTool.Tween
                 runtimeEnd = curVallue;
                 runtimeStart = StartValue;
             }
-            //    Debug.LogError("¿ªÊ¼ "+ PlayForwads + ":" + runtimeStart + " => " + runtimeEnd + " ÕæÊÂ£º " + StartValue + "=>" + EndValue + ":" + curVallue);
+            //    Debug.LogError("å¼€å§‹ "+ PlayForwads + ":" + runtimeStart + " => " + runtimeEnd + " çœŸäº‹ï¼š " + StartValue + "=>" + EndValue + ":" + curVallue);
             //}
 
         }
@@ -313,12 +309,12 @@ namespace QTool.Tween
             try
             {
                 var t= Duration > 0 ? TCurve.Invoke((time - 0) / Duration) : (PlayForwads ? 1 : 0);
-     //           Debug.LogError("ÖØĞÂ¿ªÊ¼ " + runtimeStart + " => " + runtimeEnd);
+     //           Debug.LogError("é‡æ–°å¼€å§‹ " + runtimeStart + " => " + runtimeEnd);
                 Set(ValueLerp(runtimeStart, runtimeEnd, t));
             }
             catch (Exception e)
             {
-                Debug.LogWarning("¡¾QTween¡¿¸üĞÂÊıÖµ³ö´í£º" + e);
+                Debug.LogWarning("ã€QTweenã€‘æ›´æ–°æ•°å€¼å‡ºé”™ï¼š" + e);
             }
         }
         public override void Destory()
