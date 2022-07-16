@@ -58,7 +58,7 @@ namespace QTool.Tween
             Delay(time).OnComplete(action).Play();
         }
 
-		public static event Action TweenUpdate;
+		public event Action TweenUpdate;
      
         private void Update()
         {

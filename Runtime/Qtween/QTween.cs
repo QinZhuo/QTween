@@ -62,11 +62,11 @@ namespace QTool.Tween
                     {
                         if (_isPlaying)
                         {
-                            QTweenManager.TweenUpdate += Update;
+                            QTweenManager.Instance.TweenUpdate += Update;
                         }
                         else
                         {
-                            QTweenManager.TweenUpdate -= Update;
+                            QTweenManager.Instance.TweenUpdate -= Update;
                         }
                     }
                     else
