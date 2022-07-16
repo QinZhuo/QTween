@@ -1,25 +1,19 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace QTool.Tween
 {
-    public class QTweenManager : MonoBehaviour
+    public class QTweenManager : InstanceManager<QTweenManager>
     {
-        static QTweenManager _instance;
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        static void Init()
-        {
-            if (_instance == null && Application.isPlaying)
-            {
-                var obj = new GameObject("QTweenManager");
-                _instance = obj.AddComponent<QTweenManager>();
-                GameObject.DontDestroyOnLoad(obj);
-            }
-        }
-      
-        public static QTweenList TweenList()
+		protected override void Awake()
+		{
+			base.Awake();
+			GameObject.DontDestroyOnLoad(gameObject);
+		}
+
+		public static QTweenList TweenList()
         {
             return QTweenList.Get();
         }
@@ -64,7 +58,7 @@ namespace QTool.Tween
             Delay(time).OnComplete(action).Play();
         }
 
-        public static event Action TweenUpdate;
+		public static event Action TweenUpdate;
      
         private void Update()
         {
