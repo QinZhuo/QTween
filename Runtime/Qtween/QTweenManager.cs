@@ -53,10 +53,10 @@ namespace QTool.Tween
         {
             return QTweenDelay.Get(duration);
         }
-        public static void DelayInvoke(float time, Action action)
-        {
-            Delay(time).OnComplete(action).Play();
-        }
+        //public static void DelayInvoke(float time, Action action)
+        //{
+        //    Delay(time).OnComplete(action).Play();
+        //}
 
 		public event Action TweenUpdate;
      
