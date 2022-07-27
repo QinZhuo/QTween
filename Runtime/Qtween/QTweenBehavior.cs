@@ -60,18 +60,18 @@ namespace QTool.Tween
     }
     public abstract class QTweenBehavior<T> : QTweenBehavior
     {
-        [ViewName("¶¯»­ÇúÏß")]
+        [ViewName("åŠ¨ç”»æ›²çº¿")]
         public EaseCurve curve = EaseCurve.OutQuad;
-        [ViewName("¶¯»­Ê±³¤")]
+        [ViewName("åŠ¨ç”»æ—¶é•¿")]
         [FormerlySerializedAs("animTime")]
         public float animTime = 0.4f;
-        [ViewName("Òş²ØËÙ¶È")]
+        [ViewName("éšè—é€Ÿåº¦")]
         [Range(0.1f,5f)]
         public float hideTimeScale = 2f;
-        [ViewName("¿ªÊ¼")]
+        [ViewName("å¼€å§‹")]
         [FormerlySerializedAs("HideValue")]
         public T StartValue;
-        [ViewName("½áÊø")]
+        [ViewName("ç»“æŸ")]
         [FormerlySerializedAs("ShowValue")]
         public T EndValue;
         protected virtual void Reset()
@@ -79,12 +79,12 @@ namespace QTool.Tween
             EndValue = CurValue;
             StartValue = CurValue;
         }
-        [ContextMenu("ÉèÎª¿ªÊ¼Öµ")]
+        [ContextMenu("è®¾ä¸ºå¼€å§‹å€¼")]
         public void SetStrat()
         {
             StartValue = CurValue;
         }
-        [ContextMenu("ÉèÎª½áÊøÖµ")]
+        [ContextMenu("è®¾ä¸ºç»“æŸå€¼")]
         public void SetEnd()
         {
             EndValue = CurValue;
@@ -123,7 +123,7 @@ namespace QTool.Tween
     public abstract class QTweenBehavior : MonoBehaviour
     {
 #if UNITY_EDITOR
-        [ViewName("µ±Ç°Ê±¼ä")]
+        [ViewName("å½“å‰æ—¶é—´")]
         public float curTime;
         private void Update()
         {
@@ -154,7 +154,7 @@ namespace QTool.Tween
                 return _anim;
             }
         }
-        [ContextMenu("¶¯»­ÆğÖ¹·´Ïò")]
+        [ContextMenu("åŠ¨ç”»èµ·æ­¢åå‘")]
         public void Reverse()
         {
             ReverseStartEnd();
@@ -164,14 +164,17 @@ namespace QTool.Tween
         {
 
         }
-        [ContextMenu("Çå³ı¶¯»­»º´æ")]
+        [ContextMenu("æ¸…é™¤åŠ¨ç”»ç¼“å­˜")]
         public virtual void ClearAnim()
         {
             _anim = null;
         }
         protected virtual void OnValidate()
         {
-            ClearAnim();
+			if (!Application.isPlaying)
+			{
+				ClearAnim();
+			}
         }
         protected virtual QTween TweenInit(QTween tween)
         {
@@ -192,7 +195,7 @@ namespace QTool.Tween
         {
             await Anim.PlayAsync(show);
         }
-        public virtual void Play(bool show)
+		public virtual void Play(bool show)
         {
              Anim.Play(show);
         }
@@ -201,15 +204,18 @@ namespace QTool.Tween
             await Anim.PlayAsync(true);
             await Anim.PlayAsync(false);
         }
-        [ContextMenu("Òş²Ø")]
-        public void Hide()
-        {
-            Play(false);
-        }
-        [ContextMenu("ÏÔÊ¾")]
+      
+        [ContextMenu("æ˜¾ç¤º")]
         public void Show()
         {
             Play(true);
-        }
-    }
+			Anim.Complete();
+		}
+		[ContextMenu("éšè—")]
+		public void Hide()
+		{
+			Play(false);
+			Anim.Complete();
+		}
+	}
 }
