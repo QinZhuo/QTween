@@ -209,13 +209,13 @@ namespace QTool.Tween
         public void Show()
         {
             Play(true);
-			Anim.Complete();
+			//Anim.Complete();
 		}
 		[ContextMenu("隐藏")]
 		public void Hide()
 		{
 			Play(false);
-			Anim.Complete();
+			//Anim.Complete();
 		}
 	}
 }
