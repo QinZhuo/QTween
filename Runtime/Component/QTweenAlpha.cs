@@ -12,6 +12,10 @@ namespace QTool.Tween.Component
 		private void Awake()
 		{
 			group = GetComponent<CanvasGroup>();
+			if (group == null)
+			{
+				Debug.LogError(name + "获取 " + nameof(CanvasGroup) + " 出错");
+			}
 		}
 		public override float CurValue
         {
