@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,17 +7,13 @@ namespace QTool.Tween.Component
     [RequireComponent(typeof(CanvasGroup))]
     public class QTweenAlpha : QTweenFloat
     {
-        public CanvasGroup group;
+        private CanvasGroup group;
         public bool controlRaycast = true;
-        protected override void Reset()
-        {
-            if (group == null)
-            {
-                group = GetComponent<CanvasGroup>();
-            }
-            base.Reset();
-        }
-        public override float CurValue
+		private void Awake()
+		{
+			group = GetComponent<CanvasGroup>();
+		}
+		public override float CurValue
         {
             get => group.alpha;
             set
