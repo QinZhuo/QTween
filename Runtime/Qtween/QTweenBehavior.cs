@@ -7,63 +7,12 @@ using System.Threading.Tasks;
 
 namespace QTool.Tween
 {
-    public abstract class QTweenString : QTweenBehavior<string>
-    {
-        protected override QTween ShowTween()
-        {
 
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, EndValue, animTime).ResetStart(StartValue);
-        }
-    }
-    public abstract class QTweenVector2 : QTweenBehavior<Vector2>
-    {
-        protected override QTween ShowTween()
-        {
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, EndValue, animTime).ResetStart(StartValue);
-        }
-    }
-    public abstract class QTweenVector3 : QTweenBehavior<Vector3>
-    {
-        protected override QTween ShowTween()
-        {
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, EndValue, animTime).ResetStart(StartValue);
-        }
-    }
-    public abstract class QTweenFloat : QTweenBehavior<float>
-    {
-        protected override QTween ShowTween()
-        {
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, EndValue, animTime).ResetStart(StartValue);
-        }
-    }
-    public abstract class QTweenColor : QTweenBehavior<Color>
-    {
-        protected override QTween ShowTween()
-        {
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, EndValue, animTime).ResetStart(StartValue);
-        }
-        public override string ToString()
-        {
-            return ToViewString(StartValue) + " => " + ToViewString(EndValue);
-        }
-        public static string ToViewString(Color color)
-        {
-            return ColorUtility.ToHtmlStringRGBA(color);
-        }
-    }
-    public abstract class QTweenQuaternion : QTweenBehavior<Quaternion>
-    {
-        protected override QTween ShowTween()
-        {
-            return QTweenManager.Tween(() => CurValue, (value) => CurValue = value, EndValue, animTime).ResetStart(StartValue);
-        }
-    }
     public abstract class QTweenBehavior<T> : QTweenBehavior
     {
         [ViewName("动画曲线")]
         public EaseCurve curve = EaseCurve.OutQuad;
         [ViewName("动画时长")]
-        [FormerlySerializedAs("animTime")]
         public float animTime = 0.4f;
         [ViewName("隐藏速度")]
         [Range(0.1f,5f)]
@@ -88,17 +37,19 @@ namespace QTool.Tween
         public void SetEnd()
         {
             EndValue = CurValue;
-        }
-        public override string ToString()
+		}
+		public override void Play(bool show)
+		{
+			Anim.SetTimeScale(show ? 1 : hideTimeScale);
+			base.Play(show);
+		}
+		protected override QTween GetTween()
+		{
+			return QTween<T>.PoolGet(() => CurValue, (value) => CurValue = value, StartValue, EndValue, animTime);
+		}
+		public override string ToString()
         {
             return StartValue + " => " + EndValue;
-        }
-        public override void ReverseStartEnd()
-        {
-            var temp = EndValue;
-            EndValue = StartValue;
-            StartValue = temp;
-            this.SetDirty();
         }
         public RectTransform RectTransform
         {
@@ -113,74 +64,64 @@ namespace QTool.Tween
             CurValue = value;
             return null;
         }
-        protected override QTween TweenInit(QTween tween)
-        {
-            tween.HideTimeScale = hideTimeScale;
-            return base.TweenInit(tween).SetCurve(curve);
-        }
+       
 
     }
     public abstract class QTweenBehavior : MonoBehaviour
     {
-#if UNITY_EDITOR
-        [ViewName("当前时间")]
-        public float curTime;
-        private void Update()
-        {
-            curTime = Anim.time;
-        }
-#endif
-
+		[ViewName("初始播放")]
         public bool playOnAwake = false;
         public ActionEvent OnShow;
         public ActionEvent OnHide;
-        private void Awake()
-        {
-            if (playOnAwake)
-            {
-                Play(true);
-            }
-        }
-        protected abstract QTween ShowTween();
-        QTween _anim;
-        public QTween Anim
+
+		[ContextMenu("显示")]
+		public void Show()
+		{
+			Play(true);
+		}
+		[ContextMenu("隐藏")]
+		public void Hide()
+		{
+			Play(false);
+		}
+
+		#region 动画初始化
+
+		public QTween Anim
         {
             get
             {
-                if (_anim == null)
+#if UNITY_EDITOR
+				if (!Application.isPlaying&& _anim != null && !_anim.IsPlaying)
+				{
+					_anim = null;
+				}
+#endif
+				if (_anim == null)
                 {
-                    _anim = TweenInit(ShowTween());
-                }
+                    _anim = GetTween().OnComplete(OnAnimOver).SetAutoDestory(false);
+				}
                 return _anim;
             }
         }
-        [ContextMenu("动画起止反向")]
-        public void Reverse()
-        {
-            ReverseStartEnd();
-            ClearAnim();
-        }
-        public virtual void ReverseStartEnd()
-        {
 
-        }
-        [ContextMenu("清除动画缓存")]
-        public virtual void ClearAnim()
-        {
-            _anim = null;
-        }
-        protected virtual void OnValidate()
-        {
-			if (!Application.isPlaying)
+		private QTween _anim;
+		public void ClearAnim()
+		{
+			_anim = null;
+		}
+
+		protected abstract QTween GetTween();
+		#endregion
+
+		private void Awake()
+		{
+			if (playOnAwake)
 			{
-				ClearAnim();
+				Play(true);
 			}
-        }
-        protected virtual QTween TweenInit(QTween tween)
-        {
-            return tween.OnComplete(AnimOver).AutoDestory(false);
-        }
-        void AnimOver()
+		}
+		void OnAnimOver()
         {
             if (Anim.PlayForwads)
             {
@@ -191,31 +132,20 @@ namespace QTool.Tween
                 OnHide?.Invoke();
             }
         }
-        public virtual async Task PlayAsync(bool show)
-        {
-            await Anim.PlayAsync(show);
-        }
+       
 		public virtual void Play(bool show)
         {
              Anim.Play(show);
-        }
-        public async void ShowAndHide()
+		}
+		public virtual async Task PlayAsync(bool show)
+		{
+			await Anim.PlayAsync(show);
+		}
+		public async void ShowAndHide()
         {
             await Anim.PlayAsync(true);
             await Anim.PlayAsync(false);
         }
       
-        [ContextMenu("显示")]
-        public void Show()
-        {
-            Play(true);
-			//Anim.Complete();
-		}
-		[ContextMenu("隐藏")]
-		public void Hide()
-		{
-			Play(false);
-			//Anim.Complete();
-		}
 	}
 }

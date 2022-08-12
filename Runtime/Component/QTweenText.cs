@@ -1,9 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 namespace QTool.Tween.Component
 {
-    public class QTweenText : QTweenString
+    public class QTweenText : QTweenBehavior<string>
     {
         protected override void Reset()
         {

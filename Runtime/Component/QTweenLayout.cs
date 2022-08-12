@@ -1,12 +1,12 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace QTool.Tween.Component
 {
-    [RequireComponent(typeof( QObjectList))]
-    public class QTweenLayout: QTweenList
+    [RequireComponent(typeof(QObjectList))]
+    public class QTweenLayout: QTweenListBehavior
     {
-        public Tween.QTweenList.TweenListType listType = Tween.QTweenList.TweenListType.顺序播放;
+        public QTweenList.TweenListType listType = QTweenList.TweenListType.顺序播放;
         public QObjectList layout;
 
         private void Reset()
@@ -18,23 +18,22 @@ namespace QTool.Tween.Component
         {
             layout.OnCreate += (view) =>
             {
-                if (view != null)
-                {
-                    var node = new QTweenlistNode(view.GetComponent<QTweenBehavior>()) { type = listType };
-
+				if (view != null)
+				{
+					var node = new QTweenlistNode { qTween = view.GetComponent<QTweenBehavior>(), type = listType };
                     node.FreshName();
                     tweenList.Add(node);
-                    ClearAnim();
+					ClearAnim();
                 }
             };
             layout.OnPush += (view) =>
             {
-               var tweenNode= tweenList.Get(view.GetComponent<QTweenBehavior>(), (obj) => obj.qTween);
+				var tweenNode= tweenList.Get(view.GetComponent<QTweenBehavior>(), (obj) => obj.qTween);
                 if (tweenNode != null)
                 {
                     tweenList.Remove(tweenNode);
-                    ClearAnim();
-                }
+					ClearAnim();
+				}
             };
             //layout.OnClear += () =>
             //{

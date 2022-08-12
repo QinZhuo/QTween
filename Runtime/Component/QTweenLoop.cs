@@ -6,38 +6,33 @@ namespace QTool.Tween
 {
     public class QTweenLoop : QTweenBehavior
     {
-
         public QTweenBehavior qTween;
-        protected override QTween ShowTween()
+        protected override QTween GetTween()
         {
             return qTween?.Anim;
         }
-        public override void ClearAnim()
-        {
-            qTween?.ClearAnim();
-            base.ClearAnim();
-        }
-    
         private void Reset()
         {
             qTween = GetComponent<QTweenBehavior>();
         }
-
-        public override void Play(bool show)
+		string loopKey = QId.GetNewId();
+        public override async void Play(bool show)
         {
-            if (show)
-            {
-                OnShow.AddListener(() => Anim.Play(false));
-                OnHide.AddListener(() => Anim.Play(true));
-                Anim.Play(true);
-            }
-            else
-            {
-                OnShow.RemoveAllListeners();
-                OnHide.RemoveAllListeners();
-                Anim.Play(false);
-            }
-
+			if (show)
+			{
+				var flag = loopKey;
+				while (loopKey ==flag && this != null)
+				{
+					await Anim.PlayAsync(true);
+					await Anim.PlayAsync(false);
+				}
+			}
+			else
+			{
+				loopKey = QId.GetNewId();
+				Anim.Play(false);
+			}
+		
         }
     }
 }

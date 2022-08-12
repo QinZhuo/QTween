@@ -10,7 +10,7 @@ namespace QTool.Tween.Component
     {
         [ViewName("延迟时间")]
         public float time = 0.4f;
-        protected override QTween ShowTween()
+        protected override QTween GetTween()
         {
             return QTweenManager.Delay(time);
         }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace QTool.Tween.Component
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class QTweenAlpha : QTweenFloat
+    public class QTweenAlpha : QTweenBehavior<float>
     {
         private CanvasGroup group;
         public bool controlRaycast = true;

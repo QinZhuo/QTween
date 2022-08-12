@@ -1,11 +1,11 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
 namespace QTool.Tween.Component
 {
-    public class QTweenFloatText : QTweenFloat
+    public class QTweenFloatText : QTweenBehavior<float>
     {
         void ChangeText(string value)
         {
@@ -38,8 +38,8 @@ namespace QTool.Tween.Component
             var floatAnim= Anim as QTween<float>;
             floatAnim.StartValue = curValue;
             floatAnim.EndValue = value;
-            floatAnim.time = 0;
-        }
+
+		}
 
         public void SetFloatAnim(float value)
         {

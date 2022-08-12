@@ -9,161 +9,158 @@ using UnityEngine.Serialization;
 namespace QTool.Tween
 {
    
-    public class QTweenList :QTween
+    public sealed class QTweenList :QTween
     {
-        static ObjectPool<QTweenList> _pool;
-        static ObjectPool<QTweenList> Pool
-        {
-            get
-            {
-                return _pool ?? (_pool = QPoolManager.GetPool(typeof(QTweenList).Name, () =>
-                {
-                    return new QTweenList();
-                }));
-            }
-        }
-        public static QTweenList Get()
-        {
-            var tween = Pool.Get();
-            return tween;
-        }
-        public enum TweenListType
-        {
-            同时播放 = 1,
-            顺序播放 = 2,
-        }
-        public class TweenListNode 
-        {
-            public TweenListType type = TweenListType.同时播放;
-            public QTween tween;
-            public Action Start;
-            public Action Compelete;
-            public TweenListNode(QTween tween,TweenListType type= TweenListType.同时播放)
-            {
-                this.tween = tween;
-                this.type = type;
-            }
-        }
-        public List<TweenListNode> tweenList = new List<TweenListNode>();
+		#region 对象池逻辑
+		static ObjectPool<QTweenList> _pool;
+		static ObjectPool<QTweenList> Pool
+		{
+			get
+			{
+				return _pool ?? (_pool = QPoolManager.GetPool(typeof(QTweenList).Name, () =>
+				{
+					return new QTweenList();
+				}));
+			}
+		}
+		public static QTweenList Get()
+		{
+			var tween = Pool.Get();
+			tween.Duration = 0;
+			return tween;
+		}
+		#endregion
+		#region 内置类型
+		public enum TweenListType
+		{
+			顺序播放 = 0,
+			异步播放 = 1,
+		}
+		public struct TweenListNode
+		{
+			public QTween tween;
+			public TweenListType type;
+			public TweenListNode(QTween tween, TweenListType type = TweenListType.顺序播放)
+			{
+				this.tween = tween;
+				this.type = type;
+			}
+		}
+		#endregion
+		#region 基础属性
 
-        public QTweenList AddLast(QTween tween, TweenListType listType= TweenListType.顺序播放)
+		private QList<TweenListNode> List = new QList<TweenListNode>();
+		public int CurIndex { get; private set; } = -1;
+		public TweenListNode CurNode => List[CurIndex];
+		#endregion
+		public QTweenList AddLast(QTween tween, TweenListType type= TweenListType.顺序播放)
         {
-            tweenList.Add(new TweenListNode( tween, listType));
-            initOver = false;
-            return this;
-        }
-        public override QTween Play(bool playForwads = true,float timeScale=1)
-        {
-
-            this.PlayForwads = playForwads;
-            this.TimeScale = timeScale;
-            if (tweenList.Count > 0)
-            {
-                InitTween();
-                if (curNode == null)
-                {
-                    curNode = playForwads ? tweenList[0] : tweenList[tweenList.Count - 1];
-                }
-                InitTime();
-            }
-            curNode?.tween?.Play(playForwads);
-            return base.Play(playForwads);
-        }
-        bool initOver = false;
-        public TweenListNode curNode;
-        public void InitTime()
-        {
-            Duration = 0;
-            for (int i = 0; i < tweenList.Count; i++)
-            {
-                var last = (i - 1) >= 0 ? tweenList[i - 1] : null;
-                var tweenNode = tweenList[i];
-                if(tweenNode.tween is QTweenList)
-                {
-                    (tweenNode.tween as QTweenList).InitTime();
-                }
-                if (tweenNode.type == TweenListType.顺序播放)
-                {
-                    Duration += tweenNode.tween.Duration;
-                }
-                else if (tweenNode.type == TweenListType.同时播放)
-                {
-                    if (last != null)
-                    {
-                        Duration -= last.tween.Duration;
-                    }
-                    Duration += tweenNode.tween.Duration;
-                }
-            }
-        }
-        public void InitTween()
-        {
-            if (initOver) return;
-            initOver = true;
-            
-            for (int i = 0; i < tweenList.Count; i++)
-            {
-                var last = (i - 1) >= 0? tweenList[i-1] : null;
-                var next= (i + 1) < tweenList.Count ? tweenList[i + 1] : null;
-                var tweenNode = tweenList[i];
-               
-                tweenNode.tween.OnStartEvent -= tweenNode.Start;
-                tweenNode.tween.OnCompleteEvent -= tweenNode.Compelete; 
-                tweenNode.Start = () =>
-                {
-                    curNode = tweenNode;
-                    TimeScale = curNode.tween.TimeScale;
-                    SyncPlay(PlayForwads ? next : last);
-                };
-                tweenNode.Compelete = () =>
-                {
-                    NextPlay(PlayForwads ? next : last);
-                };
-                tweenNode.tween?.OnStart(tweenNode.Start).OnComplete(tweenNode.Compelete);
-            }
-            InitTime();
-        }
-        public void SyncPlay(TweenListNode next)
-        {
-            if (next != null && next.type == TweenListType.同时播放)
-            {
-                next.tween?.Play(PlayForwads);
-            }
-        }
-        public void NextPlay(TweenListNode next)
-        {
-            if (next != null && next.type== TweenListType.顺序播放)
-            {
-                next.tween?.Play(PlayForwads);
-            }
-        }
+			switch (type)
+			{
+				case TweenListType.异步播放:
+					if (List.StackPeek().type!= TweenListType.异步播放)
+					{
+						Duration += tween.Duration;
+					}
+					break;
+				default:
+					Duration += tween.Duration;
+					break;
+			}
+			List.Add(new TweenListNode(tween, type));
+			return this;
+		}
         public override void OnPoolRecover()
         {
             base.OnPoolRecover();
-            curNode = null;
-            tweenList.Clear();
+			CurIndex =-1;
+            List.Clear();
         }
-
-        public override void Destory()
+		protected override void OnStart()
+		{
+			base.OnStart();
+			if (IsEnd)
+			{
+				CurIndex = PlayForwads ?  -1: List.Count;
+			}
+		}
+		protected override void Destory()
         {
             Pool.Push(this);
         }
-        public override void Complete()
-        {
-            foreach (var kv in tweenList)
-            {
-                kv.tween?.Complete();
-            }
-            base.Complete();
+        protected override void OnComplete()
+		{
+			while (!IsEnd)
+			{
+				if (CurNode.tween != null)
+				{
+					CurNode.tween.Play(PlayForwads);
+					CurNode.tween.Complete();
+				}
+				Next();
+			}
+			base.OnComplete();
         }
-        public override void UpdateValue()
+		public bool IsEnd
+		{
+			get => PlayForwads ? (CurIndex >= List.Count) : (CurIndex < 0);
+		}
+		public void Next()
+		{
+			if (PlayForwads)
+			{
+				CurIndex++;
+			}
+			else
+			{
+				CurIndex--;
+			}
+			CurIndex = Mathf.Clamp(CurIndex, -1, List.Count );
+		}
+        protected override void OnUpdate()
         {
-        }
+			if (CurNode.tween==null||CurNode.type== TweenListType.异步播放|| CurNode.tween.IsPlaying)
+			{
+				if (!IsEnd)
+				{
+					Next();
+					if (CurNode.tween != null)
+					{
+						CurNode.tween.Play(PlayForwads);
+					}
+
+				}
+			}
+		}
         public override string ToString()
         {
-            return "动画列表[" + tweenList.Count + "]"+Duration;
+            return "动画列表[" + List.Count + "]"+Duration;
         }
-    }
+		public override QTween SetAutoDestory(bool value)
+		{
+			foreach (var node in List)
+			{
+				node.tween.SetAutoDestory(value);
+			}
+			return base.SetAutoDestory(value);
+		}
+		public override QTween SetIgnoreTimeScale(bool value)
+		{
+			foreach (var node in List)
+			{
+				node.tween.SetIgnoreTimeScale(value);
+			}
+			return base.SetIgnoreTimeScale(value);
+		}
+		public override QTween SetTimeScale(float value)
+		{
+			foreach (var node in List)
+			{
+				node.tween.SetTimeScale(value);
+			}
+			return base.SetTimeScale(value);
+		}
+	}
     
    
 

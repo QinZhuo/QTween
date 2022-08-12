@@ -753,7 +753,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202baf7b91b533540b266841d5649be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curTime: 0
   playOnAwake: 0
   OnShow:
     m_PersistentCalls:
@@ -796,7 +795,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.24768537, b: 0.24768537, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -833,7 +832,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0333a03d205ef0419e373860fcd5573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curTime: 0
   playOnAwake: 0
   OnShow:
     m_PersistentCalls:
@@ -847,7 +845,6 @@ MonoBehaviour:
   StartValue: {r: 1, g: 1, b: 1, a: 1}
   EndValue: {r: 1, g: 0, b: 0, a: 1}
   onlyAlpha: 0
-  ui: {fileID: 554808980}
 --- !u!114 &554808983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -860,7 +857,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b274123043d01e4db0a2ed261fefe2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curTime: 0
   playOnAwake: 0
   OnShow:
     m_PersistentCalls:
@@ -1249,7 +1245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202baf7b91b533540b266841d5649be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curTime: 0
   playOnAwake: 0
   OnShow:
     m_PersistentCalls:
@@ -1308,7 +1303,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 864485366}
         m_TargetAssemblyTypeName: QTool.Tween.QTweenBehavior, QTweenRuntime
-        m_MethodName: Show
+        m_MethodName: Hide
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1319,7 +1314,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 816792044}
-        m_TargetAssemblyTypeName: QTool.Tween.Component.QTweenBehavior, QTweenRuntime
+        m_TargetAssemblyTypeName: QTool.Tween.QTweenBehavior, QTweenRuntime
         m_MethodName: Hide
         m_Mode: 1
         m_Arguments:
@@ -1400,7 +1395,7 @@ RectTransform:
   m_GameObject: {fileID: 836658323}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 0.8012217, y: 0.8012217, z: 0}
   m_Children: []
   m_Father: {fileID: 531520165}
   m_RootOrder: 1
@@ -1460,7 +1455,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202baf7b91b533540b266841d5649be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curTime: 0
   playOnAwake: 0
   OnShow:
     m_PersistentCalls:
@@ -1502,7 +1496,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202baf7b91b533540b266841d5649be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curTime: 0
   playOnAwake: 0
   OnShow:
     m_PersistentCalls:
@@ -1587,7 +1580,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0333a03d205ef0419e373860fcd5573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curTime: 0
   playOnAwake: 0
   OnShow:
     m_PersistentCalls:
@@ -1601,7 +1593,6 @@ MonoBehaviour:
   StartValue: {r: 1, g: 1, b: 1, a: 1}
   EndValue: {r: 1, g: 0.3622641, b: 0.3622641, a: 1}
   onlyAlpha: 0
-  ui: {fileID: 836658325}
 --- !u!1 &864485359
 GameObject:
   m_ObjectHideFlags: 0
@@ -1633,7 +1624,7 @@ RectTransform:
   m_GameObject: {fileID: 864485359}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0}
   m_Children:
   - {fileID: 429325218}
   m_Father: {fileID: 531520165}
@@ -1656,7 +1647,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202baf7b91b533540b266841d5649be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curTime: 0
   playOnAwake: 0
   OnShow:
     m_PersistentCalls:
@@ -1715,7 +1705,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 864485366}
         m_TargetAssemblyTypeName: QTool.Tween.QTweenBehavior, QTweenRuntime
-        m_MethodName: Hide
+        m_MethodName: Show
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1726,7 +1716,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 816792044}
-        m_TargetAssemblyTypeName: QTool.Tween.Component.QTweenBehavior, QTweenRuntime
+        m_TargetAssemblyTypeName: QTool.Tween.QTweenBehavior, QTweenRuntime
         m_MethodName: Show
         m_Mode: 1
         m_Arguments:
@@ -1735,7 +1725,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &864485363
 MonoBehaviour:
@@ -1750,7 +1740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1787,7 +1777,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0333a03d205ef0419e373860fcd5573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curTime: 0
   playOnAwake: 0
   OnShow:
     m_PersistentCalls:
@@ -1801,7 +1790,6 @@ MonoBehaviour:
   StartValue: {r: 1, g: 0, b: 0, a: 1}
   EndValue: {r: 1, g: 1, b: 1, a: 1}
   onlyAlpha: 0
-  ui: {fileID: 864485363}
 --- !u!114 &864485366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1814,7 +1802,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d83c75b851ac2040ab3763939459e00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curTime: 0
   playOnAwake: 0
   OnShow:
     m_PersistentCalls:
@@ -1883,7 +1870,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1f79fe8b7559674d9321eaeb77e5b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curTime: 0
   playOnAwake: 0
   OnShow:
     m_PersistentCalls:
@@ -1896,7 +1882,6 @@ MonoBehaviour:
   hideTimeScale: 2
   StartValue: 0
   EndValue: 1
-  group: {fileID: 902409119}
   controlRaycast: 1
 --- !u!225 &902409119
 CanvasGroup:
@@ -1980,7 +1965,7 @@ RectTransform:
   m_GameObject: {fileID: 1096840109}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0}
   m_Children: []
   m_Father: {fileID: 531520165}
   m_RootOrder: 6
@@ -2002,7 +1987,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202baf7b91b533540b266841d5649be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curTime: 0
   playOnAwake: 0
   OnShow:
     m_PersistentCalls:
@@ -2012,7 +1996,7 @@ MonoBehaviour:
       m_Calls: []
   curve: 5
   animTime: 0.4
-  hideTimeScale: 2
+  hideTimeScale: 1
   StartValue: {x: 1, y: 1}
   EndValue: {x: 0.5, y: 0.5}
 --- !u!114 &1096840112
@@ -2028,7 +2012,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.97164285, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2065,7 +2049,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0333a03d205ef0419e373860fcd5573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curTime: 0
   playOnAwake: 0
   OnShow:
     m_PersistentCalls:
@@ -2079,7 +2062,6 @@ MonoBehaviour:
   StartValue: {r: 1, g: 0.97164285, b: 0, a: 1}
   EndValue: {r: 1, g: 1, b: 1, a: 1}
   onlyAlpha: 0
-  ui: {fileID: 1096840112}
 --- !u!114 &1096840115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2092,7 +2074,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d83c75b851ac2040ab3763939459e00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curTime: 0
   playOnAwake: 0
   OnShow:
     m_PersistentCalls:
@@ -2106,10 +2087,10 @@ MonoBehaviour:
     type: 1
   - name: "Image.\u5EF6\u8FDF 1 \u79D2"
     qTween: {fileID: 1096840116}
-    type: 2
+    type: 1
   - name: "Image.\u989C\u8272 FFF800FF => FFFFFFFF"
     qTween: {fileID: 1096840114}
-    type: 2
+    type: 1
 --- !u!114 &1096840116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2122,7 +2103,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d94d12b9918e3e4babaff480193765c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curTime: 0
   playOnAwake: 0
   OnShow:
     m_PersistentCalls:
@@ -2488,7 +2468,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48f0dc06af3108e41b2bdbee35890ced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curTime: 0
   playOnAwake: 0
   OnShow:
     m_PersistentCalls:
