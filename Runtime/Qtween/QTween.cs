@@ -12,7 +12,7 @@ namespace QTool.Tween
 		#region 基础属性
 		private bool _isPlaying = false;
 		public bool PlayForwads { get; private set; } = true;
-		public  float Time { get; private set; } = -1f;
+		public  float Time { get; internal set; } = -1f;
 		public  float Duration { get; protected set; }
 		public float TimeScale { get;private set; } = 1;
 		public bool IgnoreTimeScale { set;private get; } = true;
@@ -136,9 +136,9 @@ namespace QTool.Tween
 		}
 		protected virtual void OnStart()
 		{
-			if (Time < 0 || Time > Duration)
+			if (Time < 0)
 			{
-				Time = PlayForwads ? 0 : Duration;
+				Time = PlayForwads?0:Duration;
 			}
 		}
 		public async Task PlayAsync(bool PlayForwads = true)
@@ -152,7 +152,7 @@ namespace QTool.Tween
 		}
 		private void Update()
 		{
-			Time += (Application.isPlaying ? (IgnoreTimeScale ? UnityEngine.Time.unscaledDeltaTime : UnityEngine.Time.deltaTime) : Tool.EditorDeltaTime) * (PlayForwads ? 1 : -1) * TimeScale;
+			Time += (Application.isPlaying ? (IgnoreTimeScale ? UnityEngine.Time.unscaledDeltaTime : UnityEngine.Time.deltaTime) :Mathf.Min( Tool.EditorDeltaTime,0.1f)) * (PlayForwads ? 1 : -1) * TimeScale;
 			Update(Time);
 		}
 		private void Update(float time)

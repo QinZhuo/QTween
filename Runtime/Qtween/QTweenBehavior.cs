@@ -40,7 +40,7 @@ namespace QTool.Tween
 		}
 		protected override QTween GetTween()
 		{
-			return QTween<T>.PoolGet(() => CurValue, (value) => CurValue = value, StartValue, EndValue, animTime);
+			return QTween<T>.PoolGet(() => CurValue, (value) => CurValue = value, StartValue, EndValue, animTime); 
 		}
 		public override string ToString()
         {
@@ -142,11 +142,11 @@ namespace QTool.Tween
 		}
 		public virtual void Play(bool show)
         {
-             Anim.SetTimeScale(show ? 1 : hideTimeScale).Play(show);
+			_=PlayAsync(show);
 		}
-		public virtual async Task PlayAsync(bool show)
+		public async Task PlayAsync(bool show)
 		{
-			await Anim.PlayAsync(show);
+			await Anim.SetTimeScale(show ? 1 : hideTimeScale).PlayAsync(show);
 		}
 		public async void ShowAndHide()
         {

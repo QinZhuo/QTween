@@ -78,11 +78,11 @@ namespace QTool.Tween
         }
 		protected override void OnStart()
 		{
-			base.OnStart();
-			if (IsEnd)
+			if (Time < 0)
 			{
-				CurIndex = PlayForwads ?  -1: List.Count;
+				CurIndex = PlayForwads ? -1 : List.Count;
 			}
+			base.OnStart();
 		}
 		public override void Destory()
         {

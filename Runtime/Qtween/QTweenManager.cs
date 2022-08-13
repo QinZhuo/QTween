@@ -15,7 +15,8 @@ namespace QTool.Tween
 		static void InitValueLerp()
 		{
 			QTween<string>.ValueLerp = QLerp.LerpTo;
-			QTween<float>.ValueLerp = QLerp.LerpTo;
+			QTween<float>.ValueLerp = QLerp.LerpTo; 
+			QTween<double>.ValueLerp = QLerp.LerpTo;
 			QTween<Vector2>.ValueLerp = QLerp.LerpTo;
 			QTween<Vector3>.ValueLerp = QLerp.LerpTo;
 			QTween<Quaternion>.ValueLerp = QLerp.LerpTo;
