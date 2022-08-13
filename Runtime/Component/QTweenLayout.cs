@@ -35,11 +35,6 @@ namespace QTool.Tween.Component
 					ClearAnim();
 				}
             };
-            //layout.OnClear += () =>
-            //{
-            //    ClearAnim();
-            ////   lastTween.nextUIShow = null;
-            //};
         }
     }
 }

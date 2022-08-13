@@ -13,19 +13,16 @@ namespace QTool.Tween
 		[Group(true)]
         [ViewName("动画曲线")]
 		[SerializeField]
-		protected EaseCurve curve = EaseCurve.OutQuad;
+		public EaseCurve curve = EaseCurve.OutQuad;
         [ViewName("动画时长")]
-		[SerializeField]
-		protected float animTime = 0.4f;
+		public float animTime = 0.4f;
 		[ViewName("开始")]
-		[SerializeField]
 		[FormerlySerializedAs("HideValue")]
-        protected T StartValue;
+        public T StartValue;
         [ViewName("结束")]
 		[Group(false)]
-		[SerializeField]
 		[FormerlySerializedAs("ShowValue")]
-        protected T EndValue;
+        public T EndValue;
         protected virtual void Reset()
         {
             EndValue = CurValue;
@@ -87,11 +84,10 @@ namespace QTool.Tween
 		{
 			Play(true);
 		}
-		public bool IsOver => Anim.IsOver;
 		
 		#region 动画初始化
 
-		internal QTween Anim
+		public QTween Anim
         {
             get
             {
@@ -110,7 +106,10 @@ namespace QTool.Tween
         }
 
 		private QTween _anim;
-		protected void ClearAnim()
+		/// <summary>
+		/// 清空动画缓存 自动生成新动画
+		/// </summary>
+		public virtual void ClearAnim()
 		{
 			_anim?.Destory();
 			_anim = null;

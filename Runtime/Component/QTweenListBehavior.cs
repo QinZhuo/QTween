@@ -17,6 +17,7 @@ namespace QTool.Tween.Component
 				name = qTween?.name;
 			}
         }
+		[ViewName("动画队列")]
 		[SerializeField]
         protected List<QTweenlistNode> tweenList = new List<QTweenlistNode>();
         protected override QTween GetTween()
@@ -33,6 +34,14 @@ namespace QTool.Tween.Component
         {
             return Anim.ToString();
         }
-    }
+		public override void ClearAnim()
+		{
+			foreach (var node in tweenList)
+			{
+				node.qTween?.ClearAnim();
+			}
+			base.ClearAnim();
+		}
+	}
 }
 
