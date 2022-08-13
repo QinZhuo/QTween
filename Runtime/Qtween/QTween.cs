@@ -176,7 +176,7 @@ namespace QTool.Tween
 				Destory();
 			}
 		}
-		protected abstract void Destory();
+		public abstract void Destory();
 		#endregion
 		#region 更改生命周期
 		public QTween Stop()
@@ -218,7 +218,7 @@ namespace QTool.Tween
 		protected override void OnUpdate()
 		{
 		}
-		protected override void Destory()
+		public override void Destory()
 		{
 			Pool.Push(this);
 		}
@@ -284,7 +284,7 @@ namespace QTool.Tween
 		}
 
 		#endregion
-		protected override void Destory()
+		public override void Destory()
 		{
 			Pool.Push(this);
 		}

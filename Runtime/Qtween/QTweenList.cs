@@ -84,7 +84,7 @@ namespace QTool.Tween
 				CurIndex = PlayForwads ?  -1: List.Count;
 			}
 		}
-		protected override void Destory()
+		public override void Destory()
         {
             Pool.Push(this);
         }

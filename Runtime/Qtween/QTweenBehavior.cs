@@ -12,18 +12,20 @@ namespace QTool.Tween
     {
 		[Group(true)]
         [ViewName("动画曲线")]
-        public EaseCurve curve = EaseCurve.OutQuad;
+		[SerializeField]
+		protected EaseCurve curve = EaseCurve.OutQuad;
         [ViewName("动画时长")]
-		[Group(false)]
-		public float animTime = 0.4f;
-		[Group(true)]
+		[SerializeField]
+		protected float animTime = 0.4f;
 		[ViewName("开始")]
-        [FormerlySerializedAs("HideValue")]
-        public T StartValue;
+		[SerializeField]
+		[FormerlySerializedAs("HideValue")]
+        protected T StartValue;
         [ViewName("结束")]
 		[Group(false)]
+		[SerializeField]
 		[FormerlySerializedAs("ShowValue")]
-        public T EndValue;
+        protected T EndValue;
         protected virtual void Reset()
         {
             EndValue = CurValue;
@@ -64,11 +66,13 @@ namespace QTool.Tween
 
     }
     public abstract class QTweenBehavior : MonoBehaviour
-    {
+	{
+		[Group(true)]
 		[ViewName("初始播放")]
         public bool playOnAwake = false;
 		[ViewName("隐藏速度")]
 		[Range(0.1f, 5f)]
+		[Group(false)]
 		public float hideTimeScale = 2f;
 		public ActionEvent OnShow;
         public ActionEvent OnHide;
@@ -83,10 +87,11 @@ namespace QTool.Tween
 		{
 			Play(true);
 		}
+		public bool IsOver => Anim.IsOver;
 		
 		#region 动画初始化
 
-		public QTween Anim
+		internal QTween Anim
         {
             get
             {
@@ -105,8 +110,9 @@ namespace QTool.Tween
         }
 
 		private QTween _anim;
-		public void ClearAnim()
+		protected void ClearAnim()
 		{
+			_anim?.Destory();
 			_anim = null;
 		}
 
@@ -131,7 +137,10 @@ namespace QTool.Tween
                 OnHide?.Invoke();
             }
         }
-       
+		public void Complete()
+		{
+			Anim.Complete();
+		}
 		public virtual void Play(bool show)
         {
              Anim.SetTimeScale(show ? 1 : hideTimeScale).Play(show);
