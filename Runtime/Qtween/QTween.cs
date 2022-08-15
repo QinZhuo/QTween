@@ -145,7 +145,7 @@ namespace QTool.Tween
 		{
 			var flag = Application.isPlaying;
 			Play(PlayForwads);
-			while (!IsOver&& flag==Application.isPlaying)
+			while (PlayForwads == this.PlayForwads && !IsOver&& flag==Application.isPlaying)
 			{
 				await Task.Yield();
 			}
