@@ -38,6 +38,11 @@ namespace QTool.Tween
         {
             EndValue = CurValue;
 		}
+		public override Task PlayAsync(bool show)
+		{
+			Anim.SetCurve(curve);
+			return base.PlayAsync(show);
+		}
 		protected override QTween GetTween()
 		{
 			return QTween<T>.PoolGet(() => CurValue, (value) => CurValue = value, StartValue, EndValue, animTime); 
@@ -141,11 +146,11 @@ namespace QTool.Tween
 		{
 			Anim.Complete();
 		}
-		public virtual void Play(bool show)
+		public void Play(bool show)
         {
 			_=PlayAsync(show);
 		}
-		public async Task PlayAsync(bool show)
+		public virtual async Task PlayAsync(bool show)
 		{
 			await Anim.SetTimeScale(show ? 1 : hideTimeScale).PlayAsync(show);
 		}
