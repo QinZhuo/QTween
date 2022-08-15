@@ -295,7 +295,14 @@ namespace QTool.Tween
 			}
 			catch (Exception e)
 			{
-				Debug.LogWarning(Target?.transform.GetPath() +" "+Target+ " 更新动画 QTween<" + typeof(T) + ">出错：" + e);
+				if (Target == null)
+				{
+					Debug.LogWarning("更新动画 QTween<" + typeof(T) + ">出错：" + e);
+				}
+				else
+				{
+					Debug.LogWarning(Target?.transform.GetPath() + " " + Target + " 更新动画 QTween<" + typeof(T) + ">出错：" + e);
+				}
 			}
 		}
 
