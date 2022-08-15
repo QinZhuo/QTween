@@ -7,27 +7,22 @@ namespace QTool.Tween.Component
     [RequireComponent(typeof(CanvasGroup))]
     public class QTweenAlpha : QTweenBehavior<float>
     {
-        private CanvasGroup group;
-        public bool controlRaycast = true;
-		private void Awake()
-		{
-			group = GetComponent<CanvasGroup>();
-			if (group == null)
-			{
-				Debug.LogError(name + "获取 " + nameof(CanvasGroup) + " 出错");
-			}
-		}
+		CanvasGroup _group = null;
+
+		private CanvasGroup Group => _group ?? GetComponent<CanvasGroup>();
+
+		public bool controlRaycast = true;
 		public override float CurValue
         {
-            get => group.alpha;
+            get => Group.alpha;
             set
             {
-                group.alpha = value;
+                Group.alpha = value;
                 if (controlRaycast)
                 {
-                    var boolvalue = group.alpha >= 0.9f;
-                    group.blocksRaycasts = boolvalue;
-                    group.interactable = boolvalue;
+                    var boolvalue = Group.alpha >= 0.9f;
+                    Group.blocksRaycasts = boolvalue;
+                    Group.interactable = boolvalue;
                 }
                
             }
