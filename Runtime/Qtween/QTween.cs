@@ -11,7 +11,7 @@ namespace QTool.Tween
 	{
 		#region 基础属性
 		private bool _isPlaying = false;
-		public bool PlayForwads { get; private set; } = true;
+		public bool PlayForwads { get; private set; } = false;
 		public  float Time { get; internal set; } = -1f;
 		public  float Duration { get; protected set; }
 		public float TimeScale { get;private set; } = 1;
@@ -55,7 +55,7 @@ namespace QTool.Tween
 		public event Action OnUpdateEvent;
 		public virtual void OnPoolRecover()
 		{
-			PlayForwads = true;
+			PlayForwads = false;
 			Time = -1;
 			TimeScale = 1;
 			Duration = 0;
