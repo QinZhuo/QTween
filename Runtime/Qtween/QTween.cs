@@ -263,7 +263,21 @@ namespace QTool.Tween
 			tween.Duration = duration;
 			return tween;
 		}
-
+		protected override void OnStart()
+		{
+			if (StartValue.Equals(Get()))
+			{
+				Time = 0;
+			}
+			else if (EndValue.Equals(Get()))
+			{
+				Time = Duration;
+			}
+			else
+			{
+				base.OnStart();
+			}
+		}
 		#endregion
 		#region 补间逻辑
 		public T StartValue { set; get; }
