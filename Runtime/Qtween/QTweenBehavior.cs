@@ -100,6 +100,7 @@ namespace QTool.Tween
 				if (_anim == null)
                 {
                     _anim = GetTween().OnComplete(OnAnimOver).SetAutoDestory(false);
+					_anim.Target = this;
 				}
                 return _anim;
             }

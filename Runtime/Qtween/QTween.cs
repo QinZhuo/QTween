@@ -18,6 +18,7 @@ namespace QTool.Tween
 		public bool IgnoreTimeScale { set;private get; } = true;
 		public bool AutoDestory { set;private get; } = true;
 		public Func<float, float> TweenCurve { get; set; } = Curve.Quad.Out();
+		internal object Target { set; get; }
 		#region 更改数值
 		public QTween SetCurve(EaseCurve ease)
 		{
@@ -55,6 +56,7 @@ namespace QTool.Tween
 		public event Action OnUpdateEvent;
 		public virtual void OnPoolRecover()
 		{
+			Target = null;
 			PlayForwads = false;
 			Time = -1;
 			TimeScale = 1;
@@ -279,7 +281,7 @@ namespace QTool.Tween
 			}
 			catch (Exception e)
 			{
-				Debug.LogWarning("QTween<" + typeof(T) + ">更新数值出错：" + e);
+				Debug.LogWarning(Target+ " 更新动画 QTween<" + typeof(T) + ">出错：" + e);
 			}
 		}
 
