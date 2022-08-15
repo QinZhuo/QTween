@@ -33,8 +33,9 @@ namespace QTool.Tween
 		#region 内置类型
 		public enum TweenListType
 		{
-			顺序播放 = 0,
+			默认 =0,
 			异步播放 = 1,
+			顺序播放 = 2,
 		}
 		public struct TweenListNode
 		{
