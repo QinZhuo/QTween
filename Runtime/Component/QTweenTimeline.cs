@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using UnityEngine.Playables;
+using System.Threading.Tasks;
+
 namespace QTool.Tween.Component
 {
 	[RequireComponent(typeof(PlayableDirector))]
@@ -39,13 +41,11 @@ namespace QTool.Tween.Component
 				EndValue = 0;
 			}
 		}
-		public override void Play(bool show)
+		public override Task PlayAsync(bool show)
 		{
 			playableDirector.timeUpdateMode = DirectorUpdateMode.Manual;
 			playableDirector.CompleteAndPlay(playableAsset);
-			base.Play(show);
+			return base.PlayAsync(show);
 		}
-
-
 	}
 }
