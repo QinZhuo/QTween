@@ -129,15 +129,12 @@ namespace QTool.Tween
 		}
         protected override void OnUpdate()
         {
-			if (CurNode.tween==null||(CurNode.type== TweenListType.异步播放&& NextNode.type== TweenListType.异步播放) || !CurNode.tween.IsPlaying)
+			while (!IsEnd && (CurNode.type == TweenListType.异步播放 && NextNode.type == TweenListType.异步播放 || CurNode.tween == null || !CurNode.tween.IsPlaying ))
 			{
-				if (!IsEnd)
+				Next();
+				if (CurNode.tween != null)
 				{
-					Next();
-					if (CurNode.tween != null)
-					{
-						CurNode.tween.Play(PlayForwads);
-					}
+					CurNode.tween.Play(PlayForwads);
 				}
 			}
 		}

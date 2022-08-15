@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 0
+  hideTimeScale: 5
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -220,7 +221,6 @@ MonoBehaviour:
       m_Calls: []
   curve: 5
   animTime: 1
-  hideTimeScale: 5
   StartValue: {x: 0, y: 0}
   EndValue: {x: 1, y: 1}
 --- !u!1 &311271209
@@ -312,6 +312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 0
+  hideTimeScale: 5
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -320,7 +321,6 @@ MonoBehaviour:
       m_Calls: []
   curve: 5
   animTime: 1
-  hideTimeScale: 5
   StartValue: {x: 0, y: 0}
   EndValue: {x: 1, y: 1}
 --- !u!1 &359821280
@@ -589,6 +589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 0
+  hideTimeScale: 5
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -597,7 +598,6 @@ MonoBehaviour:
       m_Calls: []
   curve: 5
   animTime: 1
-  hideTimeScale: 5
   StartValue: {x: 0, y: 0}
   EndValue: {x: 1, y: 1}
 --- !u!1 &879084439
@@ -959,6 +959,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 0
+  hideTimeScale: 5
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -967,7 +968,6 @@ MonoBehaviour:
       m_Calls: []
   curve: 5
   animTime: 1
-  hideTimeScale: 5
   StartValue: {x: 0, y: 0}
   EndValue: {x: 1, y: 1}
 --- !u!1 &1342987750
@@ -1134,6 +1134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 0
+  hideTimeScale: 5
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -1142,7 +1143,6 @@ MonoBehaviour:
       m_Calls: []
   curve: 5
   animTime: 1
-  hideTimeScale: 5
   StartValue: {x: 0, y: 0}
   EndValue: {x: 1, y: 1}
 --- !u!1 &1567884080
@@ -1317,6 +1317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 0
+  hideTimeScale: 5
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -1325,7 +1326,6 @@ MonoBehaviour:
       m_Calls: []
   curve: 5
   animTime: 1
-  hideTimeScale: 5
   StartValue: {x: 0, y: 0}
   EndValue: {x: 1, y: 1}
 --- !u!1 &1747759398
@@ -1417,6 +1417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 0
+  hideTimeScale: 5
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -1425,7 +1426,6 @@ MonoBehaviour:
       m_Calls: []
   curve: 5
   animTime: 1
-  hideTimeScale: 5
   StartValue: {x: 0, y: 0}
   EndValue: {x: 1, y: 1}
 --- !u!1 &1792775559
@@ -1625,6 +1625,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 0
+  hideTimeScale: 2
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -1634,13 +1635,13 @@ MonoBehaviour:
   tweenList:
   - name: "Image.\u5927\u5C0F (0.0, 0.0) => (1.0, 1.0)"
     qTween: {fileID: 2089570752}
-    type: 1
+    type: 0
   - name: "Image (1).\u5927\u5C0F (0.0, 0.0) => (1.0, 1.0)"
     qTween: {fileID: 47528635}
-    type: 1
+    type: 0
   - name: "Image (2).\u5927\u5C0F (0.0, 0.0) => (1.0, 1.0)"
     qTween: {fileID: 311271213}
-    type: 1
+    type: 0
   - name: "Image (3).\u5927\u5C0F (0.0, 0.0) => (1.0, 1.0)"
     qTween: {fileID: 1577403863}
     type: 1
@@ -1652,10 +1653,10 @@ MonoBehaviour:
     type: 1
   - name: "Image (6).\u5927\u5C0F (0.0, 0.0) => (1.0, 1.0)"
     qTween: {fileID: 1747759402}
-    type: 1
+    type: 0
   - name: "Image (7).\u5927\u5C0F (0.0, 0.0) => (1.0, 1.0)"
     qTween: {fileID: 492392189}
-    type: 1
+    type: 0
 --- !u!1 &2089570748
 GameObject:
   m_ObjectHideFlags: 0
@@ -1745,6 +1746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 0
+  hideTimeScale: 5
   OnShow:
     m_PersistentCalls:
       m_Calls: []
@@ -1753,6 +1755,5 @@ MonoBehaviour:
       m_Calls: []
   curve: 5
   animTime: 1
-  hideTimeScale: 5
   StartValue: {x: 0, y: 0}
   EndValue: {x: 1, y: 1}
