@@ -33,9 +33,8 @@ namespace QTool.Tween
 		#region 内置类型
 		public enum TweenListType
 		{
-			默认 =0,
+			顺序播放 = 0,
 			异步播放 = 1,
-			顺序播放 = 2,
 		}
 		public struct TweenListNode
 		{
@@ -59,7 +58,15 @@ namespace QTool.Tween
 			switch (type)
 			{
 				case TweenListType.异步播放:
-					if (List.StackPeek().type!= TweenListType.异步播放)
+					if (List.Count > 0)
+					{
+						if (List.StackPeek().type == TweenListType.异步播放)
+						{
+							Duration -= List.StackPeek().tween.Duration;
+							Duration += tween.Duration;
+						}
+					}
+					else
 					{
 						Duration += tween.Duration;
 					}
@@ -79,7 +86,7 @@ namespace QTool.Tween
         }
 		protected override void OnStart()
 		{
-			if (Time < 0)
+			if (Time <0)
 			{
 				CurIndex = PlayForwads ? -1 : List.Count;
 			}
@@ -102,10 +109,12 @@ namespace QTool.Tween
 			}
 			base.OnComplete();
         }
+
 		public bool IsEnd
 		{
 			get => PlayForwads ? (CurIndex >= List.Count) : (CurIndex < 0);
 		}
+		public TweenListNode NextNode => List[CurIndex +( PlayForwads ? 1 : -1)];
 		public void Next()
 		{
 			if (PlayForwads)
@@ -120,7 +129,7 @@ namespace QTool.Tween
 		}
         protected override void OnUpdate()
         {
-			if (CurNode.tween==null||CurNode.type== TweenListType.异步播放|| CurNode.tween.IsPlaying)
+			if (CurNode.tween==null||(CurNode.type== TweenListType.异步播放&& NextNode.type== TweenListType.异步播放) || !CurNode.tween.IsPlaying)
 			{
 				if (!IsEnd)
 				{
@@ -129,7 +138,6 @@ namespace QTool.Tween
 					{
 						CurNode.tween.Play(PlayForwads);
 					}
-
 				}
 			}
 		}
