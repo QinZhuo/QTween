@@ -18,7 +18,7 @@ namespace QTool.Tween
 		public bool IgnoreTimeScale { set;private get; } = true;
 		public bool AutoDestory { set;private get; } = true;
 		public Func<float, float> TweenCurve { get; set; } = Curve.Quad.Out();
-		internal object Target { set; get; }
+		internal MonoBehaviour Target { set; get; }
 		#region 更改数值
 		public QTween SetCurve(EaseCurve ease)
 		{
@@ -281,7 +281,7 @@ namespace QTool.Tween
 			}
 			catch (Exception e)
 			{
-				Debug.LogWarning(Target+ " 更新动画 QTween<" + typeof(T) + ">出错：" + e);
+				Debug.LogWarning(Target?.transform.GetPath() +" "+Target+ " 更新动画 QTween<" + typeof(T) + ">出错：" + e);
 			}
 		}
 
