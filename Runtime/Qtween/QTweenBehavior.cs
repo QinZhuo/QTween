@@ -40,12 +40,11 @@ namespace QTool.Tween
 		}
 		public override Task PlayAsync(bool show)
 		{
-			Anim.SetCurve(curve);
 			return base.PlayAsync(show);
 		}
 		protected override QTween GetTween()
 		{
-			return QTween<T>.PoolGet(() => CurValue, (value) => CurValue = value, StartValue, EndValue, animTime); 
+			return QTween<T>.PoolGet(() => CurValue, (value) => CurValue = value, StartValue, EndValue, animTime).SetCurve(curve); ; 
 		}
 		public override string ToString()
         {
