@@ -109,10 +109,10 @@ namespace QTool.Tween
 							node.tween.Complete();
 						}
 					}
-					else
+					else if (node.tween.IsPlaying ||node.tween.IsOver)
 					{
 						node.tween.Play(PlayForwads);
-						 node.tween.Complete();
+						node.tween.Complete();
 					}
 				}
 			}
