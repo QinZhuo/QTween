@@ -30,6 +30,7 @@ namespace QTool.Tween.Component
             }
             return list;
         }
+		
         public override string ToString()
         {
             return Anim.ToString();

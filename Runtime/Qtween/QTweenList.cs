@@ -50,7 +50,7 @@ namespace QTool.Tween
 		#region 基础属性
 
 		private QList<TweenListNode> List = new QList<TweenListNode>();
-		public int CurIndex { get; private set; } = -1;
+		public int CurIndex { get; private set; } = -2;
 		public TweenListNode CurNode => List[CurIndex];
 		#endregion
 		public QTweenList AddLast(QTween tween, TweenListType type= TweenListType.顺序播放)
@@ -81,12 +81,12 @@ namespace QTool.Tween
         public override void OnPoolRecover()
         {
             base.OnPoolRecover();
-			CurIndex =-1;
+			CurIndex =-2;
             List.Clear();
         }
 		protected override void OnStart()
 		{
-			if (Time <0)
+			if (Time <-1||Time>List.Count)
 			{
 				CurIndex = PlayForwads ? -1 : List.Count;
 			}
@@ -98,21 +98,30 @@ namespace QTool.Tween
         }
         protected override void OnComplete()
 		{
-			while (!IsEnd)
+			foreach (var node in List)
 			{
-				if (CurNode.tween != null)
+				if (node.tween != null)
 				{
-					CurNode.tween.Play(PlayForwads);
-					CurNode.tween.Complete();
+					if (node.tween.PlayForwads == PlayForwads)
+					{
+						if (node.tween.IsPlaying)
+						{
+							node.tween.Complete();
+						}
+					}
+					else
+					{
+						node.tween.Play(PlayForwads);
+						 node.tween.Complete();
+					}
 				}
-				Next();
 			}
 			base.OnComplete();
         }
 
 		public bool IsEnd
 		{
-			get => PlayForwads ? (CurIndex >= List.Count) : (CurIndex < 0);
+			get => PlayForwads ? (CurIndex >= List.Count) : (CurIndex <=-1);
 		}
 		public TweenListNode NextNode => List[CurIndex +( PlayForwads ? 1 : -1)];
 		public void Next()
@@ -129,7 +138,11 @@ namespace QTool.Tween
 		}
         protected override void OnUpdate()
         {
-			while (!IsEnd && (CurNode.type == TweenListType.异步播放 && NextNode.type == TweenListType.异步播放 || CurNode.tween == null || !CurNode.tween.IsPlaying ))
+			if (CurNode.tween != null && CurNode.tween.PlayForwads != PlayForwads)
+			{
+				CurNode.tween.Play(PlayForwads);
+			}
+			while (!IsEnd && (CurNode.type == TweenListType.异步播放 && NextNode.type == TweenListType.异步播放 || CurNode.tween == null || (PlayForwads==CurNode.tween.PlayForwads&&CurNode.tween.IsOver)))
 			{
 				Next();
 				if (CurNode.tween != null)
