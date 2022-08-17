@@ -98,19 +98,19 @@ namespace QTool.Tween
         }
         protected override void OnComplete()
 		{
-			foreach (var node in List)
-			{
-				if (node.tween != null)
-				{
-					if (node.tween.PlayForwads == PlayForwads)
-					{
-						if (node.tween.IsPlaying)
-						{
-							node.tween.Complete();
-						}
-					}
-				}
-			} 
+			//foreach (var node in List)
+			//{
+			//	if (node.tween != null)
+			//	{
+			//		if (node.tween.PlayForwads == PlayForwads)
+			//		{
+			//			if (node.tween.IsPlaying)
+			//			{
+			//				node.tween.Complete();
+			//			}
+			//		}
+			//	}
+			//} 
 			while (!IsEnd)
 			{
 				if (CurNode.tween != null&&!CurNode.tween.IsPlaying)
