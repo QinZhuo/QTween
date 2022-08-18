@@ -300,7 +300,7 @@ namespace QTool.Tween
 			{
 				AutoDestory = true;
 			}
-			if (destoyTarget != Target)
+			if (destoyTarget != Target&& Target!=null)
 			{
 				if (DestoryTargetList.ContainsKey(Target))
 				{
@@ -317,7 +317,7 @@ namespace QTool.Tween
 		}
 		public override void OnPoolRecover()
 		{
-			if (DestoryTargetList.ContainsKey(Target)&& DestoryTargetList[Target]==this)
+			if (Target!=null&&DestoryTargetList.ContainsKey(Target)&& DestoryTargetList[Target]==this)
 			{
 				DestoryTargetList.RemoveKey(Target);
 			}
