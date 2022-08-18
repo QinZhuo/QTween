@@ -300,18 +300,18 @@ namespace QTool.Tween
 			{
 				AutoDestory = true;
 			}
-			if (destoyTarget != Target&& Target!=null)
+			if (destoyTarget != Target)
 			{
-				if (DestoryTargetList.ContainsKey(Target))
+				if (DestoryTargetList.ContainsKey(destoyTarget))
 				{
-					var lastTween = DestoryTargetList[Target];
+					var lastTween = DestoryTargetList[destoyTarget];
 					if (lastTween != null&&!lastTween.IsOver)
 					{
 						lastTween.Stop();
 					}
-					DestoryTargetList[destoyTarget] = this;
 				}
 				Target = destoyTarget;
+				DestoryTargetList[destoyTarget] = this;
 			}
 			return this;
 		}
