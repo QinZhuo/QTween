@@ -19,7 +19,7 @@ namespace QTool.Tween
 		public bool IgnoreTimeScale { set;private get; } = true;
 		public bool AutoDestory { set;private get; } = true;
 		public Func<float, float> TweenCurve { get; set; } = Curve.Linear;
-		internal object Target { set; get; }
+		internal UnityEngine.Object Target { set; get; }
 		#region 更改数值
 		public QTween SetCurve(EaseCurve ease)
 		{
@@ -31,9 +31,9 @@ namespace QTool.Tween
 			AutoDestory = value;
 			return this;
 		}
-		public virtual QTween SetAutoDestory(object destoyTarget)
+		public virtual QTween SetAutoDestory(UnityEngine.Object destoyTarget)
 		{
-			Debug.LogError("为支持destoyTarget");
+			Debug.LogError("不支持destoyTarget");
 			return this;
 		}
 		public virtual QTween SetIgnoreTimeScale(bool value)
@@ -293,8 +293,8 @@ namespace QTool.Tween
 		public Func<T> Get { private set; get; }
 		public Action<T> Set { private set; get; }
 
-		static QDictionary<object, QTween<T>> DestoryTargetList = new QDictionary<object, QTween<T>>();
-		public override QTween SetAutoDestory(object destoyTarget)
+		static QDictionary<UnityEngine.Object, QTween<T>> DestoryTargetList = new QDictionary<UnityEngine.Object, QTween<T>>();
+		public override QTween SetAutoDestory(UnityEngine.Object destoyTarget)
 		{
 			if (destoyTarget != null)
 			{
