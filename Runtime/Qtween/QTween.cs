@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace QTool.Tween
 {
+
 	#region 基础动画逻辑
 	public abstract class QTween : IPoolObject
 	{
@@ -18,7 +19,7 @@ namespace QTool.Tween
 		public bool IgnoreTimeScale { set;private get; } = true;
 		public bool AutoDestory { set;private get; } = true;
 		public Func<float, float> TweenCurve { get; set; } = Curve.Linear;
-		internal MonoBehaviour Target { set; get; }
+		internal object Target { set; get; }
 		#region 更改数值
 		public QTween SetCurve(EaseCurve ease)
 		{
@@ -28,6 +29,11 @@ namespace QTool.Tween
 		public virtual QTween SetAutoDestory(bool value)
 		{
 			AutoDestory = value;
+			return this;
+		}
+		public virtual QTween SetAutoDestory(object destoyTarget)
+		{
+			Debug.LogError("为支持destoyTarget");
 			return this;
 		}
 		public virtual QTween SetIgnoreTimeScale(bool value)
@@ -286,6 +292,37 @@ namespace QTool.Tween
 		public static Func<T, T, float, T> ValueLerp;
 		public Func<T> Get { private set; get; }
 		public Action<T> Set { private set; get; }
+
+		static QDictionary<object, QTween<T>> DestoryTargetList = new QDictionary<object, QTween<T>>();
+		public override QTween SetAutoDestory(object destoyTarget)
+		{
+			if (destoyTarget != null)
+			{
+				AutoDestory = true;
+			}
+			if (destoyTarget != Target)
+			{
+				if (DestoryTargetList.ContainsKey(Target))
+				{
+					var lastTween = DestoryTargetList[Target];
+					if (lastTween != null&&!lastTween.IsOver)
+					{
+						lastTween.Stop();
+					}
+					DestoryTargetList[destoyTarget] = this;
+				}
+				Target = destoyTarget;
+			}
+			return this;
+		}
+		public override void OnPoolRecover()
+		{
+			if (DestoryTargetList.ContainsKey(Target)&& DestoryTargetList[Target]==this)
+			{
+				DestoryTargetList.RemoveKey(Target);
+			}
+			base.OnPoolRecover();
+		}
 		protected override void OnUpdate()
 		{
 			try
@@ -301,7 +338,7 @@ namespace QTool.Tween
 				}
 				else
 				{
-					Debug.LogWarning(Target?.transform.GetPath() + " " + Target + " 更新动画 QTween<" + typeof(T) + ">出错：" + e);
+					Debug.LogWarning((Target as MonoBehaviour)?.transform.GetPath() + " " + Target + " 更新动画 QTween<" + typeof(T) + ">出错：" + e);
 				}
 			}
 		}
