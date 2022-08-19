@@ -151,9 +151,14 @@ namespace QTool.Tween
 		}
 		public async Task PlayAsync(bool PlayForwads = true)
 		{
-			var flag = Application.isPlaying;
 			Play(PlayForwads);
-			while (PlayForwads == this.PlayForwads && !IsOver&& flag==Application.isPlaying)
+			await WaitOverAsync();
+		}
+		public async Task WaitOverAsync()
+		{
+			var flag = Application.isPlaying;
+			var PlayForwads = this.PlayForwads;
+			while (PlayForwads == this.PlayForwads && !IsOver && flag == Application.isPlaying)
 			{
 				await Task.Yield();
 			}
