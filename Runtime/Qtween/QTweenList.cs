@@ -86,7 +86,7 @@ namespace QTool.Tween
         }
 		protected override void OnStart()
 		{
-			if (Time <-1||Time>List.Count)
+			if (CurIndex < -1|| CurIndex > List.Count)
 			{
 				CurIndex = PlayForwads ? -1 : List.Count;
 			}

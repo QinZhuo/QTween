@@ -96,7 +96,7 @@ namespace QTool.Tween
             get
             {
 #if UNITY_EDITOR
-				if (!Application.isPlaying&& _anim != null && !_anim.IsPlaying)
+				if (!Application.isPlaying && _anim != null && !_anim.IsPlaying)
 				{
 					_anim = null;
 				}
