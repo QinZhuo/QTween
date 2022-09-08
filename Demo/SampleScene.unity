@@ -644,9 +644,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   curve: 5
-  animTime: 7.4
+  animTime: 0
   StartValue: 0
-  EndValue: 7.399999999999
+  EndValue: 0
   playableDirector: {fileID: 268105033}
   playableAsset: {fileID: 11400000, guid: f4f3e8a58413b51489362d9b5ab79a6c, type: 2}
 --- !u!320 &268105033 stripped
@@ -809,7 +809,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

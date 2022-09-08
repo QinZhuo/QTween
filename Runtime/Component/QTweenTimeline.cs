@@ -11,9 +11,9 @@ namespace QTool.Tween.Component
 	[RequireComponent(typeof(PlayableDirector))]
     public class QTweenTimeline : QTweenBehavior<float>
     {
-		[ViewName("播放器")]
+		[QName("播放器")]
 		public PlayableDirector playableDirector;
-		[ViewName("动画文件")]
+		[QName("动画文件")]
 		public PlayableAsset playableAsset;
 		protected override void Reset()
 		{

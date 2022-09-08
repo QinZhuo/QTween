@@ -17,7 +17,7 @@ namespace QTool.Tween.Component
 				name = qTween?.name;
 			}
         }
-		[ViewName("动画队列")]
+		[QName("动画队列")]
 		[SerializeField]
         protected List<QTweenlistNode> tweenList = new List<QTweenlistNode>();
         protected override QTween GetTween()

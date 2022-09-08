@@ -57,15 +57,15 @@ namespace QTool.Tween.Component
                 }
             }
         }
-        [ViewName("进入动画")]
+        [QName("进入动画")]
         public QTweenBehavior enterAnim;
-        [ViewName("按下动画")]
+        [QName("按下动画")]
         public QTweenBehavior downAnim;
-        [ViewName("选中动画", "HasSelectable")]
+        [QName("选中动画", "HasSelectable")]
         public QTweenBehavior selectAnim;
         //[ViewName("禁用动画", "HasSelectable")]
         //public QTweenBehavior InteractableAnim;
-        [ViewName("开关动画", "HasToggle")]
+        [QName("开关动画", "HasToggle")]
         public QTweenBehavior onAnim;
         public QTweenPlayer qTweenPlayer = new QTweenPlayer();
         public bool HasSelectable
