@@ -78,7 +78,11 @@ namespace QTool.Tween
 			List.Add(new TweenListNode(tween, type));
 			return this;
 		}
-        public override void OnPoolRecover()
+		public override void Recover()
+		{
+			Pool.Push(this);
+		}
+		public override void OnPoolRecover()
         {
             base.OnPoolRecover();
 			CurIndex =-2;

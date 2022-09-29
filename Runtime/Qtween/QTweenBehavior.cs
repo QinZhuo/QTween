@@ -122,7 +122,10 @@ namespace QTool.Tween
 
 		protected abstract QTween GetTween();
 		#endregion
-
+		protected virtual void OnDestroy()
+		{
+			Anim?.Recover();
+		}
 		private void Awake()
 		{
 			if (playOnAwake)
