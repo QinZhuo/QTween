@@ -44,7 +44,7 @@ namespace QTool.Tween
 		}
 		protected override QTween GetTween()
 		{
-			return QTween<T>.PoolGet(() => CurValue, (value) => CurValue = value, StartValue, EndValue, animTime).SetCurve(curve); ; 
+			return QTween<T>.PoolGet(() => CurValue, (value) => CurValue = value, StartValue, EndValue, animTime).SetAutoDestory(gameObject).SetCurve(curve); ; 
 		}
 		public override string ToString()
         {
