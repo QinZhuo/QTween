@@ -165,6 +165,11 @@ namespace QTool.Tween
 		}
 		private void Update()
 		{
+			if(Target is MonoBehaviour && (Target as MonoBehaviour) == null)
+			{
+				Stop();
+				return;
+			}
 			Time += (Application.isPlaying ? (IgnoreTimeScale ? UnityEngine.Time.unscaledDeltaTime : UnityEngine.Time.deltaTime) :Mathf.Min( Tool.EditorDeltaTime,0.1f)) * (PlayForwads ? 1 : -1) * TimeScale;
 			Update(Time);
 		}
