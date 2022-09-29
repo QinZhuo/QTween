@@ -26,7 +26,6 @@ namespace QTool.Tween
 			TweenCurve = Curve.GetEaseFunc(ease);
 			return this;
 		}
-		public abstract void Recover();
 		public virtual QTween SetAutoDestory(bool value)
 		{
 			AutoDestory = value;
@@ -248,10 +247,6 @@ namespace QTool.Tween
 			return "延迟 " + Duration + " 秒";
 		}
 
-		public override void Recover()
-		{
-			Pool.Push(this);
-		}
 	}
 	#endregion
 	#region 数值补间动画
@@ -338,6 +333,8 @@ namespace QTool.Tween
 		}
 		public override void OnPoolRecover()
 		{
+			Get = null;
+			Set = null;
 			if (Target!=null&&DestoryTargetList.ContainsKey(Target)&& DestoryTargetList[Target]==this)
 			{
 				DestoryTargetList.RemoveKey(Target);
@@ -372,10 +369,6 @@ namespace QTool.Tween
 		public override string ToString()
 		{
 			return "" + typeof(T).Name + " " + StartValue + " to " + EndValue + "";
-		}
-		public override void Recover()
-		{
-			Pool.Push(this);
 		}
 	}
 	#endregion

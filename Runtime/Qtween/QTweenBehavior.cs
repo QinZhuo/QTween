@@ -124,7 +124,7 @@ namespace QTool.Tween
 		#endregion
 		protected virtual void OnDestroy()
 		{
-			Anim?.Recover();
+			ClearAnim();
 		}
 		private void Awake()
 		{
