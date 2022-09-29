@@ -282,6 +282,10 @@ namespace QTool.Tween
 		}
 		protected override void OnStart()
 		{
+			if (!TargetActive)
+			{
+				return;
+			}
 			if (StartValue.Equals(Get()))
 			{
 				Time = 0;
