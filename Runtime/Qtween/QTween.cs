@@ -133,7 +133,7 @@ namespace QTool.Tween
 		#region 正常生命周期
 		public QTween Play(bool PlayForwads = true)
 		{
-			if (!IsPlaying||this. PlayForwads!=PlayForwads)
+			if (!IsPlaying || this.PlayForwads != PlayForwads)
 			{
 				this.PlayForwads = PlayForwads;
 				IsPlaying = true;

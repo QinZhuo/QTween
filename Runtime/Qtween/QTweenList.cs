@@ -111,17 +111,15 @@ namespace QTool.Tween
 			//		}
 			//	}
 			//} 
-			if (TargetActive)
+			
+			while (!IsEnd)
 			{
-				while (!IsEnd)
+				if (CurNode.tween != null && !CurNode.tween.IsPlaying)
 				{
-					if (CurNode.tween != null && !CurNode.tween.IsPlaying)
-					{
-						CurNode.tween.Play(PlayForwads);
-						CurNode.tween.Complete();
-					}
-					Next();
+					CurNode.tween.Play(PlayForwads);
+					CurNode.tween.Complete();
 				}
+				Next();
 			}
 			CurIndex = PlayForwads ? List.Count : -1;
 			base.OnComplete();
