@@ -154,6 +154,7 @@ namespace QTool.Tween
 			Play(PlayForwads);
 			await WaitOverAsync();
 		}
+		public bool TargetActive => !(Target is MonoBehaviour) && (Target as MonoBehaviour) != null;
 		public async Task WaitOverAsync()
 		{
 			var flag = Application.isPlaying;
@@ -165,7 +166,7 @@ namespace QTool.Tween
 		}
 		private void Update()
 		{
-			if(Target is MonoBehaviour && (Target as MonoBehaviour) == null)
+			if(!TargetActive)
 			{
 				Stop();
 				return;
