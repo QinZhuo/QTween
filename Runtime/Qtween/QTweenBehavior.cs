@@ -10,7 +10,7 @@ namespace QTool.Tween
 
     public abstract class QTweenBehavior<T> : QTweenBehavior
     {
-		[Group(true)]
+		[QGroup(true)]
         [QName("动画曲线")]
 		[SerializeField]
 		public EaseCurve curve = EaseCurve.OutQuad;
@@ -20,7 +20,7 @@ namespace QTool.Tween
 		[FormerlySerializedAs("HideValue")]
         public T StartValue;
         [QName("结束")]
-		[Group(false)]
+		[QGroup(false)]
 		[FormerlySerializedAs("ShowValue")]
         public T EndValue;
         protected virtual void Reset()
@@ -68,12 +68,12 @@ namespace QTool.Tween
     }
     public abstract class QTweenBehavior : MonoBehaviour
 	{
-		[Group(true)]
+		[QGroup(true)]
 		[QName("初始播放")]
         public bool playOnAwake = false;
 		[QName("隐藏速度")]
 		[Range(0.1f, 5f)]
-		[Group(false)]
+		[QGroup(false)]
 		public float hideTimeScale = 2f;
 		public ActionEvent OnShow;
         public ActionEvent OnHide;
