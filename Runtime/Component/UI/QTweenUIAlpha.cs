@@ -9,7 +9,16 @@ namespace QTool.Tween.Component
     {
 		CanvasGroup _group = null;
 
-		private CanvasGroup Group => _group ??= GetComponent<CanvasGroup>();
+		private CanvasGroup Group {
+			get
+			{
+				if (_group == null)
+				{
+					_group = GetComponent<CanvasGroup>();
+				}
+				return _group;
+			}
+		}
 
 		public bool controlRaycast = true;
 		public override float CurValue
