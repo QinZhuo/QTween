@@ -12,7 +12,11 @@ namespace QTool.Tween.Component
         {
             get
             {
-				return _mat ??= GetComponent<Renderer>().material;
+				if (_mat == null)
+				{
+					_mat= GetComponent<Renderer>().material;
+				}
+				return _mat;
 			}
         }
         public string key = "";
