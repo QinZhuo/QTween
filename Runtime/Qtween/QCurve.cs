@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -39,7 +39,7 @@ namespace QTool.Tween
         InOutBounce,
 
     }
-    public static class Curve
+    public static class QCurve
     {
         public static Func<float,float> GetEaseFunc(EaseCurve ease)
         {
