@@ -12,7 +12,7 @@ namespace QTool.Tween.Component
         {
             get
             {
-                return _mat??= GetComponent<MaskableGraphic>().GetInstanceMaterial(); 
+                return _mat==null?_mat= GetComponent<MaskableGraphic>().GetInstanceMaterial():_mat; 
 			}
         }
         public string key = "";
