@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,9 +14,6 @@ namespace QTool.Tween.Component
         {
             return QTweenManager.Delay(time);
         }
-        public override string ToString()
-        {
-            return Anim.ToString();
-        }
+       
     }
 }

@@ -48,7 +48,7 @@ namespace QTool.Tween
 		}
 		public override string ToString()
         {
-            return StartValue + " => " + EndValue;
+            return this+" "+ StartValue + " => " + EndValue;
         }
         public RectTransform RectTransform
         {
@@ -160,7 +160,11 @@ namespace QTool.Tween
         {
             await Anim.PlayAsync(true);
             await Anim.PlayAsync(false);
-        }
-      
+		}
+		public override string ToString()
+		{
+			return this + " " + Anim.ToString();
+		}
+
 	}
 }

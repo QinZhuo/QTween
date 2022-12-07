@@ -31,10 +31,6 @@ namespace QTool.Tween.Component
             return list;
         }
 		
-        public override string ToString()
-        {
-            return Anim.ToString();
-        }
 		public override void ClearAnim()
 		{
 			foreach (var node in tweenList)
