@@ -19,7 +19,7 @@ namespace QTool.Tween
 		public bool IgnoreTimeScale { set;private get; } = true;
 		public bool AutoDestory { set;private get; } = true;
 		public Func<float, float> TweenCurve { get; set; } = QCurve.Linear;
-		public UnityEngine.Object Target { set;internal get; }
+		public UnityEngine.Object Target { internal set; get; }
 		#region 更改数值
 		public QTween SetCurve(EaseCurve ease)
 		{
