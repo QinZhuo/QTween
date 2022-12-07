@@ -48,7 +48,7 @@ namespace QTool.Tween
 		}
 		public override string ToString()
         {
-            return this+" "+ StartValue + " => " + EndValue;
+            return gameObject+" "+ StartValue + " => " + EndValue;
         }
         public RectTransform RectTransform
         {
@@ -163,7 +163,7 @@ namespace QTool.Tween
 		}
 		public override string ToString()
 		{
-			return this + " " + Anim.ToString();
+			return gameObject + " " + Anim.ToString();
 		}
 
 	}
