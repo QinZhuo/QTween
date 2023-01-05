@@ -15,7 +15,7 @@ namespace QTool.Tween
         {
             qTween = GetComponent<QTweenBehavior>();
         }
-		string loopKey = QId.GetNewId();
+		string loopKey = QId.NewId();
 		public override async Task PlayAsync(bool show)
 		{
 			if (show)
@@ -29,7 +29,7 @@ namespace QTool.Tween
 			}
 			else
 			{
-				loopKey = QId.GetNewId();
+				loopKey = QId.NewId();
 				Anim.Play(false);
 			}
 		}
