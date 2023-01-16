@@ -89,6 +89,7 @@ namespace QTool.Tween
 					_isPlaying = value;
 					if (Application.isPlaying)
 					{
+						if (QTweenManager.Instance == null) return;
 						if (_isPlaying)
 						{
 							QTweenManager.Instance.TweenUpdate += Update;
