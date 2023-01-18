@@ -31,25 +31,6 @@ public class Test : MonoBehaviour
     }
     private void Start()
     {
-        //Addressables.LoadAssetAsync<GameObject>("Assets/Demo/Cube.prefab").Completed += (loader) =>
-        //{
-        //    Debug.LogError(loader.Result);
-        //};
-       // //QTween.DelayInvoke(2, () =>
-     //    {
-             //for (int i = 0; i < count; i++)
-             //{
-             //    for (int j = 0; j < count; j++)
-             //    {
-             //        objs[i, j] = Instantiate(cubePrefab, new Vector3(i * 2, 0, j * 2), Quaternion.identity);
-                    
-             //    }
-             //}
-       //  });
-       
-        //.Next(
-        //    transform.ScaleTo(Vector3.one * 2, 1).SetCurve(Curve.back.Out()).IgnoreTimeScale()
-        //    );
        Time.timeScale = 1;
     }
 
