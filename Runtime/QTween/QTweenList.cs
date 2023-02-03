@@ -49,9 +49,9 @@ namespace QTool.Tween
 		#endregion
 		#region 基础属性
 
-		private QList<TweenListNode> List = new QList<TweenListNode>();
+		private List<TweenListNode> List = new List<TweenListNode>();
 		public int CurIndex { get; private set; } = -2;
-		public TweenListNode CurNode => List[CurIndex];
+		public TweenListNode CurNode => List.Get(CurIndex);
 		#endregion
 		public QTweenList AddLast(QTween tween, TweenListType type= TweenListType.顺序播放)
         {
@@ -98,7 +98,7 @@ namespace QTool.Tween
         }
         protected override void OnComplete()
 		{
-			while (!IsEnd)
+			while (!CurNode.IsNull())
 			{
 				if (CurNode.tween != null && !CurNode.tween.IsPlaying)
 				{
