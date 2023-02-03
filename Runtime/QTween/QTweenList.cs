@@ -115,7 +115,7 @@ namespace QTool.Tween
 		{
 			get => PlayForwads ? (CurIndex >= List.Count) : (CurIndex <=-1);
 		}
-		public TweenListNode NextNode => List[CurIndex +( PlayForwads ? 1 : -1)];
+		public TweenListNode NextNode => List.Get(CurIndex +( PlayForwads ? 1 : -1));
 		public void Next()
 		{
 			if (PlayForwads)
