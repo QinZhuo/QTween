@@ -21,9 +21,9 @@ namespace QTool.Tween
 		public Func<float, float> TweenCurve { get; set; } = QCurve.Linear;
 		public UnityEngine.Object Target { internal set; get; }
 		#region 更改数值
-		public QTween SetCurve(EaseCurve ease)
+		public QTween SetCurve(QEaseCurve ease)
 		{
-			TweenCurve = QCurve.GetEaseFunc(ease);
+			TweenCurve = QCurve.Get(ease);
 			return this;
 		}
 		public virtual QTween SetAutoDestory(bool value)
