@@ -172,7 +172,7 @@ namespace QTool.Tween
 				Stop();
 				return;
 			}
-			Time += (Application.isPlaying ? (IgnoreTimeScale ? UnityEngine.Time.unscaledDeltaTime : UnityEngine.Time.deltaTime) :Mathf.Min( Tool.EditorDeltaTime,0.1f)) * (PlayForwads ? 1 : -1) * TimeScale;
+			Time += (Application.isPlaying ? (IgnoreTimeScale ? UnityEngine.Time.unscaledDeltaTime : UnityEngine.Time.deltaTime) :Mathf.Min( QTime.EditorDeltaTime,0.1f)) * (PlayForwads ? 1 : -1) * TimeScale;
 			Update(Time);
 		}
 		private void Update(float time)
