@@ -83,7 +83,7 @@ namespace QTool.Tween.Component
             }
         }
 
-        protected void Awake()
+        protected void Start()
         {
             Init();
             if (HasToggle)
