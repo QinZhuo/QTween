@@ -12,8 +12,8 @@ namespace QTool.Tween
     public sealed class QTweenList :QTween
     {
 		#region 对象池逻辑
-		static ObjectPool<QTweenList> _pool;
-		static ObjectPool<QTweenList> Pool
+		static QObjectPool<QTweenList> _pool;
+		static QObjectPool<QTweenList> Pool
 		{
 			get
 			{
@@ -78,9 +78,9 @@ namespace QTool.Tween
 			List.Add(new TweenListNode(tween, type));
 			return this;
 		}
-		public override void OnPoolRecover()
+		public override void OnDestroy()
         {
-            base.OnPoolRecover();
+            base.OnDestroy();
 			CurIndex =-2;
             List.Clear();
         }

@@ -8,7 +8,7 @@ namespace QTool.Tween
 {
 
 	#region 基础动画逻辑
-	public abstract class QTween : IPoolObject
+	public abstract class QTween 
 	{
 		#region 基础属性
 		private bool _isPlaying = false;
@@ -60,7 +60,8 @@ namespace QTool.Tween
 		public event Action OnStartEvent;
 		public event Action OnCompleteEvent;
 		public event Action OnUpdateEvent;
-		public virtual void OnPoolRecover()
+
+		public virtual void OnDestroy()
 		{
 			Target = null;
 			PlayForwads = false;
@@ -217,8 +218,8 @@ namespace QTool.Tween
 	#region 延迟
 	internal sealed class QTweenDelay : QTween
 	{
-		static ObjectPool<QTweenDelay> _pool;
-		static ObjectPool<QTweenDelay> Pool
+		static QObjectPool<QTweenDelay> _pool;
+		static QObjectPool<QTweenDelay> Pool
 		{
 			get
 			{
@@ -254,8 +255,8 @@ namespace QTool.Tween
 	public sealed class QTween<T> : QTween
 	{
 		#region 对象池逻辑
-		static ObjectPool<QTween<T>> _pool;
-		private static ObjectPool<QTween<T>> Pool
+		static QObjectPool<QTween<T>> _pool;
+		private static QObjectPool<QTween<T>> Pool
 		{
 			get
 			{
@@ -332,7 +333,7 @@ namespace QTool.Tween
 			}
 			return this;
 		}
-		public override void OnPoolRecover()
+		public override void OnDestroy()
 		{
 			Get = null;
 			Set = null;
@@ -340,7 +341,7 @@ namespace QTool.Tween
 			{
 				DestoryTargetList.RemoveKey(Target);
 			}
-			base.OnPoolRecover();
+			base.OnDestroy();
 		}
 		protected override void OnUpdate()
 		{
