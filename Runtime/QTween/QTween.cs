@@ -8,7 +8,7 @@ namespace QTool.Tween
 {
 
 	#region 基础动画逻辑
-	public abstract class QTween 
+	public abstract class QTween:IQPoolObject
 	{
 		#region 基础属性
 		private bool _isPlaying = false;
@@ -60,7 +60,10 @@ namespace QTool.Tween
 		public event Action OnStartEvent;
 		public event Action OnCompleteEvent;
 		public event Action OnUpdateEvent;
+		public void Start()
+		{
 
+		}
 		public virtual void OnDestroy()
 		{
 			Target = null;
