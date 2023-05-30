@@ -16,10 +16,20 @@ namespace QTool.Tween
 		public  float Time { get; internal set; } = -1f;
 		public  float Duration { get; protected set; }
 		public float TimeScale { get;private set; } = 1;
-		public bool IgnoreTimeScale { set;private get; } = true;
-		public bool AutoDestory { set;private get; } = true;
+		public bool IgnoreTimeScale { private set; get; } = true;
+		public bool AutoDestory { private set; get; } = true;
 		public Func<float, float> TweenCurve { get; set; } = QCurve.Linear;
-		public UnityEngine.Object Target { internal set; get; }
+		protected UnityEngine.Object _Target { get; set; } = null;
+		public virtual UnityEngine.Object Target
+		{
+			get => _Target;
+			internal set
+			{
+				HasTarget = value != null;
+				_Target = null;
+			}
+		}
+		public bool HasTarget {  get;private set; } = false;
 		public override string ToString()
 		{
 			return nameof(IsPlaying) + "[" + IsPlaying + "]" + (AutoDestory ? "AutoDestory" : "Target[" + (Target == null ? "Destroy" : Target.name + "(" + Target?.GetType()?.Name + ")") + "]");
@@ -33,11 +43,6 @@ namespace QTool.Tween
 		public virtual QTween SetAutoDestory(bool value)
 		{
 			AutoDestory = value;
-			return this;
-		}
-		public virtual QTween SetAutoDestory(UnityEngine.Object destoyTarget)
-		{
-			Debug.LogError("不支持destoyTarget");
 			return this;
 		}
 		public virtual QTween SetIgnoreTimeScale(bool value)
@@ -163,7 +168,6 @@ namespace QTool.Tween
 			Play(PlayForwads);
 			await WaitOverAsync();
 		}
-		public bool TargetActive =>!( (Target is MonoBehaviour) && (Target as MonoBehaviour) == null);
 		public async Task WaitOverAsync()
 		{
 			var flag = Application.isPlaying;
@@ -175,7 +179,7 @@ namespace QTool.Tween
 		}
 		private void Update()
 		{
-			if(!TargetActive)
+			if (HasTarget && Target == null)
 			{
 				Stop();
 				return;
@@ -292,7 +296,7 @@ namespace QTool.Tween
 		}
 		protected override void OnStart()
 		{
-			if (!TargetActive)
+			if (HasTarget&&Target==null)
 			{
 				return;
 			}
@@ -319,26 +323,28 @@ namespace QTool.Tween
 		public Action<T> Set { private set; get; }
 
 		static QDictionary<UnityEngine.Object, QTween<T>> DestoryTargetList = new QDictionary<UnityEngine.Object, QTween<T>>();
-		public override QTween SetAutoDestory(UnityEngine.Object destoyTarget)
+
+		public override UnityEngine.Object Target
 		{
-			if (destoyTarget != null)
+			get => base.Target; internal set
 			{
-				AutoDestory = true;
-			}
-			if (destoyTarget != Target)
-			{
-				if (DestoryTargetList.ContainsKey(destoyTarget))
+				if(AutoDestory&& value != Target )
 				{
-					var lastTween = DestoryTargetList[destoyTarget];
-					if (lastTween != null&&!lastTween.IsOver)
+					if (DestoryTargetList.ContainsKey(value))
 					{
-						lastTween.Stop();
+						var lastTween = DestoryTargetList[value];
+						if (lastTween != null && !lastTween.IsOver)
+						{
+							lastTween.Stop();
+						}
+					}
+					if (value != null)
+					{
+						DestoryTargetList[value] = this;
 					}
 				}
-				Target = destoyTarget;
-				DestoryTargetList[destoyTarget] = this;
+				base.Target = value;
 			}
-			return this;
 		}
 		public override void OnDestroy()
 		{
