@@ -75,6 +75,7 @@ namespace QTool.Tween
 		}
 		public virtual void OnDestroy()
 		{
+			Debug.LogError("回收 " + GetHashCode());
 			Target = null;
 			PlayForwads = false;
 			Time = -1;
