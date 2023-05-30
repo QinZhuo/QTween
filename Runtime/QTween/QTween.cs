@@ -22,6 +22,7 @@ namespace QTool.Tween
 		public UnityEngine.Object Target { internal set; get; }
 		public override string ToString()
 		{
+			return "";
 			return nameof(IsPlaying)+"["+IsPlaying+"]"+(AutoDestory ? "AutoDestory" : "Target[" + Target + "]");
 		}
 		#region 更改数值
