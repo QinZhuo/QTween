@@ -43,6 +43,7 @@ namespace QTool.Tween
 		{
 			AutoDestory = target == null;
 			this.Target = target;
+			Debug.LogError(GetHashCode() + " " + target);
 			return this;
 		}
 		public virtual QTween SetIgnoreTimeScale(bool value)
@@ -75,7 +76,7 @@ namespace QTool.Tween
 		}
 		public virtual void OnDestroy()
 		{
-			Target = null;
+			SetAutoDestory();
 			PlayForwads = false;
 			Time = -1;
 			TimeScale = 1;
@@ -83,7 +84,6 @@ namespace QTool.Tween
 			IsPlaying = false;
 			IgnoreTimeScale = true;
 			TweenCurve = QCurve.Linear;
-			AutoDestory = true;
 			OnCompleteEvent = null;
 			OnUpdateEvent = null;
 			OnStartEvent = null;
