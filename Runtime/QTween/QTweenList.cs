@@ -147,13 +147,13 @@ namespace QTool.Tween
         {
 			return nameof(QTweenList)+"[" + List.Count + "]" + nameof(Duration) + "[" + Duration + "]"+base.ToString();
         }
-		public override QTween SetAutoDestory(bool value)
+		public override QTween SetAutoDestory(UnityEngine.Object target = null)
 		{
 			foreach (var node in List)
 			{
-				node.tween.SetAutoDestory(value);
+				node.tween.SetAutoDestory(target);
 			}
-			return base.SetAutoDestory(value);
+			return base.SetAutoDestory(target);
 		}
 		public override QTween SetIgnoreTimeScale(bool value)
 		{

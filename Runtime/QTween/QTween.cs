@@ -19,24 +19,17 @@ namespace QTool.Tween
 		public bool IgnoreTimeScale { private set; get; } = true;
 		public bool AutoDestory { private set; get; } = true;
 		public Func<float, float> TweenCurve { get; set; } = QCurve.Linear;
-		protected UnityEngine.Object _Target { get; set; } = null;
-		public UnityEngine.Object Target
-		{
-			get => _Target;
-			internal set
-			{
-				HasTarget = value != null;
-				_Target = value;
-				Debug.LogError(GetHashCode() + " Tagret = " + _Target);
-			}
-		}
-		public bool HasTarget { get; private set; } = false;
+		public UnityEngine.Object Target { get; private set; }
 		public override string ToString()
 		{
 			var info = "[" + GetHashCode() + "]" + nameof(IsPlaying) + "[" + IsPlaying + "]";
-			if (HasTarget)
+			if (AutoDestory)
 			{
-				info = "Target[" + (Target == null ? "Destroy" : Target.name + "(" + Target?.GetType()?.Name + ")") + "]";
+				info += nameof(AutoDestory);
+			}
+			else
+			{
+				info += "Target[" + (Target == null ? "null" : Target.name + "(" + Target?.GetType()?.Name + ")") + "]";
 			}
 			return info;
 		}
@@ -46,9 +39,10 @@ namespace QTool.Tween
 			TweenCurve = QCurve.Get(ease);
 			return this;
 		}
-		public virtual QTween SetAutoDestory(bool value)
+		public virtual QTween SetAutoDestory(UnityEngine.Object target=null)
 		{
-			AutoDestory = value;
+			AutoDestory = target == false;
+			this.Target = target;
 			return this;
 		}
 		public virtual QTween SetIgnoreTimeScale(bool value)
@@ -185,7 +179,7 @@ namespace QTool.Tween
 		}
 		private void Update()
 		{
-			if (HasTarget && Target == null)
+			if (!AutoDestory && Target == null)
 			{
 				Stop();
 				return;
@@ -209,7 +203,7 @@ namespace QTool.Tween
 		{
 			IsPlaying = false;
 			Time = PlayForwads ? Duration : 0;
-			if (AutoDestory||(HasTarget&&Target==null))
+			if (AutoDestory || Target == null)
 			{
 				Destory();
 			}
@@ -302,7 +296,7 @@ namespace QTool.Tween
 		}
 		protected override void OnStart()
 		{
-			if (HasTarget&&Target==null)
+			if (!AutoDestory&&Target==null)
 			{
 				return;
 			}
