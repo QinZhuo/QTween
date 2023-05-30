@@ -88,24 +88,24 @@ namespace QTool.Tween
 		#region 动画初始化
 
 		public QTween Anim
-		{
-			get
-			{
+        {
+            get
+            {
 #if UNITY_EDITOR
 				if (!Application.isPlaying && _anim != null && !_anim.IsPlaying)
 				{
 					_anim = null;
 				}
 #endif
-				if (IsDestroy) return null;
+				if (this == null) return null;
 				if (_anim == null)
-				{
-					_anim = GetTween().OnComplete(OnAnimOver).SetAutoDestory(false);
+                {
+                    _anim = GetTween().OnComplete(OnAnimOver).SetAutoDestory(false);
 					_anim.Target = this;
 				}
-				return _anim;
-			}
-		}
+                return _anim;
+            }
+        }
 
 		private QTween _anim;
 		/// <summary>
@@ -113,6 +113,10 @@ namespace QTool.Tween
 		/// </summary>
 		public virtual void ClearAnim()
 		{
+			if (_anim != null)
+			{
+				_anim.Target = null;
+			}
 			_anim?.Destory();
 			_anim = null;
 		}
@@ -122,9 +126,7 @@ namespace QTool.Tween
 		protected virtual void OnDestroy()
 		{
 			ClearAnim();
-			IsDestroy = true;
 		}
-		private bool IsDestroy { get; set; } = false;
 		private void Awake()
 		{
 			if (playOnAwake)
