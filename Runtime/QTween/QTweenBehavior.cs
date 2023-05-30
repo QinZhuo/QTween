@@ -84,10 +84,9 @@ namespace QTool.Tween
 		{
 			Play(true);
 		}
-		
 		#region 动画初始化
 
-		public QTween Anim
+		public virtual QTween Anim
         {
             get
             {
@@ -105,6 +104,7 @@ namespace QTool.Tween
 					{
 						_anim.Target = this;
 					}
+					Debug.LogError(_anim.GetHashCode() + " " + gameObject.transform.GetPath());
 				}
                 return _anim;
             }
