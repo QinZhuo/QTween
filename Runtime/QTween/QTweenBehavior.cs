@@ -101,6 +101,10 @@ namespace QTool.Tween
                 {
                     _anim = GetTween().OnComplete(OnAnimOver).SetAutoDestory(false);
 					_anim.Target = this;
+					if (this == null)
+					{
+						Debug.LogError("null");
+					}
 				}
                 return _anim;
             }
@@ -155,7 +159,7 @@ namespace QTool.Tween
 		public async void ShowAndHide()
         {
             await Anim.PlayAsync(true);
-            await Anim.PlayAsync(false);
+            await _anim?.PlayAsync(false);
 		}
 		public override string ToString()
 		{
