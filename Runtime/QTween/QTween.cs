@@ -39,9 +39,9 @@ namespace QTool.Tween
 			TweenCurve = QCurve.Get(ease);
 			return this;
 		}
-		public virtual QTween SetAutoDestory(UnityEngine.Object target=null)
+		public virtual QTween SetAutoDestory(UnityEngine.Object target = null)
 		{
-			AutoDestory = target == false;
+			AutoDestory = target == null;
 			this.Target = target;
 			return this;
 		}
