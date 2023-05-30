@@ -43,7 +43,6 @@ namespace QTool.Tween
 		{
 			AutoDestory = target == null;
 			this.Target = target;
-			Debug.LogError(GetHashCode() + " " + (target as MonoBehaviour)?.transform.GetPath());
 			return this;
 		}
 		public virtual QTween SetIgnoreTimeScale(bool value)
