@@ -101,7 +101,10 @@ namespace QTool.Tween
 				if (_anim == null)
                 {
                     _anim = GetTween().OnComplete(OnAnimOver).SetAutoDestory(false);
-					_anim.Target = this;
+					if (_anim.Target != null)
+					{
+						_anim.Target = this;
+					}
 				}
                 return _anim;
             }
@@ -121,7 +124,6 @@ namespace QTool.Tween
 		#endregion
 		protected virtual void OnDestroy()
 		{
-			Debug.LogError(GetHashCode() + " " + _anim?.GetHashCode());
 			ClearAnim();
 		}
 		private void Awake()
