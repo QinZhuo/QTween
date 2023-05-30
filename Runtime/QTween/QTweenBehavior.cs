@@ -121,6 +121,7 @@ namespace QTool.Tween
 		#endregion
 		protected virtual void OnDestroy()
 		{
+			Debug.LogError(GetHashCode() + " " + _anim?.GetHashCode());
 			ClearAnim();
 		}
 		private void Awake()
