@@ -145,7 +145,7 @@ namespace QTool.Tween
 		}
         public override string ToString()
         {
-            return "动画列表[" + List.Count + "]"+Duration;
+			return nameof(QTweenList)+"[" + List.Count + "]" + nameof(Duration) + "[" + Duration + "]"+base.ToString();
         }
 		public override QTween SetAutoDestory(bool value)
 		{

@@ -20,6 +20,10 @@ namespace QTool.Tween
 		public bool AutoDestory { set;private get; } = true;
 		public Func<float, float> TweenCurve { get; set; } = QCurve.Linear;
 		public UnityEngine.Object Target { internal set; get; }
+		public override string ToString()
+		{
+			return nameof(IsPlaying)+"["+IsPlaying+"]"+(AutoDestory ? "AutoDestory" : "Target[" + Target + "]");
+		}
 		#region 更改数值
 		public QTween SetCurve(QEaseCurve ease)
 		{
@@ -263,7 +267,7 @@ namespace QTool.Tween
 		{
 			get
 			{
-				return _pool ?? (_pool = QPoolManager.GetPool("[" + typeof(T).Name + "]QTween动画", () =>
+				return _pool ?? (_pool = QPoolManager.GetPool(typeof(T).Name + "动画", () =>
 				{
 					return new QTween<T>();
 				}));
@@ -373,7 +377,7 @@ namespace QTool.Tween
 		}
 		public override string ToString()
 		{
-			return "" + typeof(T).Name + " " + StartValue + " to " + EndValue + "";
+			return nameof(QTween)+"<"+typeof(T).Name + "> [" + StartValue + " => " + EndValue + "]"+base.ToString();
 		}
 	}
 	#endregion
