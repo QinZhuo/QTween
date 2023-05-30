@@ -33,10 +33,10 @@ namespace QTool.Tween
 		public bool HasTarget { get; private set; } = false;
 		public override string ToString()
 		{
-			var info = nameof(IsPlaying) + "[" + IsPlaying + "]";
+			var info = "[" + GetHashCode() + "]" + nameof(IsPlaying) + "[" + IsPlaying + "]";
 			if (HasTarget)
 			{
-				info = "Target[" + (Target == null ? "Destroy" : Target.name + "(" + Target?.GetType()?.Name + ")") + "][" + GetHashCode() + "]";
+				info = "Target[" + (Target == null ? "Destroy" : Target.name + "(" + Target?.GetType()?.Name + ")") + "]";
 			}
 			return info;
 		}
