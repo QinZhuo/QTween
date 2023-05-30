@@ -27,12 +27,18 @@ namespace QTool.Tween
 			{
 				HasTarget = value != null;
 				_Target = value;
+				Debug.LogError(GetHashCode() + " Tagret = " + _Target);
 			}
 		}
 		public bool HasTarget { get; private set; } = false;
 		public override string ToString()
 		{
-			return nameof(IsPlaying) + "[" + IsPlaying + "]" + "Target[" + (Target == null ? "Destroy" : Target.name + "(" + Target?.GetType()?.Name + ")") + "][" + GetHashCode() + "]";
+			var info = nameof(IsPlaying) + "[" + IsPlaying + "]";
+			if (HasTarget)
+			{
+				info = "Target[" + (Target == null ? "Destroy" : Target.name + "(" + Target?.GetType()?.Name + ")") + "][" + GetHashCode() + "]";
+			}
+			return info;
 		}
 		#region 更改数值
 		public QTween SetCurve(QEaseCurve ease)
@@ -75,7 +81,6 @@ namespace QTool.Tween
 		}
 		public virtual void OnDestroy()
 		{
-			Debug.LogError("回收 " + GetHashCode());
 			Target = null;
 			PlayForwads = false;
 			Time = -1;
