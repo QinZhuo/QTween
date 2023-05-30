@@ -26,7 +26,7 @@ namespace QTool.Tween
 			internal set
 			{
 				HasTarget = value != null;
-				_Target = null;
+				_Target = value;
 			}
 		}
 		public bool HasTarget {  get;private set; } = false;
