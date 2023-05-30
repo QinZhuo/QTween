@@ -94,7 +94,11 @@ namespace QTool.Tween
 		}
 		public override void Destory()
         {
-            Pool.Push(this);
+			foreach (var t in List)
+			{
+				t.tween?.Destory();
+			}
+			Pool.Push(this);
         }
         protected override void OnComplete()
 		{

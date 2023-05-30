@@ -36,6 +36,7 @@ namespace QTool.Tween
 		protected override void OnDestroy()
 		{
 			loopKey = QId.NewId();
+			Anim.Destory();
 			base.OnDestroy();
 		}
 	}
