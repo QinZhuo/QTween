@@ -131,7 +131,7 @@ namespace QTool.Tween
 		}
 		void OnAnimOver()
         {
-            if (_anim.PlayForwads)
+            if (Anim.PlayForwads)
             {
                 OnShow?.Invoke();
             }
@@ -142,7 +142,7 @@ namespace QTool.Tween
         }
 		public void Complete()
 		{
-			_anim?.Complete();
+			Anim.Complete();
 		}
 		public void Play(bool show)
         {
@@ -155,7 +155,7 @@ namespace QTool.Tween
 		public async void ShowAndHide()
         {
             await Anim.PlayAsync(true);
-            await _anim?.PlayAsync(false);
+            await Anim.PlayAsync(false);
 		}
 		public override string ToString()
 		{

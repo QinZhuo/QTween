@@ -8,14 +8,14 @@ namespace QTool.Tween
 {
 
 	#region 基础动画逻辑
-	public abstract class QTween:IQPoolObject
+	public abstract class QTween : IQPoolObject
 	{
 		#region 基础属性
 		private bool _isPlaying = false;
 		public bool PlayForwads { get; private set; } = false;
-		public  float Time { get; internal set; } = -1f;
-		public  float Duration { get; protected set; }
-		public float TimeScale { get;private set; } = 1;
+		public float Time { get; internal set; } = -1f;
+		public float Duration { get; protected set; }
+		public float TimeScale { get; private set; } = 1;
 		public bool IgnoreTimeScale { private set; get; } = true;
 		public bool AutoDestory { private set; get; } = true;
 		public Func<float, float> TweenCurve { get; set; } = QCurve.Linear;
@@ -29,10 +29,10 @@ namespace QTool.Tween
 				_Target = value;
 			}
 		}
-		public bool HasTarget {  get;private set; } = false;
+		public bool HasTarget { get; private set; } = false;
 		public override string ToString()
 		{
-			return nameof(IsPlaying) + "[" + IsPlaying + "]" + (AutoDestory ? "AutoDestory" : "Target[" + (Target == null ? "Destroy" : Target.name + "(" + Target?.GetType()?.Name + ")") + "]["+GetHashCode()+"]");
+			return nameof(IsPlaying) + "[" + IsPlaying + "]" + (AutoDestory ? "AutoDestory" : "Target[" + (Target == null ? "Destroy" : Target.name + "(" + Target?.GetType()?.Name + ")") + "][" + GetHashCode() + "]");
 		}
 		#region 更改数值
 		public QTween SetCurve(QEaseCurve ease)
@@ -55,12 +55,12 @@ namespace QTool.Tween
 			TimeScale = value;
 			return this;
 		}
-		public  QTween OnStart(Action action)
+		public QTween OnStart(Action action)
 		{
 			OnStartEvent += action;
 			return this;
 		}
-		public  QTween OnComplete( Action action)
+		public QTween OnComplete(Action action)
 		{
 			OnCompleteEvent += action;
 			return this;
@@ -160,7 +160,7 @@ namespace QTool.Tween
 		{
 			if (Time < 0)
 			{
-				Time = PlayForwads?0:Duration;
+				Time = PlayForwads ? 0 : Duration;
 			}
 		}
 		public async Task PlayAsync(bool PlayForwads = true)
@@ -184,7 +184,7 @@ namespace QTool.Tween
 				Stop();
 				return;
 			}
-			Time += (Application.isPlaying ? (IgnoreTimeScale ? UnityEngine.Time.unscaledDeltaTime : UnityEngine.Time.deltaTime) :Mathf.Min( QTime.EditorDeltaTime,0.1f)) * (PlayForwads ? 1 : -1) * TimeScale;
+			Time += (Application.isPlaying ? (IgnoreTimeScale ? UnityEngine.Time.unscaledDeltaTime : UnityEngine.Time.deltaTime) : Mathf.Min(QTime.EditorDeltaTime, 0.1f)) * (PlayForwads ? 1 : -1) * TimeScale;
 			Update(Time);
 		}
 		private void Update(float time)
@@ -203,7 +203,7 @@ namespace QTool.Tween
 		{
 			IsPlaying = false;
 			Time = PlayForwads ? Duration : 0;
-			if (AutoDestory)
+			if (AutoDestory||(HasTarget&&Target==null))
 			{
 				Destory();
 			}
