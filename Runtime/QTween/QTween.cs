@@ -32,7 +32,7 @@ namespace QTool.Tween
 		public bool HasTarget { get; private set; } = false;
 		public override string ToString()
 		{
-			return nameof(IsPlaying) + "[" + IsPlaying + "]" + (AutoDestory ? "AutoDestory" : "Target[" + (Target == null ? "Destroy" : Target.name + "(" + Target?.GetType()?.Name + ")") + "][" + GetHashCode() + "]");
+			return nameof(IsPlaying) + "[" + IsPlaying + "]" + (AutoDestory ? "AutoDestory" : "Target[" + (Target == null ? "Destroy" : Target.name + "(" + Target?.GetType()?.Name + ")"+Target?.GetHashCode()) + "][" + GetHashCode() + "]");
 		}
 		#region 更改数值
 		public QTween SetCurve(QEaseCurve ease)

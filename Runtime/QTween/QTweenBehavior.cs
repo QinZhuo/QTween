@@ -113,10 +113,6 @@ namespace QTool.Tween
 		/// </summary>
 		public virtual void ClearAnim()
 		{
-			if (_anim != null)
-			{
-				_anim.Target = null;
-			}
 			_anim?.Destory();
 			_anim = null;
 		}
