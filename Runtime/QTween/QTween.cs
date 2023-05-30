@@ -20,7 +20,7 @@ namespace QTool.Tween
 		public bool AutoDestory { private set; get; } = true;
 		public Func<float, float> TweenCurve { get; set; } = QCurve.Linear;
 		protected UnityEngine.Object _Target { get; set; } = null;
-		public virtual UnityEngine.Object Target
+		public UnityEngine.Object Target
 		{
 			get => _Target;
 			internal set
@@ -321,39 +321,10 @@ namespace QTool.Tween
 		public static Func<T, T, float, T> ValueLerp;
 		public Func<T> Get { private set; get; }
 		public Action<T> Set { private set; get; }
-
-		static QDictionary<UnityEngine.Object, QTween<T>> DestoryTargetList = new QDictionary<UnityEngine.Object, QTween<T>>();
-
-		public override UnityEngine.Object Target
-		{
-			get => base.Target; internal set
-			{
-				if(AutoDestory&& value != Target )
-				{
-					if (DestoryTargetList.ContainsKey(value))
-					{
-						var lastTween = DestoryTargetList[value];
-						if (lastTween != null && !lastTween.IsOver)
-						{
-							lastTween.Stop();
-						}
-					}
-					if (value != null)
-					{
-						DestoryTargetList[value] = this;
-					}
-				}
-				base.Target = value;
-			}
-		}
 		public override void OnDestroy()
 		{
 			Get = null;
 			Set = null;
-			if (Target!=null&&DestoryTargetList.ContainsKey(Target)&& DestoryTargetList[Target]==this)
-			{
-				DestoryTargetList.RemoveKey(Target);
-			}
 			base.OnDestroy();
 		}
 		protected override void OnUpdate()
