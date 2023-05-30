@@ -100,7 +100,6 @@ namespace QTool.Tween
 				if (_anim == null)
                 {
                     _anim = GetTween().OnComplete(OnAnimOver).SetAutoDestory(this);
-					Debug.LogError(_anim.GetHashCode() + " " + gameObject.transform.GetPath());
 				}
                 return _anim;
             }
@@ -113,6 +112,7 @@ namespace QTool.Tween
 		public virtual void ClearAnim()
 		{
 			_anim?.Destory();
+			Debug.LogError("clear "+_anim?.GetHashCode());
 			_anim = null;
 		}
 
