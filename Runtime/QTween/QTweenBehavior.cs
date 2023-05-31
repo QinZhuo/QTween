@@ -85,7 +85,19 @@ namespace QTool.Tween
 			Play(true);
 		}
 		#region 动画初始化
-
+		private void Awake()
+		{
+			FreshAnim();
+			if (playOnAwake)
+			{
+				Play(true);
+			}
+		}
+		private void FreshAnim()
+		{
+			_anim?.Destory();
+			_anim = GetTween().OnComplete(OnAnimOver).SetAutoDestory(this);
+		}
 		public virtual QTween Anim
         {
             get
@@ -93,14 +105,9 @@ namespace QTool.Tween
 #if UNITY_EDITOR
 				if (!Application.isPlaying && _anim != null && !_anim.IsPlaying)
 				{
-					_anim = null;
+					FreshAnim();
 				}
 #endif
-				if (this == null) return null;
-				if (_anim == null)
-                {
-                    _anim = GetTween().OnComplete(OnAnimOver).SetAutoDestory(this);
-				}
                 return _anim;
             }
         }
@@ -119,16 +126,9 @@ namespace QTool.Tween
 		#endregion
 		protected virtual void OnDestroy()
 		{
-			Debug.LogError(transform.GetPath());
 			ClearAnim();
 		}
-		private void Awake()
-		{
-			if (playOnAwake)
-			{
-				Play(true);
-			}
-		}
+		
 		void OnAnimOver()
         {
             if (Anim.PlayForwads)
@@ -155,7 +155,7 @@ namespace QTool.Tween
 		public async void ShowAndHide()
         {
             await Anim.PlayAsync(true);
-            await _anim?.PlayAsync(false);
+            await Anim?.PlayAsync(false);
 		}
 		public override string ToString()
 		{
