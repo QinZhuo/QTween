@@ -44,7 +44,11 @@ namespace QTool.Tween.Component
 		public override Task PlayAsync(bool show)
 		{
 			playableDirector.timeUpdateMode = DirectorUpdateMode.Manual;
-			playableDirector.CompleteAndPlay(playableAsset);
+			if(playableDirector.state== PlayState.Playing)
+			{
+				playableDirector.Complete(Anim.PlayForwads);
+			}
+			playableDirector.Play(playableAsset);
 			return base.PlayAsync(show);
 		}
 	}
