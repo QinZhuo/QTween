@@ -41,6 +41,14 @@ namespace QTool.Tween.Component
 				EndValue = 0;
 			}
 		}
+		private void Awake()
+		{
+			if (playableAsset != null)
+			{
+				animTime = (float)playableAsset.duration;
+				EndValue = (float)playableAsset.duration;
+			}
+		}
 		public override Task PlayAsync(bool show)
 		{
 			playableDirector.timeUpdateMode = DirectorUpdateMode.Manual;
