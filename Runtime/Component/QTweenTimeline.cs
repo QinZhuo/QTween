@@ -43,15 +43,16 @@ namespace QTool.Tween.Component
 		}
 		private void Awake()
 		{
+			playableDirector.timeUpdateMode = DirectorUpdateMode.Manual;
 			if (playableAsset != null)
 			{
 				animTime = (float)playableAsset.duration;
 				EndValue = (float)playableAsset.duration;
 			}
+			playableDirector.SetTime(0);
 		}
 		public override Task PlayAsync(bool show)
 		{
-			playableDirector.timeUpdateMode = DirectorUpdateMode.Manual;
 			playableDirector.Play(playableAsset);
 			return base.PlayAsync(show);
 		}
