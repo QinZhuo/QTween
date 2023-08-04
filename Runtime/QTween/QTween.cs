@@ -226,7 +226,7 @@ namespace QTool.Tween
 	}
 	#endregion
 	#region 延迟
-	internal sealed class QTweenDelay : QTween
+	internal class QTweenDelay : QTween
 	{
 		static QObjectPool<QTweenDelay> _pool;
 		static QObjectPool<QTweenDelay> Pool
@@ -262,7 +262,7 @@ namespace QTool.Tween
 	}
 	#endregion
 	#region 数值补间动画
-	public sealed class QTween<T> : QTween
+	public class QTween<T> : QTween
 	{
 		#region 对象池逻辑
 		static QObjectPool<QTween<T>> _pool;

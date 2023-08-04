@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 namespace QTool.Tween
 {
    
-    public sealed class QTweenList :QTween
+    public class QTweenList :QTween
     {
 		#region 对象池逻辑
 		static QObjectPool<QTweenList> _pool;
