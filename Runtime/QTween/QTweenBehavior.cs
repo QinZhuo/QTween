@@ -153,10 +153,10 @@ namespace QTool.Tween
 		}
 		public async void ShowAndHide()
         {
-            await Anim.PlayAsync(true);
+			await PlayAsync(true);
 			if (_anim != null)
 			{
-				await _anim.PlayAsync(false);
+				await PlayAsync(false);
 			}
 		}
 		public override string ToString()
