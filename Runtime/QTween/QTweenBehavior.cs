@@ -15,6 +15,8 @@ namespace QTool.Tween
 		public QEaseCurve curve = QEaseCurve.OutQuad;
         [QName("动画时长")]
 		public float animTime = 0.4f;
+		[QName("隐藏时长")]
+		public float hideTime = 0.4f;
 		[QName("开始")]
 		[FormerlySerializedAs("HideValue")]
         public T StartValue;
@@ -38,6 +40,7 @@ namespace QTool.Tween
 		}
 		public override Task PlayAsync(bool show)
 		{
+			Anim.SetTimeScale(show || animTime <= 0 ? 1 : hideTime / animTime);
 			return base.PlayAsync(show);
 		}
 		protected override QTween GetTween()
@@ -68,9 +71,6 @@ namespace QTool.Tween
 	{
 		[QName("初始播放")]
         public bool playOnAwake = false;
-		[QName("隐藏速度")]
-		[Range(0.1f, 5f)]
-		public float hideTimeScale = 2f;
 		public ActionEvent OnShow;
         public ActionEvent OnHide;
 		[ContextMenu("隐藏")]
@@ -149,7 +149,7 @@ namespace QTool.Tween
 		}
 		public virtual async Task PlayAsync(bool show)
 		{
-			await Anim.SetTimeScale(show ? 1 : hideTimeScale).PlayAsync(show);
+			await Anim.PlayAsync(show);
 		}
 		public async void ShowAndHide()
         {
