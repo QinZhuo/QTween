@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace QTool.Tween
 {
@@ -69,10 +70,6 @@ namespace QTool.Tween
 		public event Action OnStartEvent;
 		public event Action OnCompleteEvent;
 		public event Action OnUpdateEvent;
-		public void Start()
-		{
-
-		}
 		public virtual void OnDestroy()
 		{
 			SetAutoDestory();
@@ -204,10 +201,10 @@ namespace QTool.Tween
 			Time = PlayForwads ? Duration : 0;
 			if (AutoDestory || Target == null)
 			{
-				Destory();
+				Release();
 			}
 		}
-		public abstract void Destory();
+		public abstract void Release();
 		#endregion
 		#region 更改生命周期
 		public QTween Stop()
@@ -228,8 +225,8 @@ namespace QTool.Tween
 	#region 延迟
 	internal class QTweenDelay : QTween
 	{
-		static QObjectPool<QTweenDelay> _pool;
-		static QObjectPool<QTweenDelay> Pool
+		static ObjectPool<QTweenDelay> _pool;
+		static ObjectPool<QTweenDelay> Pool
 		{
 			get
 			{
@@ -249,9 +246,9 @@ namespace QTool.Tween
 		protected override void OnUpdate()
 		{
 		}
-		public override void Destory()
+		public override void Release()
 		{
-			Pool.Push(this);
+			Pool.Release(this);
 		}
 	
 		public override string ToString()
@@ -265,8 +262,8 @@ namespace QTool.Tween
 	public class QTween<T> : QTween
 	{
 		#region 对象池逻辑
-		static QObjectPool<QTween<T>> _pool;
-		private static QObjectPool<QTween<T>> Pool
+		static ObjectPool<QTween<T>> _pool;
+		private static ObjectPool<QTween<T>> Pool
 		{
 			get
 			{
@@ -347,9 +344,9 @@ namespace QTool.Tween
 		}
 
 		#endregion
-		public override void Destory()
+		public override void Release()
 		{
-			Pool.Push(this);
+			Pool.Release(this);
 		}
 		public override string ToString()
 		{

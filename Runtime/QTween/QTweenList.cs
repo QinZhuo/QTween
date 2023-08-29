@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using QTool;
 using UnityEngine.Serialization;
+using UnityEngine.Pool;
 
 namespace QTool.Tween
 {
@@ -12,8 +13,8 @@ namespace QTool.Tween
     public class QTweenList :QTween
     {
 		#region 对象池逻辑
-		static QObjectPool<QTweenList> _pool;
-		static QObjectPool<QTweenList> Pool
+		static ObjectPool<QTweenList> _pool;
+		static ObjectPool<QTweenList> Pool
 		{
 			get
 			{
@@ -92,13 +93,13 @@ namespace QTool.Tween
 			}
 			base.OnStart();
 		}
-		public override void Destory()
+		public override void Release()
         {
 			foreach (var node in List)
 			{
-				node.tween?.Destory();
+				node.tween?.Release();
 			}
-            Pool.Push(this);
+            Pool.Release(this);
         }
         protected override void OnComplete()
 		{
