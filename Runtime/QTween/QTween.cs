@@ -147,8 +147,8 @@ namespace QTool.Tween
 			if (player != null && Players.ContainsKey(player) && Players[player].IsPlaying)
 			{
 				Players[player].Stop();
-				Players[player] = this;
 			}
+			Players[player] = this;
 			if (!IsPlaying || this.PlayForwads != PlayForwads)
 			{
 				this.PlayForwads = PlayForwads;
@@ -203,7 +203,6 @@ namespace QTool.Tween
 		protected abstract void OnUpdate();
 		protected virtual void OnComplete()
 		{
-			Time = PlayForwads ? Duration : 0;
 			Stop();
 		}
 		public abstract void Release();
@@ -211,6 +210,7 @@ namespace QTool.Tween
 		#region 更改生命周期
 		public QTween Stop()
 		{
+			Time = PlayForwads ? Duration : 0;
 			IsPlaying = false;
 			if (AutoDestory || Target == null)
 			{
