@@ -141,8 +141,14 @@ namespace QTool.Tween
 		}
 		#endregion
 		#region 正常生命周期
-		public QTween Play(bool PlayForwads = true)
+		static QDictionary<UnityEngine.Object, QTween> Players = new QDictionary<UnityEngine.Object, QTween>();
+		public QTween Play(bool PlayForwads = true, UnityEngine.Object player = null)
 		{
+			if (player != null && Players.ContainsKey(player) && Players[player].IsPlaying)
+			{
+				Players[player].Stop();
+				Players[player] = this;
+			}
 			if (!IsPlaying || this.PlayForwads != PlayForwads)
 			{
 				this.PlayForwads = PlayForwads;
@@ -197,19 +203,19 @@ namespace QTool.Tween
 		protected abstract void OnUpdate();
 		protected virtual void OnComplete()
 		{
-			IsPlaying = false;
 			Time = PlayForwads ? Duration : 0;
-			if (AutoDestory || Target == null)
-			{
-				Release();
-			}
+			Stop();
 		}
 		public abstract void Release();
 		#endregion
 		#region 更改生命周期
 		public QTween Stop()
 		{
-			OnComplete();
+			IsPlaying = false;
+			if (AutoDestory || Target == null)
+			{
+				Release();
+			}
 			return this;
 		}
 		public  void Complete()
