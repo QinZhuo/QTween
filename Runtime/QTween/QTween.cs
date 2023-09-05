@@ -144,11 +144,17 @@ namespace QTool.Tween
 		static QDictionary<UnityEngine.Object, QTween> Players = new QDictionary<UnityEngine.Object, QTween>();
 		public QTween Play(bool PlayForwads = true, UnityEngine.Object player = null)
 		{
-			if (player != null && Players.ContainsKey(player) && Players[player].IsPlaying)
+			if (player != null )
 			{
-				Players[player].Stop();
+				if(Players.ContainsKey(player) && Players[player].IsPlaying)
+				{
+					Players[player].Stop();
+				}
+				else
+				{
+					Players[player] = this;
+				}
 			}
-			Players[player] = this;
 			if (!IsPlaying || this.PlayForwads != PlayForwads)
 			{
 				this.PlayForwads = PlayForwads;
