@@ -171,11 +171,7 @@ namespace QTool.Tween
 				Time = PlayForwads ? 0 : Duration;
 			}
 		}
-		public async Task PlayAsync(bool PlayForwads = true)
-		{
-			Play(PlayForwads);
-			await WaitOverAsync();
-		}
+	
 		public async Task WaitOverAsync()
 		{
 			var flag = Application.isPlaying;
@@ -183,6 +179,15 @@ namespace QTool.Tween
 			while (PlayForwads == this.PlayForwads && !IsOver && flag == Application.isPlaying)
 			{
 				await QTask.Step();
+			}
+		}
+		public IEnumerator WaitOver()
+		{
+			var flag = Application.isPlaying;
+			var PlayForwads = this.PlayForwads;
+			while (PlayForwads == this.PlayForwads && !IsOver && flag == Application.isPlaying)
+			{
+				yield return null;
 			}
 		}
 		private void Update()

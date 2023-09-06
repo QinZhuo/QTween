@@ -11,7 +11,7 @@ namespace QTool.Tween
             audio.clip = clip;
             audio.Play();
             var tween = QTweenManager.Tween(() => audio.volume, (value) => audio.volume = value, 1, delay);
-            tween.Play();
+			tween.Play(true, audio);
         }
         public static void Stop(this AudioSource audio, float delay)
         {

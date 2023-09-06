@@ -24,14 +24,16 @@ namespace QTool.Tween
 				var flag = loopKey;
 				while (loopKey == flag && this != null&&Anim!=null)
 				{
-					await Anim.PlayAsync(true);
-					await Anim.PlayAsync(false);
+					Anim.Play(true,this);
+					await Anim.WaitOverAsync();
+					Anim.Play(false,this);
+					await Anim.WaitOverAsync();
 				}
 			}
 			else
 			{
 				loopKey = QId.NewId();
-				Anim.Play(false);
+				Anim.Play(false,this);
 			}
 		}
 		protected override void OnDestroy()
