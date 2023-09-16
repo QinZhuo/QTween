@@ -5,7 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using QTool;
 using UnityEngine.Serialization;
-
+#if UNITY_2021_1_OR_NEWER
+using UnityEngine.Pool;
+#endif
 namespace QTool.Tween
 {
    

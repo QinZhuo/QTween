@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+#if UNITY_2021_1_OR_NEWER
+using UnityEngine.Pool;
+#endif
 namespace QTool.Tween
 {
 
