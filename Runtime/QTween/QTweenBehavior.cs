@@ -16,7 +16,7 @@ namespace QTool.Tween
         [QName("动画时长")]
 		public float animTime = 0.4f;
 		[QName("隐藏时长")]
-		public float hideTime = 0.4f;
+		public float hideTime = 0.2f;
 		[QName("开始")]
 		[FormerlySerializedAs("HideValue")]
         public T StartValue;
@@ -40,7 +40,7 @@ namespace QTool.Tween
 		}
 		public override Task PlayAsync(bool show)
 		{
-			Anim.SetTimeScale(show || animTime <= 0 ? 1 : hideTime / animTime);
+			Anim.SetTimeScale(show || animTime <= 0 ? 1 : animTime / hideTime);
 			return base.PlayAsync(show);
 		}
 		protected override QTween GetTween()
