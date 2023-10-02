@@ -84,18 +84,21 @@ namespace QTool.Tween
 		{
 			Play(true);
 		}
+		private void OnValidate()
+		{
+#if UNITY_EDITOR
+			if (!Application.isPlaying && _anim != null && !_anim.IsPlaying)
+			{
+				_anim = null;
+			}
+#endif
+		}
 		#region 动画初始化
 
 		public virtual QTween Anim
         {
             get
             {
-#if UNITY_EDITOR
-				if (!Application.isPlaying && _anim != null && !_anim.IsPlaying)
-				{
-					_anim = null;
-				}
-#endif
 				if (this == null) return null;
 				if (_anim == null)
                 {
