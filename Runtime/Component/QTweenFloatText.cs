@@ -21,24 +21,32 @@ namespace QTool.Tween.Component
 
         public Text _text;
         private float curValue = 0;
+		public QTweenBehavior ControlShowHide;
         public string format="F0";
         public StringEvent OnValueChange; 
         protected override void Reset()
         {
-            _text = GetComponent<Text>();
+            _text = GetComponentInChildren<Text>();
             base.Reset();
         }
         private void Awake()
         {
             OnValueChange.AddListener(ChangeText);
         }
-        public void SetFloat(float value)
-        {
-            Anim.Stop();
-            var floatAnim= Anim as QTween<float>;
-            floatAnim.StartValue = curValue;
-            floatAnim.EndValue = value;
-
+		public void SetFloat(float value)
+		{
+			if (value > 0)
+			{
+				ControlShowHide?.Show();
+			}
+			else
+			{
+				ControlShowHide?.Hide();
+			}
+			Anim.Stop();
+			var floatAnim = Anim as QTween<float>;
+			floatAnim.StartValue = curValue;
+			floatAnim.EndValue = value;
 		}
 
         public void SetFloatAnim(float value)
