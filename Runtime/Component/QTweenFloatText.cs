@@ -35,7 +35,7 @@ namespace QTool.Tween.Component
         }
 		public void SetFloat(float value)
 		{
-			if (value > 0)
+			if (value.Similar(0))
 			{
 				ControlShowHide?.Show();
 			}
