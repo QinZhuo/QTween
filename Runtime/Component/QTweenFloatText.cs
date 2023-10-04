@@ -37,11 +37,11 @@ namespace QTool.Tween.Component
 		{
 			if (value.Similar(0))
 			{
-				ControlShowHide?.Show();
+				ControlShowHide?.Hide();
 			}
 			else
 			{
-				ControlShowHide?.Hide();
+				ControlShowHide?.Show();
 			}
 			Anim.Stop();
 			var floatAnim = Anim as QTween<float>;
