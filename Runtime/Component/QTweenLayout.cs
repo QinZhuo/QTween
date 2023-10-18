@@ -30,7 +30,7 @@ namespace QTool.Tween.Component
 			layout.OnPush += (view) =>
 			{
 				var tween = view.GetComponent<QTweenBehavior>();
-				var tweenNode = tweenList.First(obj => Equals(obj.qTween, tween));
+				var tweenNode = tweenList.FirstOrDefault(obj => Equals(obj.qTween, tween));
 				if (tweenNode != null)
 				{
 					tweenList.Remove(tweenNode);
