@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 namespace QTool.Tween.Component
 {
@@ -26,15 +27,16 @@ namespace QTool.Tween.Component
 					ClearAnim();
                 }
             };
-            layout.OnPush += (view) =>
-            {
-				var tweenNode= tweenList.Get(view.GetComponent<QTweenBehavior>(), (obj) => obj.qTween);
-                if (tweenNode != null)
-                {
-                    tweenList.Remove(tweenNode);
+			layout.OnPush += (view) =>
+			{
+				var tween = view.GetComponent<QTweenBehavior>();
+				var tweenNode = tweenList.First(obj => Equals(obj.qTween, tween));
+				if (tweenNode != null)
+				{
+					tweenList.Remove(tweenNode);
 					ClearAnim();
 				}
-            };
+			};
         }
     }
 }
