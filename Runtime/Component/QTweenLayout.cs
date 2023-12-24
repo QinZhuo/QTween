@@ -27,7 +27,7 @@ namespace QTool.Tween.Component
 					ClearAnim();
                 }
             };
-			layout.OnPush += (view) =>
+			layout.OnRelease += (view) =>
 			{
 				var tween = view.GetComponent<QTweenBehavior>();
 				var tweenNode = tweenList.FirstOrDefault(obj => Equals(obj.qTween, tween));
