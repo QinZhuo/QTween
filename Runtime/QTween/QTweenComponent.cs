@@ -140,8 +140,9 @@ namespace QTool.Tween
             else
             {
                 OnHide?.Invoke();
-            }
-        }
+			}
+			gameObject.SetDirty();
+		}
 		public void Complete()
 		{
 			Anim.Complete();
