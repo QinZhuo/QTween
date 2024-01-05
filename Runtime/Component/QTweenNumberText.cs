@@ -64,7 +64,7 @@ namespace QTool.Tween.Component
 		public void Set(float value)
 		{
 			SetWithoutAnim(value);
-			if (StartValue != EndValue)
+			if (!StartValue.Similar(EndValue))
 			{
 				Show();
 			}
