@@ -41,7 +41,7 @@ namespace QTool.Tween.Component
 			Complete();
 			var floatAnim = Anim as QTween<float>;
 			floatAnim.StartValue = EndValue;
-			StartValue = EndValue;
+			StartValue = EndValue; 
 			floatAnim.EndValue = value;
 			EndValue = value;
 		}
