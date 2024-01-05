@@ -131,7 +131,7 @@ namespace QTool.Tween
 				Play(true);
 			}
 		}
-		void OnAnimOver()
+		protected virtual void OnAnimOver()
         {
             if (Anim.PlayForwads)
             {
