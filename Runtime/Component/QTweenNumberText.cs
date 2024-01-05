@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QTool.Tween.Component
 {
-    public class QTweenNumberText : QTweenComponent<float>
+    public class QTweenNumberText : QTweenComponent<float>, IQEvent<float>
     {
         public override float CurValue
         {
@@ -36,7 +36,7 @@ namespace QTool.Tween.Component
 				showTween.Complete();
 			}
 		}
-		public void SetFloat(float value)
+		public void SetWithoutAnim(float value)
 		{
 			Anim.Stop();
 			var floatAnim = Anim as QTween<float>;
@@ -58,10 +58,10 @@ namespace QTool.Tween.Component
 				showTween?.Hide();
 			}
 		}
-		public void SetFloatAnim(float value)
-        {
-            SetFloat(value);
-            Show();
-        }
-    }
+		public void Set(float value)
+		{
+			SetWithoutAnim(value);
+			Show();
+		}
+	}
 }
