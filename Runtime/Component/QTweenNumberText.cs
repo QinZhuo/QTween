@@ -10,9 +10,9 @@ namespace QTool.Tween.Component
     public class QTweenNumberText : QTweenComponent<float>, IQEvent<float>
     {
         public override float CurValue
-        {
-            get => _curValue; set { OnValueChange?.Invoke( value.ToString(format)); _curValue = value; }
-        }
+		{
+			get => _curValue; set { OnValueChange?.Invoke(value.ToString(format)); _curValue = value; }
+		}
         private float _curValue = 0;
         public string format="F0";
 		public StringEvent OnValueChange = new StringEvent();
@@ -63,9 +63,9 @@ namespace QTool.Tween.Component
 		}
 		public void Set(float value)
 		{
-			SetWithoutAnim(value);
-			if (!StartValue.Similar(EndValue))
+			if (!value.Similar(CurValue))
 			{
+				SetWithoutAnim(value);
 				Show();
 			}
 		}
