@@ -64,7 +64,10 @@ namespace QTool.Tween.Component
 		public void Set(float value)
 		{
 			SetWithoutAnim(value);
-			Show();
+			if (StartValue != EndValue)
+			{
+				Show();
+			}
 		}
 	}
 }
