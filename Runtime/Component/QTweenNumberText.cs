@@ -11,9 +11,9 @@ namespace QTool.Tween.Component
     {
         public override float CurValue
         {
-            get => curValue; set { OnValueChange?.Invoke( value.ToString(format)); curValue = value; }
+            get => _curValue; set { OnValueChange?.Invoke( value.ToString(format)); _curValue = value; }
         }
-        private float curValue = 0;
+        private float _curValue = 0;
         public string format="F0";
 		public StringEvent OnValueChange = new StringEvent();
 		[UnityEngine.Serialization.FormerlySerializedAs("showTween")]
@@ -28,19 +28,23 @@ namespace QTool.Tween.Component
 			}
             base.Reset();
         }
+		private void Awake()
+		{
+			if (showTween != null)
+			{
+				showTween.Hide();
+				showTween.Complete();
+			}
+		}
 		public void SetFloat(float value)
 		{
 			Anim.Stop();
 			var floatAnim = Anim as QTween<float>;
-			floatAnim.StartValue = curValue;
+			floatAnim.StartValue = _curValue;
 			floatAnim.EndValue = value;
 		}
 		public override async Task PlayAsync(bool show)
 		{
-			//if (changeTween != null && !EndValue.Equals(StartValue))
-			//{
-			//	changeTween.ShowAndHide();
-			//}
 			if (!CurValue.Similar(0))
 			{
 				showTween?.Show();
