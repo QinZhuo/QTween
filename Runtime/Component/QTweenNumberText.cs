@@ -38,14 +38,16 @@ namespace QTool.Tween.Component
 		}
 		public void SetWithoutAnim(float value)
 		{
-			Anim.Complete();
+			Complete();
 			var floatAnim = Anim as QTween<float>;
-			floatAnim.StartValue = floatAnim.EndValue;
+			floatAnim.StartValue = EndValue;
+			StartValue = EndValue;
 			floatAnim.EndValue = value;
+			EndValue = value;
 		}
 		public override async Task PlayAsync(bool show)
 		{
-			if (!CurValue.Similar(0))
+			if (!EndValue.Similar(0))
 			{
 				showTween?.Show();
 				changeTween?.Show();
@@ -64,8 +66,7 @@ namespace QTool.Tween.Component
 		public void Set(float value)
 		{
 			SetWithoutAnim(value);
-			var tween = Anim as QTween<float>;
-			//if (!tween.StartValue.Similar(tween.EndValue))
+			if (!StartValue.Similar(EndValue))
 			{
 				Show();
 			}

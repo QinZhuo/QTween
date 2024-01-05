@@ -230,7 +230,7 @@ namespace QTool.Tween
 			}
 			return this;
 		}
-		public  void Complete()
+		public void Complete()
 		{
 			if (!IsPlaying) return;
 			Update(PlayForwads ? Duration : 0);
