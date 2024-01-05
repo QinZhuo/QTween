@@ -28,12 +28,12 @@ namespace QTool.Tween
 			StartValue = default;
 			EndValue = CurValue;
 		}
-        [ContextMenu("设为开始值")]
+        [QName("设为开始值")]
         public void SetStrat()
         {
             StartValue = CurValue;
         }
-        [ContextMenu("设为结束值")]
+        [QName("设为结束值")]
         public void SetEnd()
         {
             EndValue = CurValue;
@@ -73,13 +73,13 @@ namespace QTool.Tween
         public bool playOnAwake = false;
 		public ActionEvent OnShow;
         public ActionEvent OnHide;
-		[ContextMenu("隐藏")]
+		[QName("隐藏")]
 		public void Hide()
 		{
 			Play(false);
 		}
 
-		[ContextMenu("显示")]
+		[QName("显示")]
 		public void Show()
 		{
 			Play(true);

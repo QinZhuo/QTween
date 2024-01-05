@@ -9,35 +9,25 @@ namespace QTool.Tween.Component
 {
     public class QTweenNumberText : QTweenComponent<float>
     {
-  
         public override float CurValue
         {
             get => curValue; set { OnValueChange?.Invoke( value.ToString(format)); curValue = value; }
         }
-		[QReadonly]
-        public Text text;
         private float curValue = 0;
         public string format="F0";
-        public StringEvent OnValueChange;
-		[UnityEngine.Serialization.FormerlySerializedAs("ControlShowHide")]
+		public StringEvent OnValueChange = new StringEvent();
+		[UnityEngine.Serialization.FormerlySerializedAs("showTween")]
 		public QTweenComponent showTween;
 		public QTweenComponent changeTween;
 		protected override void Reset()
         {
-            text = GetComponentInChildren<Text>();
-            base.Reset();
-        }
-        private void Awake()
-        {
-            OnValueChange.AddListener(ChangeText);
-        }
-		private void ChangeText(string value)
-		{
+            var text= GetComponentInChildren<Text>();
 			if (text != null)
 			{
-				text.text = value;
+				OnValueChange.AddPersistentListener(text.GetAction<string>("set_text"));
 			}
-		}
+            base.Reset();
+        }
 		public void SetFloat(float value)
 		{
 			Anim.Stop();
@@ -47,25 +37,20 @@ namespace QTool.Tween.Component
 		}
 		public override async Task PlayAsync(bool show)
 		{
-			if (show && !EndValue.Similar(0))
+			//if (changeTween != null && !EndValue.Equals(StartValue))
+			//{
+			//	changeTween.ShowAndHide();
+			//}
+			if (!CurValue.Similar(0))
 			{
 				showTween?.Show();
 			}
-			if (!EndValue.Equals(StartValue))
-			{
-				changeTween?.Show();
-			}
+			changeTween?.Show();
 			await base.PlayAsync(show);
-			if (!EndValue.Equals(StartValue))
+			changeTween?.Hide();
+			if (CurValue.Similar(0))
 			{
-				changeTween?.Hide();
-			}
-		}
-		protected override void OnAnimOver()
-		{
-			base.OnAnimOver();
-			if (curValue.Similar(0))
-			{
+				changeTween.Complete();
 				showTween?.Hide();
 			}
 		}
