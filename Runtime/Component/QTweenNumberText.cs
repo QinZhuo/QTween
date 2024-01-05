@@ -63,9 +63,10 @@ namespace QTool.Tween.Component
 		}
 		public void Set(float value)
 		{
-			if (!value.Similar(CurValue))
+			SetWithoutAnim(value);
+			var tween = Anim as QTween<float>;
+			if (tween.StartValue != tween.EndValue)
 			{
-				SetWithoutAnim(value);
 				Show();
 			}
 		}
