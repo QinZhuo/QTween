@@ -65,7 +65,7 @@ namespace QTool.Tween.Component
 		{
 			SetWithoutAnim(value);
 			var tween = Anim as QTween<float>;
-			if (!tween.StartValue.Similar(tween.EndValue))
+			//if (!tween.StartValue.Similar(tween.EndValue))
 			{
 				Show();
 			}
