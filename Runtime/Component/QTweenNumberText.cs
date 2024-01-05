@@ -48,11 +48,14 @@ namespace QTool.Tween.Component
 			if (!CurValue.Similar(0))
 			{
 				showTween?.Show();
+				changeTween?.Show();
 			}
-			changeTween?.Show();
 			await base.PlayAsync(show);
-			changeTween?.Hide();
-			if (CurValue.Similar(0))
+			if (!CurValue.Similar(0))
+			{
+				changeTween?.Hide();
+			}
+			else
 			{
 				changeTween.Complete();
 				showTween?.Hide();
