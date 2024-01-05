@@ -55,6 +55,10 @@ namespace QTool.Tween
 		public int CurIndex { get; private set; } = -2;
 		public TweenListNode CurNode => List.Get(CurIndex);
 		#endregion
+		public void Clear()
+		{
+			List.Clear();
+		}
 		public QTweenList AddLast(QTween tween, TweenListType type= TweenListType.顺序播放)
         {
 			switch (type)
@@ -84,7 +88,7 @@ namespace QTool.Tween
         {
             base.OnDestroy();
 			CurIndex =-2;
-            List.Clear();
+			Clear();
         }
 		protected override void OnStart()
 		{
@@ -100,7 +104,8 @@ namespace QTool.Tween
 			{
 				node.tween?.Release();
 			}
-            Pool.Release(this);
+			Clear();
+			Pool.Release(this);
         }
         protected override void OnComplete()
 		{

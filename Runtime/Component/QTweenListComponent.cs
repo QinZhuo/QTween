@@ -32,6 +32,18 @@ namespace QTool.Tween.Component
             return list;
         }
 		
+		public override void ClearAnim()
+		{
+			foreach (var node in tweenList)
+			{
+				node.qTween?.ClearAnim();
+			}
+			if(Anim is QTweenList list)
+			{
+				list.Clear();
+			}
+			base.ClearAnim();
+		}
 	}
 }
 
