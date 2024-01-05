@@ -6,7 +6,7 @@ using QTool.Inspector;
 namespace QTool.Tween.Component
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class QTweenDelay : QTweenBehavior
+    public class QTweenDelayComponent : QTweenComponent
     {
         [QName("延迟时间")]
         public float time = 0.4f;

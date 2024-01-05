@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace QTool.Tween.Component
 {
-    public class QTweenListBehavior : QTweenBehavior
+    public class QTweenListComponent : QTweenComponent
     {
         [System.Serializable]
         public class QTweenlistNode
         {
             [HideInInspector]
             public string name;
-            public QTweenBehavior qTween;
+			[QPopup]
+            public QTweenComponent qTween;
             public QTweenList.TweenListType type = QTweenList.TweenListType.异步播放;
             public void FreshName()
             {

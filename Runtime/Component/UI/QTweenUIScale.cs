@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 namespace QTool.Tween.Component
 {
-    public class QTweenUIScale : QTweenBehavior<Vector2>
+    public class QTweenUIScale : QTweenComponent<Vector2>
     {
         public override Vector2 CurValue { get => transform.localScale; set => transform.localScale = value; }
         public override string ToString()

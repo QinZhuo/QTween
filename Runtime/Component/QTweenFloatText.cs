@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System;
 namespace QTool.Tween.Component
 {
-    public class QTweenFloatText : QTweenBehavior<float>
+    public class QTweenFloatText : QTweenComponent<float>
     {
         void ChangeText(string value)
         {
@@ -21,7 +21,7 @@ namespace QTool.Tween.Component
 
         public Text _text;
         private float curValue = 0;
-		public QTweenBehavior ControlShowHide;
+		public QTweenComponent ControlShowHide;
         public string format="F0";
         public StringEvent OnValueChange; 
         protected override void Reset()

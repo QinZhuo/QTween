@@ -13,15 +13,15 @@ namespace QTool.Tween.Component
     public class QTweenPlayer
     {
         public QTween CurTween { get;private set; }
-        public void Show(QTweenBehavior newTween)
+        public void Show(QTweenComponent newTween)
         {
             Play(newTween, true);
         }
-        public void Hide(QTweenBehavior newTween)
+        public void Hide(QTweenComponent newTween)
         {
             Play(newTween, false);
         }
-        public void Play(QTweenBehavior newTween,bool show)
+        public void Play(QTweenComponent newTween,bool show)
         {
             if (newTween?.Anim == null) return;
             if(CurTween!=null&&CurTween.IsPlaying)
@@ -58,15 +58,15 @@ namespace QTool.Tween.Component
             }
         }
         [QName("进入动画")]
-        public QTweenBehavior enterAnim;
+        public QTweenComponent enterAnim;
         [QName("按下动画")]
-        public QTweenBehavior downAnim;
+        public QTweenComponent downAnim;
         [QName("选中动画", "HasSelectable")]
-        public QTweenBehavior selectAnim;
+        public QTweenComponent selectAnim;
         //[ViewName("禁用动画", "HasSelectable")]
         //public QTweenBehavior InteractableAnim;
         [QName("开关动画", "HasToggle")]
-        public QTweenBehavior onAnim;
+        public QTweenComponent onAnim;
         public QTweenPlayer qTweenPlayer = new QTweenPlayer();
         public bool HasSelectable
         {

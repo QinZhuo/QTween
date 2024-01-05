@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System;
 namespace QTool.Tween.Component
 {
-    public class QTweenFloatEvent: QTweenBehavior<float>
+    public class QTweenFloatEvent: QTweenComponent<float>
     {
         public override float CurValue
         {

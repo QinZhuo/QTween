@@ -5,7 +5,7 @@ using UnityEngine;
 namespace QTool.Tween.Component
 {
     [RequireComponent(typeof(QObjectList))]
-    public class QTweenLayout: QTweenListBehavior
+    public class QTweenLayout: QTweenListComponent
     {
         public QTweenList.TweenListType listType = QTweenList.TweenListType.顺序播放;
         public QObjectList layout;
@@ -21,7 +21,7 @@ namespace QTool.Tween.Component
             {
 				if (view != null)
 				{
-					var node = new QTweenlistNode { qTween = view.GetComponent<QTweenBehavior>(), type = listType };
+					var node = new QTweenlistNode { qTween = view.GetComponent<QTweenComponent>(), type = listType };
                     node.FreshName();
                     tweenList.Add(node);
 					ClearAnim();
@@ -29,7 +29,7 @@ namespace QTool.Tween.Component
             };
 			layout.OnRelease += (view) =>
 			{
-				var tween = view.GetComponent<QTweenBehavior>();
+				var tween = view.GetComponent<QTweenComponent>();
 				var tweenNode = tweenList.FirstOrDefault(obj => Equals(obj.qTween, tween));
 				if (tweenNode != null)
 				{

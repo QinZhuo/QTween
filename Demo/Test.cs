@@ -17,7 +17,7 @@ public class Test : MonoBehaviour
     public const int count = 1;
     GameObject[,] objs = new GameObject[count, count];
     QTween[,] tweens = new QTween[count, count];
-    public QTweenBehavior tweenBehavior;
+    public QTweenComponent tweenBehavior;
     [ContextMenu("开测试")]
     public void ShowTest()
     {

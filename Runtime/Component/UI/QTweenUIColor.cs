@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace QTool.Tween.Component
 {
-    public class QTweenUIColor : QTweenBehavior<Color>
+    public class QTweenUIColor : QTweenComponent<Color>
     {
       
         public override Color CurValue

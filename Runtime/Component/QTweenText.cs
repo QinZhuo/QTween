@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 namespace QTool.Tween.Component
 {
-    public class QTweenText : QTweenBehavior<string>
+    public class QTweenText : QTweenComponent<string>
     {
         protected override void Reset()
         {

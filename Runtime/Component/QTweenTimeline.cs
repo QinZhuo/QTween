@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace QTool.Tween.Component
 {
 	[RequireComponent(typeof(PlayableDirector))]
-    public class QTweenTimeline : QTweenBehavior<float>
+    public class QTweenTimeline : QTweenComponent<float>
     {
 		[QName("播放器")]
 		public PlayableDirector playableDirector;
