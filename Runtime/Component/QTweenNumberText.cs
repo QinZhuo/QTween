@@ -38,7 +38,7 @@ namespace QTool.Tween.Component
 		}
 		public void SetWithoutAnim(float value)
 		{
-			Anim.Stop();
+			Anim.Complete();
 			var floatAnim = Anim as QTween<float>;
 			floatAnim.StartValue = floatAnim.EndValue;
 			floatAnim.EndValue = value;
