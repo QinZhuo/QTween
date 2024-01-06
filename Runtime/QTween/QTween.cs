@@ -71,6 +71,10 @@ namespace QTool.Tween
 		public event Action OnStartEvent;
 		public event Action OnCompleteEvent;
 		public event Action OnUpdateEvent;
+		public virtual void Awake()
+		{
+
+		}
 		public virtual void OnDestroy()
 		{
 			SetAutoDestory();
