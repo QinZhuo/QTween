@@ -53,7 +53,7 @@ namespace QTool.Tween.Component
 				changeTween?.Show();
 			}
 			await base.PlayAsync(show);
-			if (!CurValue.Similar(0))
+			if (!EndValue.Similar(0))
 			{
 				changeTween?.Hide();
 			}
