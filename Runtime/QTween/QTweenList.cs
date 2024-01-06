@@ -22,7 +22,7 @@ namespace QTool.Tween
 				return _pool ?? (_pool = QPoolManager.GetPool(typeof(QTweenList).Name, () =>
 				{
 					return new QTweenList();
-				}));
+				})); 
 			}
 		}
 		public static QTweenList Get()
