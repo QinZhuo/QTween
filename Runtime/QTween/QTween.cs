@@ -71,11 +71,11 @@ namespace QTool.Tween
 		public event Action OnStartEvent;
 		public event Action OnCompleteEvent;
 		public event Action OnUpdateEvent;
-		public virtual void Awake()
+		public virtual void OnPoolGet()
 		{
 
 		}
-		public virtual void OnDestroy()
+		public virtual void OnPoolRelease()
 		{
 			SetAutoDestory();
 			PlayForwads = false;
@@ -339,11 +339,11 @@ namespace QTool.Tween
 		public static Func<T, T, float, T> ValueLerp;
 		public Func<T> Get { private set; get; }
 		public Action<T> Set { private set; get; }
-		public override void OnDestroy()
+		public override void OnPoolRelease()
 		{
 			Get = null;
 			Set = null;
-			base.OnDestroy();
+			base.OnPoolRelease();
 		}
 		protected override void OnUpdate()
 		{

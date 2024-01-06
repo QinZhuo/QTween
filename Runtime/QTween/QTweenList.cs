@@ -84,9 +84,9 @@ namespace QTool.Tween
 			List.Add(new TweenListNode(tween, type));
 			return this;
 		}
-		public override void OnDestroy()
+		public override void OnPoolRelease()
         {
-            base.OnDestroy();
+            base.OnPoolRelease();
 			CurIndex =-2;
 			Clear();
         }
