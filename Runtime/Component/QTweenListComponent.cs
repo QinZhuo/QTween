@@ -6,7 +6,7 @@ namespace QTool.Tween.Component
     public class QTweenListComponent : QTweenComponent
     {
         [System.Serializable]
-        public class QTweenlistNode
+        public class QTweenlistNode 
         {
             [HideInInspector]
             public string name;
