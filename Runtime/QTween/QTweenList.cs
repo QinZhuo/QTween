@@ -16,7 +16,7 @@ namespace QTool.Tween
 		#region 对象池逻辑
 		static ObjectPool<QTweenList> _pool;
 		static ObjectPool<QTweenList> Pool
-		{
+		{ 
 			get
 			{
 				return _pool ?? (_pool = QPoolManager.GetPool(typeof(QTweenList).Name, () =>
