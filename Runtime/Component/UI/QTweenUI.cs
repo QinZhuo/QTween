@@ -10,28 +10,6 @@ using static UnityEngine.UI.Selectable;
 
 namespace QTool.Tween.Component
 {
-    public class QTweenPlayer
-    {
-        public QTween CurTween { get;private set; }
-        public void Show(QTweenComponent newTween)
-        {
-            Play(newTween, true);
-        }
-        public void Hide(QTweenComponent newTween)
-        {
-            Play(newTween, false);
-        }
-        public void Play(QTweenComponent newTween,bool show)
-        {
-            if (newTween?.Anim == null) return;
-            if(CurTween!=null&&CurTween.IsPlaying)
-            {
-                CurTween.Complete();
-            }
-            CurTween = newTween.Anim;
-            newTween.Play(show);
-        }
-    }
     public class QTweenUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler, IPointerDownHandler, IPointerUpHandler
     {
         [HideInInspector]
@@ -176,4 +154,27 @@ namespace QTool.Tween.Component
             qTweenPlayer.Hide(downAnim);
         }
     }
+
+	public class QTweenPlayer
+	{
+		public QTween CurTween { get; private set; }
+		public void Show(QTweenComponent newTween)
+		{
+			Play(newTween, true);
+		}
+		public void Hide(QTweenComponent newTween)
+		{
+			Play(newTween, false);
+		}
+		public void Play(QTweenComponent newTween, bool show)
+		{
+			if (newTween?.Anim == null) return;
+			if (CurTween != null && CurTween.IsPlaying)
+			{
+				CurTween.Complete();
+			}
+			CurTween = newTween.Anim;
+			newTween.Play(show);
+		}
+	}
 }
