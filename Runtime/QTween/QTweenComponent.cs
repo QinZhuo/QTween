@@ -10,7 +10,7 @@ namespace QTool.Tween
 
     public abstract class QTweenComponent<T> : QTweenComponent
     {
-        [QName("动画曲线")]
+        [QName("动画曲线")] 
 		[SerializeField]
 		public QEaseCurve curve = QEaseCurve.OutQuad;
         [QName("动画时长")]
