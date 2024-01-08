@@ -33,7 +33,23 @@ namespace QTool.Tween
             transform.SetPosition,
             postion, duration);
         }
-        public static QTween<float> QMoveX(this Transform transform, float value, float duration)
+		public static QTween QShake(this Transform transform, float duration, float scale)
+		{
+			return transform.QShake(duration, Vector3.one * scale);
+		}
+		public static QTween QShake(this Transform transform, float duration, Vector3 scale)
+		{
+			var startPosition = transform.position;
+			return QTweenManager.Delay(duration).OnUpdate(() =>
+			{
+				var offset = Random.insideUnitSphere;
+				transform.position = startPosition + new Vector3(offset.x * scale.x, offset.y * scale.y, offset.z * scale.z);
+			}).OnComplete(() =>
+			{
+				transform.position = startPosition;
+			});
+		}
+		public static QTween<float> QMoveX(this Transform transform, float value, float duration)
         {
             return QTweenManager.Tween(() => transform.position.x,
             (setValue) => { transform.position = new Vector3(setValue, transform.position.y, transform.position.z); },

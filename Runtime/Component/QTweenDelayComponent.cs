@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using QTool.Inspector;
 namespace QTool.Tween.Component
 {
-    [RequireComponent(typeof(CanvasGroup))]
     public class QTweenDelayComponent : QTweenComponent
     {
         [QName("延迟时间")]
