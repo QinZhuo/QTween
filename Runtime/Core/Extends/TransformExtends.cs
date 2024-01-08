@@ -39,8 +39,12 @@ namespace QTool.Tween
 		}
 		public static QTween QShake(this Transform transform, float duration, Vector3 scale)
 		{
-			var startPosition = transform.position;
-			return QTweenManager.Delay(duration).OnUpdate(() =>
+			var startPosition = Vector3.zero;
+			return QTweenManager.Delay(duration)
+			.OnStart(() =>
+			{
+				startPosition = transform.position;
+			}).OnUpdate(() =>
 			{
 				var offset = Random.insideUnitSphere;
 				transform.position = startPosition + new Vector3(offset.x * scale.x, offset.y * scale.y, offset.z * scale.z);
