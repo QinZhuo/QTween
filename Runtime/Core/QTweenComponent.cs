@@ -12,7 +12,7 @@ namespace QTool.Tween
     {
         [QName("动画曲线")] 
 		[SerializeField]
-		public QEaseCurve curve = QEaseCurve.OutQuad;
+		public QEaseCurve curve = QEaseCurve.Linear;
         [QName("动画时长")]
 		public float animTime = 0.4f;
 		[QName("隐藏时长")]
