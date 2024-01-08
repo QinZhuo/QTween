@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 namespace QTool.Tween
 {
-    public class QTweenLoopComponent : QTweenComponent
+    public class QTweenLoop : QTweenComponent
     {
         public QTweenComponent qTween;
 		public override QTween Anim => qTween.Anim;

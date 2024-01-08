@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace QTool.Tween
 {
-	public class QTweenDelayComponent : QTweenComponent
+	public class QTweenShake : QTweenComponent
 	{
 		[QName("时间")]
 		public float time = 0.4f;

@@ -1043,7 +1043,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   time: 0.4
-  scale: {x: 100, y: 100, z: 100}
+  scale: {x: 10, y: 10, z: 0}
 --- !u!1 &592812037
 GameObject:
   m_ObjectHideFlags: 0

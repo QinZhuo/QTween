@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using QTool.Inspector;
 namespace QTool.Tween.Component
 {
-    public class QTweenDelayComponent : QTweenComponent
+    public class QTweenDelayTime : QTweenComponent
     {
         [QName("延迟时间")]
         public float time = 0.4f;

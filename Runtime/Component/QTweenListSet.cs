@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace QTool.Tween.Component
 {
-    public class QTweenListComponent : QTweenComponent
+    public class QTweenListSet : QTweenComponent
     {
         [System.Serializable]
         public class QTweenlistNode 

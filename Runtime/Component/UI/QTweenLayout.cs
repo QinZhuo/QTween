@@ -5,7 +5,7 @@ using UnityEngine;
 namespace QTool.Tween.Component
 {
     [RequireComponent(typeof(QObjectList))]
-    public class QTweenLayout: QTweenListComponent
+    public class QTweenLayout: QTweenListSet
     {
         public QTweenList.TweenListType listType = QTweenList.TweenListType.顺序播放;
         public QObjectList layout;
