@@ -102,7 +102,7 @@ namespace QTool.Tween
 				if (this == null) return null;
 				if (_anim == null)
                 {
-                    _anim = GetTween().OnComplete(OnAnimOver).SetAutoDestory(this);
+					_anim = GetTween().OnStart(OnStart).OnComplete(OnComplete).SetAutoDestory(this);
 				}
                 return _anim;
             }
@@ -131,16 +131,19 @@ namespace QTool.Tween
 				Play(true);
 			}
 		}
-		protected virtual void OnAnimOver()
-        {
-            if (Anim.PlayForwads)
-            {
-                OnShow?.Invoke();
-            }
-            else
-            {
-                OnHide?.Invoke();
+		protected virtual void OnStart()
+		{
+			if (Anim.PlayForwads)
+			{
+				OnShow?.Invoke();
 			}
+		}
+		protected virtual void OnComplete()
+        {
+            if (!Anim.PlayForwads)
+            {
+				OnHide?.Invoke();
+            }
 			gameObject.SetDirty();
 		}
 		public void Complete()
