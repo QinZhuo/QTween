@@ -152,11 +152,14 @@ namespace QTool.Tween
 		#endregion
 		#region 正常生命周期
 		static QDictionary<UnityEngine.Object, QTween> Players = new QDictionary<UnityEngine.Object, QTween>();
-		public QTween Play(bool PlayForwads = true, UnityEngine.Object player = null)
+		/// <summary>
+		/// 设置播放器 同一个物体同时只有一个动画播放 如果有动画在播放中则停止动画
+		/// </summary>
+		public QTween SetPlayer(UnityEngine.Object player = null)
 		{
-			if (player != null )
+			if (player != null)
 			{
-				if(Players.ContainsKey(player) && Players[player].IsPlaying)
+				if (Players.ContainsKey(player) && Players[player].IsPlaying)
 				{
 					Players[player].Stop();
 				}
@@ -165,6 +168,10 @@ namespace QTool.Tween
 					Players[player] = this;
 				}
 			}
+			return this;
+		}
+		public QTween Play(bool PlayForwads = true)
+		{
 			if (!IsPlaying || this.PlayForwads != PlayForwads)
 			{
 				this.PlayForwads = PlayForwads;

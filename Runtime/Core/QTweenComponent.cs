@@ -156,7 +156,7 @@ namespace QTool.Tween
 		}
 		public virtual async Task PlayAsync(bool show)
 		{
-			Anim.Play(show,this);
+			Anim.SetPlayer(this).Play(show);
 			await Anim.WaitOverAsync();
 		}
 		public async void ShowAndHide(float delaytime = 0)
