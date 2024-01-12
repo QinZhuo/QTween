@@ -62,7 +62,7 @@ namespace QTool.Tween
 			OnStartEvent += action;
 			return this;
 		}
-		public QTween OnUpdate(Action action)
+		public QTween OnUpdate(Action<float> action)
 		{
 			OnUpdateEvent += action;
 			return this;
@@ -75,7 +75,7 @@ namespace QTool.Tween
 		#endregion
 		public event Action OnStartEvent;
 		public event Action OnCompleteEvent;
-		public event Action OnUpdateEvent;
+		public event Action<float> OnUpdateEvent;
 		public virtual void OnPoolGet()
 		{
 
@@ -221,7 +221,7 @@ namespace QTool.Tween
 		{
 			Time = Mathf.Clamp(time, 0, Duration);
 			OnUpdate();
-			OnUpdateEvent?.Invoke();
+			OnUpdateEvent?.Invoke(time);
 			if (IsOver)
 			{
 				OnCompleteEvent?.Invoke();
@@ -326,7 +326,7 @@ namespace QTool.Tween
 		}
 		protected override void OnStart()
 		{
-			if (!AutoDestory&&Target==null)
+			if (!AutoDestory && Target == null)
 			{
 				return;
 			}

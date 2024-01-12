@@ -44,7 +44,7 @@ namespace QTool.Tween
 			.OnStart(() =>
 			{
 				startPosition = transform.position;
-			}).OnUpdate(() =>
+			}).OnUpdate(time =>
 			{
 				var offset = Random.insideUnitSphere;
 				transform.position = startPosition + new Vector3(offset.x * scale.x, offset.y * scale.y, offset.z * scale.z);
