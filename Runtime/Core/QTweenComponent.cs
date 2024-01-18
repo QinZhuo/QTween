@@ -165,7 +165,10 @@ namespace QTool.Tween
 			if (_anim != null)
 			{
 				await QTask.Wait(delaytime, true);
-				await PlayAsync(false);
+				if (_anim != null)
+				{
+					await PlayAsync(false);
+				}
 			}
 		}
 		public override string ToString()
