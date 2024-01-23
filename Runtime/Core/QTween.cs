@@ -224,8 +224,8 @@ namespace QTool.Tween
 			OnUpdateEvent?.Invoke(time);
 			if (IsOver)
 			{
-				OnCompleteEvent?.Invoke();
 				OnComplete();
+				OnCompleteEvent?.Invoke();
 			}
 		}
 		protected abstract void OnUpdate();
