@@ -15,7 +15,7 @@ namespace QTool.Tween.Component
 				spriteRenderer.SetDirty();
 			}
 		}
-		private SpriteRenderer spriteRenderer;
+		public SpriteRenderer spriteRenderer;
 		private void OnValidate()
 		{
 			if(spriteRenderer == null)
