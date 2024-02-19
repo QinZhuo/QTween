@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using QTool.Inspector;
 using System.Threading.Tasks;
+using UnityEngine.Events;
 
 namespace QTool.Tween
 {
@@ -71,8 +72,8 @@ namespace QTool.Tween
 	{
 		[QName("初始播放")]
         public bool playOnAwake = false;
-		public ActionEvent OnShow;
-        public ActionEvent OnHide;
+		public UnityEvent OnShow;
+        public UnityEvent OnHide;
 		[QName("隐藏")]
 		public void Hide()
 		{

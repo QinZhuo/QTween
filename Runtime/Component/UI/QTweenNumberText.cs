@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Threading.Tasks;
+using UnityEngine.Events;
 
 namespace QTool.Tween.Component
 {
@@ -15,7 +16,7 @@ namespace QTool.Tween.Component
 		}
         private float _curValue = 0;
         public string format="F0";
-		public StringEvent OnValueChange = new StringEvent();
+		public UnityEvent<string> OnValueChange = new UnityEvent<string>();
 		[UnityEngine.Serialization.FormerlySerializedAs("showTween")]
 		public QTweenComponent showTween;
 		public QTweenComponent changeTween;

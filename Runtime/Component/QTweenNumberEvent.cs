@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.Events;
+
 namespace QTool.Tween.Component
 {
     public class QTweenNumberEvent: QTweenComponent<float>
@@ -13,6 +15,6 @@ namespace QTool.Tween.Component
         }
 		[QName("当前值")]
 		public float curValue =0;
-		public FloatEvent FloatEvent=new FloatEvent();
+		public UnityEvent<float> FloatEvent =new UnityEvent<float>();
     }
 }
