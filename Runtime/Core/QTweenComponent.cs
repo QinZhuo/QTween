@@ -134,17 +134,17 @@ namespace QTool.Tween
 		}
 		protected virtual void OnStart()
 		{
-			if (Anim.PlayForwads)
-			{
-				OnShow?.Invoke();
-			}
 		}
 		protected virtual void OnComplete()
         {
-            if (!Anim.PlayForwads)
+            if (Anim.PlayForwads)
             {
+				OnShow?.Invoke();
+			}
+			else
+			{
 				OnHide?.Invoke();
-            }
+			}
 			gameObject.SetDirty();
 		}
 		public void Complete()
