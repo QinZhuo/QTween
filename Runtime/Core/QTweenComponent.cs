@@ -74,16 +74,22 @@ namespace QTool.Tween
         public bool playOnAwake = false;
 		public UnityEvent OnShow;
         public UnityEvent OnHide;
+		
+		[QName("显示")]
+		public void Show()
+		{
+			Play(true);
+		}
 		[QName("隐藏")]
 		public void Hide()
 		{
 			Play(false);
 		}
-
-		[QName("显示")]
-		public void Show()
+		[QName("立即隐藏")]
+		public void HideAndComplete()
 		{
-			Play(true);
+			Hide();
+			Complete();
 		}
 		private void OnValidate()
 		{
@@ -160,6 +166,7 @@ namespace QTool.Tween
 			Anim.SetPlayer(this).Play(show);
 			await Anim.WaitOverAsync();
 		}
+		
 		public async void ShowAndHide(float delaytime = 0)
 		{
 			await PlayAsync(true);

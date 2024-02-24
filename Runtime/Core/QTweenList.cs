@@ -118,6 +118,13 @@ namespace QTool.Tween
 				}
 				Next();
 			}
+			foreach (var tween in List)
+			{
+				if (tween.tween.IsPlaying)
+				{
+					tween.tween.Complete();
+				}
+			}
 			CurIndex = PlayForwads ? List.Count : -1;
 			base.OnComplete();
         }
