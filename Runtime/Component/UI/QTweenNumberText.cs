@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 namespace QTool.Tween.Component
 {
-    public class QTweenNumberText : QTweenComponent<float>, IQEvent<float>
+    public class QTweenNumberText : QTweenComponent<float>
     {
         public override float CurValue
 		{
@@ -25,7 +25,7 @@ namespace QTool.Tween.Component
             var text= GetComponentInChildren<Text>();
 			if (text != null)
 			{
-				OnValueChange.AddPersistentListener(text.GetAction<string>("set_text"));
+				OnValueChange.AddPersistentListener(text.GetUnityAction<string>("set_text"));
 			}
             base.Reset();
         }
