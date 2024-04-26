@@ -74,7 +74,7 @@ namespace QTool.Tween.Component
 			downAnim?.Hide();
 			enterAnim?.Hide();
 		}
-		void ValueChange(bool value)
+		public void ValueChange(bool value)
         {
             onAnim?.Play(value);
         }
