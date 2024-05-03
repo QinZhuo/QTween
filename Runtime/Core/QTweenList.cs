@@ -14,20 +14,9 @@ namespace QTool.Tween
     public class QTweenList :QTween
     {
 		#region 对象池逻辑
-		static ObjectPool<QTweenList> _pool;
-		static ObjectPool<QTweenList> Pool
-		{ 
-			get
-			{
-				return _pool ?? (_pool = QPoolManager.GetPool(typeof(QTweenList).Name, () =>
-				{
-					return new QTweenList();
-				})); 
-			}
-		}
 		public static QTweenList Get()
 		{
-			var tween = Pool.Get();
+			var tween = QObjectPool<QTweenList>.Get();
 			tween.Duration = 0;
 			return tween;
 		}
@@ -105,7 +94,7 @@ namespace QTool.Tween
 				node.tween?.Release();
 			}
 			Clear();
-			Pool.Release(this);
+			QObjectPool<QTweenList>.Release(this);
         }
         protected override void OnComplete()
 		{

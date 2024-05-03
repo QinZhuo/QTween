@@ -259,20 +259,9 @@ namespace QTool.Tween
 	#region 延迟
 	internal class QTweenDelay : QTween
 	{
-		static ObjectPool<QTweenDelay> _pool;
-		static ObjectPool<QTweenDelay> Pool
-		{
-			get
-			{
-				return _pool ?? (_pool = QPoolManager.GetPool(typeof(QTweenDelay).Name, () =>
-				{
-					return new QTweenDelay();
-				}));
-			}
-		}
 		public static QTweenDelay Get(float t)
 		{
-			var tween = Pool.Get();
+			var tween = QObjectPool<QTweenDelay>.Get();
 			tween.Duration = t;
 			return tween;
 		}
@@ -282,7 +271,7 @@ namespace QTool.Tween
 		}
 		public override void Release()
 		{
-			Pool.Release(this);
+			QObjectPool<QTweenDelay>.Release(this);
 		}
 	
 		public override string ToString()
@@ -296,27 +285,12 @@ namespace QTool.Tween
 	public class QTween<T> : QTween
 	{
 		#region 对象池逻辑
-		static ObjectPool<QTween<T>> _pool;
-		private static ObjectPool<QTween<T>> Pool
-		{
-			get
-			{
-				return _pool ?? (_pool = QPoolManager.GetPool(typeof(T).Name + "动画", () =>
-				{
-					return new QTween<T>();
-				}));
-			}
-		}
-		private QTween()
+		public QTween()
 		{
 		}
 		public static QTween<T> PoolGet(Func<T> Get, Action<T> Set, T start, T end, float duration)
 		{
-			if (Pool == null)
-			{
-				Debug.LogError("不存在对象池" + typeof(T));
-			}
-			var tween = Pool.Get();
+			var tween = QObjectPool<QTween<T>>.Get();
 			tween.Set = Set;
 			tween.Get = Get;
 			tween.EndValue = end;
@@ -380,7 +354,7 @@ namespace QTool.Tween
 		#endregion
 		public override void Release()
 		{
-			Pool.Release(this);
+			QObjectPool<QTween<T>>.Release(this);
 		}
 		public override string ToString()
 		{
