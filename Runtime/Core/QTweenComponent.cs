@@ -33,11 +33,13 @@ namespace QTool.Tween
         public void SetStrat()
         {
             StartValue = CurValue;
+			ClearAnim();
         }
         [QName("设为结束值")]
         public void SetEnd()
         {
             EndValue = CurValue;
+			ClearAnim();
 		}
 		public override Task PlayAsync(bool show)
 		{
@@ -96,7 +98,7 @@ namespace QTool.Tween
 #if UNITY_EDITOR
 			if (!Application.isPlaying && _anim != null && !_anim.IsPlaying)
 			{
-				_anim = null;
+				ClearAnim();
 			}
 #endif
 		}
