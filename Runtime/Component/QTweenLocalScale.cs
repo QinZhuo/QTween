@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.Serialization;
 namespace QTool.Tween.Component
 {
-    public class QTweenLocalScale : QTweenComponent<Vector2>
+    public class QTweenLocalScale : QTweenComponent<Vector3>
     {
-        public override Vector2 CurValue { get => transform.localScale; set => transform.localScale = value; }
+        public override Vector3 CurValue { get => transform.localScale; set => transform.localScale = value; }
     }
 }
