@@ -60,7 +60,7 @@ namespace QTool.Tween {
 
 
 	}
-	public abstract class QTweenComponent : MonoBehaviour {
+	public abstract class QTweenComponent : MonoBehaviour,IQEvent<bool> {
 		[QName("初始播放")]
 		public bool playOnAwake = false;
 		public UnityEvent OnShow;
@@ -153,5 +153,8 @@ namespace QTool.Tween {
 			return gameObject + " " + Anim.ToString();
 		}
 
+		public void InvokeEvent(bool value) {
+			Play(value);
+		}
 	}
 }
