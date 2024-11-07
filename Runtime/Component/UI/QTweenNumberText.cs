@@ -46,20 +46,19 @@ namespace QTool.Tween.Component
 			floatAnim.EndValue = value;
 			EndValue = value;
 		}
-		public override async Task PlayAsync(bool show)
-		{
-			if (!EndValue.Similar(0))
-			{
+		public override void Play(bool show) {
+			if (!EndValue.Similar(0)) {
 				showTween?.Show();
 				changeTween?.Show();
 			}
-			await base.PlayAsync(show);
-			if (!EndValue.Similar(0))
-			{
+			base.Play(show);
+		}
+		protected override void OnComplete() {
+			base.OnComplete();
+			if (!EndValue.Similar(0)) {
 				changeTween?.Hide();
 			}
-			else
-			{
+			else {
 				changeTween.Complete();
 				showTween?.Hide();
 			}

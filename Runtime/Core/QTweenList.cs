@@ -57,7 +57,7 @@ namespace QTool.Tween
 					{
 						if (List.StackPeek().type == TweenListType.异步播放)
 						{
-							Duration -= List.StackPeek().tween.Duration;
+							Duration -= Mathf.Min(List.StackPeek().tween.Duration, tween.Duration);
 						}
 						Duration += tween.Duration;
 					}

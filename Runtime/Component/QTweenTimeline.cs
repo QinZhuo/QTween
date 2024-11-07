@@ -21,40 +21,20 @@ namespace QTool.Tween.Component
 			playableAsset = playableDirector.playableAsset;
 			base.Reset();
 		}
+		protected override void OnValidate() {
+			base.OnValidate();
+			StartValue = 0;
+			EndValue = (float)playableDirector.duration;
+			playableDirector.timeUpdateMode = DirectorUpdateMode.Manual;
+		}
 		public override float CurValue
         {
             get =>(float) playableDirector.time; set
 			{playableDirector.SetTime(value);}
         }
-
-		private void OnValidate() 
-		{
-			StartValue = 0;
-			if (playableAsset!=null)
-			{
-				animTime = (float)playableAsset.duration;
-				EndValue = (float)playableAsset.duration;
-			}
-			else
-			{
-				animTime = 0;
-				EndValue = 0;
-			}
-		}
-		private void Awake()
-		{
-			playableDirector.timeUpdateMode = DirectorUpdateMode.Manual;
-			if (playableAsset != null)
-			{
-				animTime = (float)playableAsset.duration;
-				EndValue = (float)playableAsset.duration;
-			}
-			playableDirector.SetTime(0);
-		}
-		public override Task PlayAsync(bool show)
-		{
+		public override void Play(bool show) {
 			playableDirector.Play(playableAsset);
-			return base.PlayAsync(show);
+			base.Play(show);
 		}
 	}
 }

@@ -1,45 +1,55 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-namespace QTool.Tween {
+namespace QTool.Tween
+{
 	public class QTweenLoop : QTweenComponent {
 		public QTweenComponent qTween;
-		public override QTween Anim => qTween.Anim;
 		public bool repeat = false;
-		protected override QTween GetTween() {
-			return null;
+		public override QTween Anim {
+			get {
+				if (_anim != qTween._anim) {
+					ClearAnim();
+				}
+				return base.Anim;
+			}
 		}
-		private void Reset() {
-			qTween = GetComponent<QTweenComponent>();
+		protected override QTween GetTween()
+		{
+			return qTween.Anim;
 		}
-		string loopKey = QTool.GetGuid();
-		public override async Task PlayAsync(bool show) {
+		private void Reset()
+        {
+			 qTween = GetComponent<QTweenComponent>();
+        }
+		public override void Play(bool show) {
 			if (show) {
-				var flag = loopKey;
-				while (loopKey == flag && this != null && Anim != null) {
-					Anim.SetPlayer(this).Play(true);
-					await Anim.WaitOverAsync();
-					if (repeat) {
-						Anim.Play(false);
-						Anim.Complete();
-					}
-					else {
-						Anim.SetPlayer(this).Play(false);
-						await Anim.WaitOverAsync();
-					}
-					
+				base.Play(show);
+			}
+			else {
+				Anim.OnCompleteEvent -= OnComplete;
+				Anim.Play(false);
+				Anim.Complete();
+				Anim.OnCompleteEvent += OnComplete;
+			}
+		}
+		public override void ClearAnim() {
+			qTween?.ClearAnim();
+			_anim = null;
+		}
+		protected override void OnComplete() {
+			base.OnComplete();
+			if (repeat) {
+				if (Anim.PlayForwads) {
+					Anim.Time = 0;
+					Anim.Play(true);
 				}
 			}
 			else {
-				loopKey = QTool.GetGuid();
-				Anim.SetPlayer(this).Play(false);
+				Anim.Play(!Anim.PlayForwads);
 			}
 		}
-		protected override void OnDestroy() {
-			loopKey = QTool.GetGuid();
-			base.OnDestroy();
-		}
-
 	}
 }

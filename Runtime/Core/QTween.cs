@@ -15,7 +15,7 @@ namespace QTool.Tween
 		#region 基础属性
 		private bool _isPlaying = false;
 		public bool PlayForwads { get; private set; } = false;
-		public float Time { get; internal set; } = -1f;
+		public float Time { get; set; } = -1f;
 		public float Duration { get; protected set; }
 		public float TimeScale { get; private set; } = 1;
 		public bool IgnoreTimeScale { private set; get; } = true;
@@ -67,8 +67,7 @@ namespace QTool.Tween
 			OnUpdateEvent += action;
 			return this;
 		}
-		public QTween OnComplete(Action action)
-		{
+		public QTween OnComplete(Action action) {
 			OnCompleteEvent += action;
 			return this;
 		}
@@ -108,7 +107,8 @@ namespace QTool.Tween
 					_isPlaying = value;
 					if (Application.isPlaying)
 					{
-						if (QTweenManager.Instance == null) return;
+						if (!_isPlaying && !QTweenManager.Exists)
+							return;
 						if (_isPlaying)
 						{
 							QTweenManager.Instance.TweenUpdate += Update;
@@ -170,11 +170,9 @@ namespace QTool.Tween
 			}
 			return this;
 		}
-		public QTween Play(bool PlayForwads = true)
-		{
-			if (!IsPlaying || this.PlayForwads != PlayForwads)
-			{
-				this.PlayForwads = PlayForwads;
+		public QTween Play(bool PlayForwads = true) {
+			this.PlayForwads = PlayForwads;
+			if (!IsPlaying || this.PlayForwads != PlayForwads) {
 				IsPlaying = true;
 				OnStart();
 				OnStartEvent?.Invoke();
@@ -189,15 +187,6 @@ namespace QTool.Tween
 			}
 		}
 	
-		public async Task WaitOverAsync()
-		{
-			var flag = Application.isPlaying;
-			var PlayForwads = this.PlayForwads;
-			while (PlayForwads == this.PlayForwads && !IsOver && flag == Application.isPlaying)
-			{
-				await QTask.Step();
-			}
-		}
 		public IEnumerator WaitOver()
 		{
 			var flag = Application.isPlaying;
@@ -222,16 +211,16 @@ namespace QTool.Tween
 			Time = Mathf.Clamp(time, 0, Duration);
 			OnUpdate();
 			OnUpdateEvent?.Invoke(time);
-			if (IsOver)
-			{
-				OnCompleteEvent?.Invoke();
+			if (IsOver) {
 				OnComplete();
 			}
 		}
 		protected abstract void OnUpdate();
-		protected virtual void OnComplete()
-		{
-			Stop();
+		protected virtual void OnComplete() {
+			OnCompleteEvent?.Invoke();
+			if (IsOver) {
+				Stop();
+			}
 		}
 		public abstract void Release();
 		#endregion

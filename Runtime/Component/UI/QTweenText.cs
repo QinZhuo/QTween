@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine.UI;
 namespace QTool.Tween.Component
 {
@@ -8,10 +9,15 @@ namespace QTool.Tween.Component
         protected override void Reset()
         {
             base.Reset();
-            text = GetComponent<Text>();
         }
-        public override string CurValue { get => text.text; set => text.text = value; }
-        public Text text;
+		private string text;
+        public override string CurValue {
+			get => text; set {
+				text = value;
+				textChange.Invoke(text);
+			}
+		}
+		public UnityEvent<string> textChange;
     }
 
 }

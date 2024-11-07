@@ -16,6 +16,7 @@ namespace QTool.Tween.Component
             }
         }
         public bool onlyAlpha = false;
+		[SerializeField]
 		private MaskableGraphic _ui;
 		private MaskableGraphic UI => _ui ?? GetComponent<MaskableGraphic>();
         

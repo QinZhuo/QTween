@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 namespace QTool.Tween.Component
 {
@@ -31,7 +32,14 @@ namespace QTool.Tween.Component
             }
             return list;
         }
-		
+		public override void Play(bool show) {
+#if UNITY_EDITOR
+			if (!Application.isPlaying) {
+				ClearAnim();
+			}
+#endif
+			base.Play(show);
+		}
 		public override void ClearAnim()
 		{
 			foreach (var node in tweenList)
