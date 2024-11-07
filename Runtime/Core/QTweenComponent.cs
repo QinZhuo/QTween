@@ -69,7 +69,7 @@ namespace QTool.Tween
        
 
     }
-    public abstract class QTweenComponent : QInspectorBehaviour {
+    public abstract class QTweenComponent : MonoBehaviour {
 		[QName("初始播放")]
         public bool playOnAwake = false;
 		public UnityEvent OnShow;

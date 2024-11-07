@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace QTool.Tween
 {
-    public class QTweenManager : QInstanceManager<QTweenManager>
+    public class QTweenManager : QSingletonBehaviour<QTweenManager>
     {
 #if UNITY_EDITOR
 		[UnityEditor.InitializeOnLoadMethod]
